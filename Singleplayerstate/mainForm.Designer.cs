@@ -32,7 +32,7 @@
             this.panelServers = new System.Windows.Forms.Panel();
             this.serverPlaceholder = new System.Windows.Forms.Label();
             this.lblServers = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnPlaySPTAKI = new System.Windows.Forms.Button();
             this.mainTab = new System.Windows.Forms.TabControl();
             this.tabSPTAKI = new System.Windows.Forms.TabPage();
             this.panelSPTAKI = new System.Windows.Forms.Panel();
@@ -73,7 +73,6 @@
             this.panelUsername = new System.Windows.Forms.Panel();
             this.txtUsername = new System.Windows.Forms.TextBox();
             this.titleChangeAccount = new System.Windows.Forms.Label();
-            this.lblSelectedAccount = new System.Windows.Forms.Label();
             this.btnDeleteAccount = new System.Windows.Forms.Button();
             this.btnSelectAccount = new System.Windows.Forms.Button();
             this.titleSelectAccount = new System.Windows.Forms.Label();
@@ -90,6 +89,12 @@
             this.titleAddInstall = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnClearList = new System.Windows.Forms.Button();
+            this.panelAccountProfiles = new System.Windows.Forms.Panel();
+            this.profilesPlaceholder = new System.Windows.Forms.Label();
+            this.panelAccountSeparator = new System.Windows.Forms.Panel();
+            this.panelAID = new System.Windows.Forms.Panel();
+            this.txtAccountAID = new System.Windows.Forms.TextBox();
+            this.titleAccountAID = new System.Windows.Forms.Label();
             this.panelServers.SuspendLayout();
             this.mainTab.SuspendLayout();
             this.tabSPTAKI.SuspendLayout();
@@ -103,6 +108,8 @@
             this.tabAddInstall.SuspendLayout();
             this.panelAddInstall.SuspendLayout();
             this.panelSetDisplayName.SuspendLayout();
+            this.panelAccountProfiles.SuspendLayout();
+            this.panelAID.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelServers
@@ -111,7 +118,6 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelServers.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(29)))), ((int)(((byte)(31)))));
-            this.panelServers.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelServers.Controls.Add(this.serverPlaceholder);
             this.panelServers.Location = new System.Drawing.Point(14, 52);
             this.panelServers.Name = "panelServers";
@@ -120,13 +126,15 @@
             // 
             // serverPlaceholder
             // 
+            this.serverPlaceholder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.serverPlaceholder.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(44)))), ((int)(((byte)(47)))));
             this.serverPlaceholder.Font = new System.Drawing.Font("Bender", 13F, System.Drawing.FontStyle.Bold);
             this.serverPlaceholder.ForeColor = System.Drawing.Color.LightGray;
-            this.serverPlaceholder.Location = new System.Drawing.Point(0, 1);
+            this.serverPlaceholder.Location = new System.Drawing.Point(0, 0);
             this.serverPlaceholder.Name = "serverPlaceholder";
             this.serverPlaceholder.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.serverPlaceholder.Size = new System.Drawing.Size(305, 50);
+            this.serverPlaceholder.Size = new System.Drawing.Size(305, 60);
             this.serverPlaceholder.TabIndex = 2;
             this.serverPlaceholder.Text = "✔️ Fresh profile";
             this.serverPlaceholder.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -141,26 +149,27 @@
             this.lblServers.TabIndex = 1;
             this.lblServers.Text = "Available installations";
             // 
-            // button1
+            // btnPlaySPTAKI
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
-            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button1.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
-            this.button1.FlatAppearance.BorderSize = 2;
-            this.button1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Bender", 16F);
-            this.button1.ForeColor = System.Drawing.Color.LightGray;
-            this.button1.Location = new System.Drawing.Point(294, 22);
-            this.button1.Name = "button1";
-            this.button1.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.button1.Size = new System.Drawing.Size(290, 66);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "Play SPT-AKI";
-            this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button1.UseVisualStyleBackColor = false;
+            this.btnPlaySPTAKI.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnPlaySPTAKI.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.btnPlaySPTAKI.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnPlaySPTAKI.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
+            this.btnPlaySPTAKI.FlatAppearance.BorderSize = 2;
+            this.btnPlaySPTAKI.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnPlaySPTAKI.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnPlaySPTAKI.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPlaySPTAKI.Font = new System.Drawing.Font("Bender", 16F);
+            this.btnPlaySPTAKI.ForeColor = System.Drawing.Color.LightGray;
+            this.btnPlaySPTAKI.Location = new System.Drawing.Point(333, 22);
+            this.btnPlaySPTAKI.Name = "btnPlaySPTAKI";
+            this.btnPlaySPTAKI.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.btnPlaySPTAKI.Size = new System.Drawing.Size(250, 66);
+            this.btnPlaySPTAKI.TabIndex = 3;
+            this.btnPlaySPTAKI.Text = "Play SPT-AKI";
+            this.btnPlaySPTAKI.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnPlaySPTAKI.UseVisualStyleBackColor = false;
+            this.btnPlaySPTAKI.Click += new System.EventHandler(this.btnPlaySPTAKI_Click);
             // 
             // mainTab
             // 
@@ -371,7 +380,7 @@
             this.panelGameInfo.Controls.Add(this.infoServerTitle);
             this.panelGameInfo.Controls.Add(this.infoGameEditionTitle);
             this.panelGameInfo.Controls.Add(this.infoGameVersionTitle);
-            this.panelGameInfo.Controls.Add(this.button1);
+            this.panelGameInfo.Controls.Add(this.btnPlaySPTAKI);
             this.panelGameInfo.Location = new System.Drawing.Point(0, 364);
             this.panelGameInfo.Name = "panelGameInfo";
             this.panelGameInfo.Size = new System.Drawing.Size(600, 110);
@@ -383,7 +392,7 @@
             this.infoServer.ForeColor = System.Drawing.Color.Gray;
             this.infoServer.Location = new System.Drawing.Point(60, 68);
             this.infoServer.Name = "infoServer";
-            this.infoServer.Size = new System.Drawing.Size(228, 20);
+            this.infoServer.Size = new System.Drawing.Size(267, 20);
             this.infoServer.TabIndex = 9;
             this.infoServer.Text = "Server";
             this.infoServer.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -394,7 +403,7 @@
             this.infoGameEdition.ForeColor = System.Drawing.Color.Gray;
             this.infoGameEdition.Location = new System.Drawing.Point(108, 45);
             this.infoGameEdition.Name = "infoGameEdition";
-            this.infoGameEdition.Size = new System.Drawing.Size(180, 20);
+            this.infoGameEdition.Size = new System.Drawing.Size(219, 20);
             this.infoGameEdition.TabIndex = 8;
             this.infoGameEdition.Text = "Game edition";
             this.infoGameEdition.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -405,7 +414,7 @@
             this.infoGameVersion.ForeColor = System.Drawing.Color.Gray;
             this.infoGameVersion.Location = new System.Drawing.Point(108, 22);
             this.infoGameVersion.Name = "infoGameVersion";
-            this.infoGameVersion.Size = new System.Drawing.Size(180, 20);
+            this.infoGameVersion.Size = new System.Drawing.Size(219, 20);
             this.infoGameVersion.TabIndex = 7;
             this.infoGameVersion.Text = "Game version";
             this.infoGameVersion.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -652,10 +661,13 @@
             this.panelAccount.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.panelAccount.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(29)))), ((int)(((byte)(31)))));
+            this.panelAccount.Controls.Add(this.panelAccountSeparator);
+            this.panelAccount.Controls.Add(this.panelAccountProfiles);
+            this.panelAccount.Controls.Add(this.panelAID);
+            this.panelAccount.Controls.Add(this.titleAccountAID);
             this.panelAccount.Controls.Add(this.btnSetUsername);
             this.panelAccount.Controls.Add(this.panelUsername);
             this.panelAccount.Controls.Add(this.titleChangeAccount);
-            this.panelAccount.Controls.Add(this.lblSelectedAccount);
             this.panelAccount.Controls.Add(this.btnDeleteAccount);
             this.panelAccount.Controls.Add(this.btnSelectAccount);
             this.panelAccount.Controls.Add(this.titleSelectAccount);
@@ -683,6 +695,7 @@
             this.btnSetUsername.Text = "Set";
             this.btnSetUsername.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnSetUsername.UseVisualStyleBackColor = false;
+            this.btnSetUsername.Click += new System.EventHandler(this.btnSetUsername_Click);
             // 
             // panelUsername
             // 
@@ -717,18 +730,6 @@
             this.titleChangeAccount.Text = "Change account:";
             this.titleChangeAccount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // lblSelectedAccount
-            // 
-            this.lblSelectedAccount.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblSelectedAccount.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.lblSelectedAccount.ForeColor = System.Drawing.Color.Gray;
-            this.lblSelectedAccount.Location = new System.Drawing.Point(312, 71);
-            this.lblSelectedAccount.Name = "lblSelectedAccount";
-            this.lblSelectedAccount.Size = new System.Drawing.Size(273, 20);
-            this.lblSelectedAccount.TabIndex = 11;
-            this.lblSelectedAccount.Text = "user\\cache";
-            this.lblSelectedAccount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // btnDeleteAccount
             // 
             this.btnDeleteAccount.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
@@ -740,13 +741,14 @@
             this.btnDeleteAccount.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDeleteAccount.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
             this.btnDeleteAccount.ForeColor = System.Drawing.Color.Red;
-            this.btnDeleteAccount.Location = new System.Drawing.Point(6, 227);
+            this.btnDeleteAccount.Location = new System.Drawing.Point(6, 347);
             this.btnDeleteAccount.Name = "btnDeleteAccount";
             this.btnDeleteAccount.Size = new System.Drawing.Size(300, 40);
             this.btnDeleteAccount.TabIndex = 10;
             this.btnDeleteAccount.Text = "Delete account";
             this.btnDeleteAccount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnDeleteAccount.UseVisualStyleBackColor = false;
+            this.btnDeleteAccount.Click += new System.EventHandler(this.btnDeleteAccount_Click);
             // 
             // btnSelectAccount
             // 
@@ -766,6 +768,7 @@
             this.btnSelectAccount.Text = "Placeholder";
             this.btnSelectAccount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnSelectAccount.UseVisualStyleBackColor = false;
+            this.btnSelectAccount.Click += new System.EventHandler(this.btnSelectAccount_Click);
             // 
             // titleSelectAccount
             // 
@@ -969,6 +972,82 @@
             this.btnClearList.UseVisualStyleBackColor = false;
             this.btnClearList.Click += new System.EventHandler(this.btnClearList_Click);
             // 
+            // panelAccountProfiles
+            // 
+            this.panelAccountProfiles.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelAccountProfiles.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(29)))), ((int)(((byte)(31)))));
+            this.panelAccountProfiles.Controls.Add(this.profilesPlaceholder);
+            this.panelAccountProfiles.Location = new System.Drawing.Point(315, 3);
+            this.panelAccountProfiles.Name = "panelAccountProfiles";
+            this.panelAccountProfiles.Size = new System.Drawing.Size(273, 419);
+            this.panelAccountProfiles.TabIndex = 18;
+            this.panelAccountProfiles.Visible = false;
+            // 
+            // profilesPlaceholder
+            // 
+            this.profilesPlaceholder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.profilesPlaceholder.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(44)))), ((int)(((byte)(47)))));
+            this.profilesPlaceholder.Font = new System.Drawing.Font("Bender", 13F, System.Drawing.FontStyle.Bold);
+            this.profilesPlaceholder.ForeColor = System.Drawing.Color.LightGray;
+            this.profilesPlaceholder.Location = new System.Drawing.Point(0, 0);
+            this.profilesPlaceholder.Name = "profilesPlaceholder";
+            this.profilesPlaceholder.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.profilesPlaceholder.Size = new System.Drawing.Size(273, 50);
+            this.profilesPlaceholder.TabIndex = 2;
+            this.profilesPlaceholder.Text = "✔️ Fresh profile";
+            this.profilesPlaceholder.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.profilesPlaceholder.Visible = false;
+            // 
+            // panelAccountSeparator
+            // 
+            this.panelAccountSeparator.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.panelAccountSeparator.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelAccountSeparator.Location = new System.Drawing.Point(314, -15);
+            this.panelAccountSeparator.Name = "panelAccountSeparator";
+            this.panelAccountSeparator.Size = new System.Drawing.Size(1, 468);
+            this.panelAccountSeparator.TabIndex = 19;
+            this.panelAccountSeparator.Visible = false;
+            // 
+            // panelAID
+            // 
+            this.panelAID.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
+            this.panelAID.Controls.Add(this.txtAccountAID);
+            this.panelAID.Location = new System.Drawing.Point(6, 229);
+            this.panelAID.Name = "panelAID";
+            this.panelAID.Size = new System.Drawing.Size(300, 40);
+            this.panelAID.TabIndex = 21;
+            // 
+            // txtAccountAID
+            // 
+            this.txtAccountAID.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.txtAccountAID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtAccountAID.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.txtAccountAID.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.txtAccountAID.ForeColor = System.Drawing.Color.Gray;
+            this.txtAccountAID.Location = new System.Drawing.Point(2, 2);
+            this.txtAccountAID.Multiline = true;
+            this.txtAccountAID.Name = "txtAccountAID";
+            this.txtAccountAID.ReadOnly = true;
+            this.txtAccountAID.Size = new System.Drawing.Size(296, 36);
+            this.txtAccountAID.TabIndex = 0;
+            this.txtAccountAID.Text = "Placeholder";
+            this.txtAccountAID.MouseDown += new System.Windows.Forms.MouseEventHandler(this.txtAccountAID_MouseDown);
+            // 
+            // titleAccountAID
+            // 
+            this.titleAccountAID.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.titleAccountAID.ForeColor = System.Drawing.Color.LightGray;
+            this.titleAccountAID.Location = new System.Drawing.Point(3, 206);
+            this.titleAccountAID.Name = "titleAccountAID";
+            this.titleAccountAID.Size = new System.Drawing.Size(582, 20);
+            this.titleAccountAID.TabIndex = 20;
+            this.titleAccountAID.Text = "Account AID:";
+            this.titleAccountAID.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -1004,6 +1083,9 @@
             this.panelAddInstall.ResumeLayout(false);
             this.panelSetDisplayName.ResumeLayout(false);
             this.panelSetDisplayName.PerformLayout();
+            this.panelAccountProfiles.ResumeLayout(false);
+            this.panelAID.ResumeLayout(false);
+            this.panelAID.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1012,7 +1094,7 @@
 
         private System.Windows.Forms.Panel panelServers;
         private System.Windows.Forms.Label lblServers;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnPlaySPTAKI;
         private System.Windows.Forms.TabControl mainTab;
         private System.Windows.Forms.TabPage tabSPTAKI;
         private System.Windows.Forms.TabPage tabGmeOptions;
@@ -1053,7 +1135,6 @@
         private System.Windows.Forms.Label titleSelectAccount;
         private System.Windows.Forms.Button btnSelectAccount;
         private System.Windows.Forms.Button btnDeleteAccount;
-        private System.Windows.Forms.Label lblSelectedAccount;
         private System.Windows.Forms.Label titleChangeAccount;
         private System.Windows.Forms.Panel panelUsername;
         private System.Windows.Forms.TextBox txtUsername;
@@ -1071,6 +1152,12 @@
         private System.Windows.Forms.Button btnClearList;
         private System.Windows.Forms.Label serverPlaceholder;
         private System.Windows.Forms.Button btnRemoveInstall;
+        private System.Windows.Forms.Panel panelAccountProfiles;
+        private System.Windows.Forms.Label profilesPlaceholder;
+        private System.Windows.Forms.Panel panelAccountSeparator;
+        private System.Windows.Forms.Panel panelAID;
+        private System.Windows.Forms.TextBox txtAccountAID;
+        private System.Windows.Forms.Label titleAccountAID;
     }
 }
 

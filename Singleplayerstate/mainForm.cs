@@ -1,18 +1,20 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
-using System.Security.AccessControl;
-using System.Text;
+using System.Security.Cryptography;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 using WK.Libraries.BetterFolderBrowserNS;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Singleplayerstate
 {
@@ -20,6 +22,14 @@ namespace Singleplayerstate
     {
         string currentDirectory = Environment.CurrentDirectory;
         string availableServers;
+        string selectedServer = "";
+        string temporaryAID;
+
+        // BackgroundWorkers
+        public BackgroundWorker TarkovProcessDetector;
+        public BackgroundWorker TarkovEndDetector;
+        public BackgroundWorker AkiServerDetector;
+
         bool serverHasBeenSelected = false;
         bool isEditingInstall = false;
         Dictionary<string, string> folderPaths = new Dictionary<string, string>();
@@ -48,6 +58,7 @@ namespace Singleplayerstate
 
             listServers();
             txtSetDisplayName.Clear();
+
             TabPage tabAddInstall = mainTab.TabPages["tabAddInstall"];
             if (tabAddInstall != null)
                 mainTab.SelectedTab = tabAddInstall;
@@ -73,7 +84,10 @@ namespace Singleplayerstate
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                showMessage("We appear to have run into a problem. If you\'re unsure what this is about, please contact the developer." +
+                                    Environment.NewLine +
+                                    Environment.NewLine +
+                                    ex.ToString());
             }
 
             string serializedPaths = JsonSerializer.Serialize(folderPaths);
@@ -101,7 +115,10 @@ namespace Singleplayerstate
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
+                showMessage("We appear to have run into a problem. If you\'re unsure what this is about, please contact the developer." +
+                                    Environment.NewLine +
+                                    Environment.NewLine +
+                                    ex.ToString());
             }
 
             string serializedPaths = JsonSerializer.Serialize(folderPaths);
@@ -189,6 +206,51 @@ namespace Singleplayerstate
             }
         }
 
+        private void editGameProfile(string account, string gamePath)
+        {
+            string oldUser = account;
+            string mainDir = gamePath;
+
+            string userFolder = Path.Combine(mainDir, "user");
+            string profilesFolder = Path.Combine(userFolder, "profiles");
+            string fullProfilePath = Path.Combine(profilesFolder, $"{txtAccountAID.Text}.json");
+
+            if (File.Exists(fullProfilePath))
+            {
+                string fileContent = File.ReadAllText(fullProfilePath);
+                JObject parsedFile = JObject.Parse(fileContent);
+                JObject info = (JObject)parsedFile["info"];
+                string infoAID = (string)info["id"];
+
+                JObject characters = (JObject)parsedFile["characters"];
+                JObject pmc = (JObject)characters["pmc"];
+                JObject Info = (JObject)pmc["Info"];
+
+                if (infoAID == txtAccountAID.Text)
+                {
+                    Info["Nickname"] = txtUsername.Text;
+                    string updatedJSON = JsonConvert.SerializeObject(parsedFile, Formatting.Indented);
+
+                    try
+                    {
+                        File.WriteAllText(fullProfilePath, updatedJSON);
+                    }
+                    catch (Exception ex)
+                    {
+                        showMessage("We appear to have run into a problem. If you\'re unsure what this is about, please contact the developer." +
+                                Environment.NewLine +
+                                Environment.NewLine +
+                                ex.ToString());
+                    }
+
+                    btnSelectAccount.Text = txtUsername.Text;
+                    panelAccountProfiles.Visible = false;
+                    panelAccountSeparator.Visible = false;
+                    showMessage($"Old username {oldUser} changed to {txtUsername.Text}!");
+                }
+            }
+        }
+
         public static void arrInsert(ref string[] array, string item)
         {
             Array.Resize(ref array, array.Length + 1);
@@ -210,10 +272,91 @@ namespace Singleplayerstate
             }
         }
 
+        private string convertProfile(string AID)
+        {
+            string cleanAID = Path.GetFileNameWithoutExtension(AID);
+
+            string mainDir = txtGameInstallFolder.Text;
+            string userFolder = Path.Combine(mainDir, "user");
+            string profilesFolder = Path.Combine(userFolder, "profiles");
+            bool profilesFolderExists = Directory.Exists(profilesFolder);
+            if (profilesFolderExists)
+            {
+                string fullAID = Path.Combine(profilesFolder, $"{cleanAID}.json");
+                bool fullAIDExists = File.Exists(fullAID);
+                if (fullAIDExists)
+                {
+                    string fullProfile = File.ReadAllText(fullAID);
+                    string fileContent = File.ReadAllText(fullAID);
+                    JObject parsedFile = JObject.Parse(fileContent);
+                    JObject info = (JObject)parsedFile["info"];
+                    string infoAID = (string)info["id"];
+
+                    JObject characters = (JObject)parsedFile["characters"];
+                    JObject pmc = (JObject)characters["pmc"];
+                    JObject Info = (JObject)pmc["Info"];
+
+                    string Nickname = (string)Info["Nickname"];
+
+                    if (infoAID == cleanAID)
+                    {
+                        return Nickname;
+                    }
+                }
+            }
+            return null;
+        }
+
+        private string findAID(string displayName)
+        {
+            string mainDir = txtGameInstallFolder.Text;
+            string userFolder = Path.Combine(mainDir, "user");
+            string profilesFolder = Path.Combine(userFolder, "profiles");
+            bool profilesFolderExists = Directory.Exists(profilesFolder);
+            if (profilesFolderExists)
+            {
+                string[] profiles = Directory.GetFiles(profilesFolder, "*.json");
+
+                foreach (string profile in profiles)
+                {
+                    string AID = Path.GetFileNameWithoutExtension(profile);
+
+                    string fileContent = File.ReadAllText(profile);
+                    JObject parsedFile = JObject.Parse(fileContent);
+                    JObject info = (JObject)parsedFile["info"];
+                    string infoAID = (string)info["id"];
+
+                    JObject characters = (JObject)parsedFile["characters"];
+                    JObject pmc = (JObject)characters["pmc"];
+                    JObject Info = (JObject)pmc["Info"];
+
+                    string GameVersion = (string)Info["GameVersion"];
+                    if (GameVersion.ToLower() == "standard")
+                        GameVersion = "Standard Edition";
+                    else if (GameVersion.ToLower() == "left_behind")
+                        GameVersion = "Left Behind Edition";
+                    else if (GameVersion.ToLower() == "prepare_for_darkness")
+                        GameVersion = "Prepare for Darkness Edition";
+                    else if (GameVersion.ToLower() == "edge_of_darkness")
+                        GameVersion = "Edge of Darkness Edition";
+
+                    string Nickname = (string)Info["Nickname"];
+
+                    if (Nickname == displayName)
+                    {
+                        infoGameEdition.Text = GameVersion;
+                        return AID;
+                    }
+                }
+            }
+            return null;
+        }
+
         private void listServers()
         {
             panelServers.Controls.Clear();
             string[] servers = new string[0];
+
             foreach (var entry in folderPaths)
             {
                 arrInsert(ref servers, entry.Key.ToString());
@@ -222,6 +365,7 @@ namespace Singleplayerstate
             for (int i = 0; i < servers.Length; i++)
             {
                 Label lbl = new Label();
+                lbl.Name = $"listedServer{i}";
                 lbl.AutoSize = false;
                 lbl.Anchor = (AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right);
                 lbl.TextAlign = ContentAlignment.MiddleLeft;
@@ -230,15 +374,97 @@ namespace Singleplayerstate
                 lbl.Font = new Font("Bender", 13, FontStyle.Bold);
                 lbl.BackColor = panelServers.BackColor;
                 lbl.ForeColor = Color.LightGray;
-                lbl.Margin = new Padding(10, 0, 0, 0);
+                lbl.Padding = new Padding(0, 0, 0, 0);
                 lbl.Cursor = Cursors.Hand;
                 lbl.MouseEnter += new EventHandler(lbl_MouseEnter);
                 lbl.MouseLeave += new EventHandler(lbl_MouseLeave);
                 lbl.MouseDown += new MouseEventHandler(lbl_MouseDown);
                 lbl.MouseUp += new MouseEventHandler(lbl_MouseUp);
+                lbl.Paint += new PaintEventHandler(lbl_Paint);
 
                 lbl.Text = $"✔️ {servers[i]}";
                 panelServers.Controls.Add(lbl);
+            }
+        }
+
+        private void listProfiles()
+        {
+            panelAccountProfiles.Controls.Clear();
+            panelAccountProfiles.Visible = true;
+            panelAccountSeparator.Visible = true;
+
+            string mainDir = txtGameInstallFolder.Text;
+            string userFolder = Path.Combine(mainDir, "user");
+            string profilesFolder = Path.Combine(userFolder, "profiles");
+
+            string[] profiles = Directory.GetFiles(profilesFolder, "*.json");
+
+            for (int i = 0; i < profiles.Length; i++)
+            {
+                Label lbl = new Label();
+                lbl.Name = $"accountProfile{i}";
+                lbl.AutoSize = false;
+                lbl.Anchor = (AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right);
+                lbl.TextAlign = ContentAlignment.MiddleLeft;
+                lbl.Size = new Size(profilesPlaceholder.Size.Width, profilesPlaceholder.Size.Height);
+                lbl.Location = new Point(profilesPlaceholder.Location.X, profilesPlaceholder.Location.Y + (i * profilesPlaceholder.Size.Height));
+                lbl.Font = new Font("Bender", 13, FontStyle.Bold);
+                lbl.BackColor = panelAccountProfiles.BackColor;
+                lbl.ForeColor = Color.LightGray;
+                lbl.Padding = new Padding(10, 0, 0, 0);
+                lbl.Cursor = Cursors.Hand;
+                lbl.MouseEnter += new EventHandler(profile_MouseEnter);
+                lbl.MouseLeave += new EventHandler(profile_MouseLeave);
+                lbl.MouseDown += new MouseEventHandler(profile_MouseDown);
+                lbl.MouseUp += new MouseEventHandler(profile_MouseUp);
+
+                lbl.Text = $"✔️ {convertProfile(profiles[i])}";
+                panelAccountProfiles.Controls.Add(lbl);
+            }
+        }
+
+        private void profile_MouseDown(object sender, MouseEventArgs e)
+        {
+            System.Windows.Forms.Label label = (System.Windows.Forms.Label)sender;
+            if (label.Text != "")
+            {
+                string cleanProfile = label.Text.Replace("✔️ ", "");
+
+                btnSelectAccount.Text = cleanProfile;
+                txtUsername.Text = cleanProfile;
+                txtAccountAID.Text = findAID(cleanProfile.TrimEnd());
+
+                panelAccountProfiles.Visible = false;
+                panelAccountSeparator.Visible = false;
+            }
+        }
+
+        private void profile_MouseEnter(object sender, EventArgs e)
+        {
+            System.Windows.Forms.Label label = (System.Windows.Forms.Label)sender;
+            if (label.Text != "")
+            {
+                label.ForeColor = Color.Gray;
+            }
+        }
+
+        private void profile_MouseLeave(object sender, EventArgs e)
+        {
+            System.Windows.Forms.Label label = (System.Windows.Forms.Label)sender;
+            if (label.Text != "")
+            {
+                label.ForeColor = Color.LightGray;
+                label.Invalidate();
+            }
+        }
+
+        private void profile_MouseUp(object sender, MouseEventArgs e)
+        {
+            System.Windows.Forms.Label label = (System.Windows.Forms.Label)sender;
+            if (label.Text != "")
+            {
+                label.BackColor = panelServers.BackColor;
+                label.Invalidate();
             }
         }
 
@@ -260,10 +486,14 @@ namespace Singleplayerstate
             extensionsRequirementLOE.Text = $"❌ Load Order Editor not found";
             extensionsRequirementLOE.ForeColor = Color.Red;
 
+            btnSelectAccount.Text = "None selected";
+            txtUsername.Clear();
+
             string mainDir = path;
 
             string userFolder = Path.Combine(mainDir, "user");
             string profilesFolder = Path.Combine(userFolder, "profiles");
+            string[] profiles = Directory.GetFiles(profilesFolder, "*.json");
             string akiServerFile = Path.Combine(mainDir, "Aki.Server.exe");
             string akiLauncherFile = Path.Combine(mainDir, "Aki.Launcher.exe");
             string EFTFile = Path.Combine(mainDir, "EscapeFromTarkov.exe");
@@ -311,7 +541,7 @@ namespace Singleplayerstate
                 }
             }
 
-            // GameInfo Tab
+            // Game Options Tab
             txtGameInstallFolder.Text = path;
 
             gameRequirementServer.Text = $"✔️ Aki.Server found";
@@ -324,12 +554,17 @@ namespace Singleplayerstate
             txtLOEPath.Text = LOEPath;
             extensionsRequirementLOE.Text = $"✔️ Load Order Editor found";
             extensionsRequirementLOE.ForeColor = Color.SeaGreen;
+
+            // Account Tab
+            string firstProfile = convertProfile(profiles[0]);
+            btnSelectAccount.Text = firstProfile;
+            txtUsername.Text = firstProfile;
+            txtAccountAID.Text = findAID(btnSelectAccount.Text);
         }
 
         private void selectServer(string displayName, Control c)
         {
             deselectAllServers();
-            c.BackColor = serverPlaceholder.BackColor;
             string cleanOutput = c.Text.Replace("✔️ ", "");
 
             if (folderPaths != null)
@@ -340,6 +575,7 @@ namespace Singleplayerstate
                     {
                         string serverPath = kvp.Value;
                         bool doesServerExist = Directory.Exists(serverPath);
+
                         if (doesServerExist)
                         {
                             displayInfo(serverPath);
@@ -356,6 +592,7 @@ namespace Singleplayerstate
                         {
                             showMessage("Unfortunately, it appears that this folder does not exist. Please restart the launcher and try again.");
                         }
+
                         break;
                     }
                 }
@@ -367,6 +604,20 @@ namespace Singleplayerstate
             System.Windows.Forms.Label label = (System.Windows.Forms.Label)sender;
             if (label.Text != "")
             {
+                foreach (Control c in panelServers.Controls)
+                {
+                    if (c is Label lbl && c.Name != label.Name)
+                    {
+                        lbl.Invalidate();
+                        lbl.Padding = new Padding(0, 0, 0, 0);
+                    }
+                }
+
+                label.BackColor = panelServers.BackColor;
+                label.Padding = new Padding(10, 0, 0, 0);
+                label.Invalidate();
+
+                selectedServer = label.Name;
                 selectServer(label.Text, label);
             }
         }
@@ -385,12 +636,8 @@ namespace Singleplayerstate
             System.Windows.Forms.Label label = (System.Windows.Forms.Label)sender;
             if (label.Text != "")
             {
-                if (label.BackColor != serverPlaceholder.BackColor)
-                {
-                    label.BackColor = panelServers.BackColor;
-                }
-
-                label.ForeColor = Color.LightGray;   
+                label.ForeColor = Color.LightGray;
+                label.Invalidate();
             }
         }
 
@@ -399,7 +646,42 @@ namespace Singleplayerstate
             System.Windows.Forms.Label label = (System.Windows.Forms.Label)sender;
             if (label.Text != "")
             {
-                label.BackColor = hoverColor;
+                label.BackColor = panelServers.BackColor;
+                label.Invalidate();
+            }
+        }
+
+        private void lbl_MouseMove(object sender, MouseEventArgs e)
+        {
+            System.Windows.Forms.Label label = (System.Windows.Forms.Label)sender;
+            if (label.Text != "")
+            {
+                label.Invalidate();
+            }
+        }
+
+        private void lbl_Paint(object sender, PaintEventArgs e)
+        {
+            System.Windows.Forms.Label label = (System.Windows.Forms.Label)sender;
+            if (label.Text != "" && label != null)
+            {
+                if (label.Name == selectedServer)
+                {
+                    float gradientWidth = label.Width / 1.25f; // Set the width to stop halfway
+                    Rectangle gradientRect = new Rectangle(0, 0, (int)gradientWidth, label.Height);
+                    Color startColor = Color.FromArgb(255, serverPlaceholder.BackColor); // 104 represents a specific opacity
+                    Color endColor = Color.FromArgb(0, serverPlaceholder.BackColor); // 0 represents fully transparent
+
+                    using (LinearGradientBrush brush = new LinearGradientBrush(gradientRect, startColor, endColor, LinearGradientMode.Horizontal))
+                    {
+                        e.Graphics.FillRectangle(brush, gradientRect);
+                    }
+
+                    using (Pen pen = new Pen(Color.FromArgb(255, 168, 191, 202), 3))
+                    {
+                        e.Graphics.DrawLine(pen, new Point(0, 0), new Point(0, label.Height));
+                    }
+                }
             }
         }
 
@@ -521,29 +803,22 @@ namespace Singleplayerstate
 
         private void btnRemoveInstall_Click(object sender, EventArgs e)
         {
-            string displayName = "";
+            Control selectedControl = panelServers.Controls.Find(selectedServer, false).FirstOrDefault();
+            string displayName = selectedControl.Text.Replace("✔️ ", "").TrimEnd();
 
-            foreach (Control c in panelServers.Controls)
-            {
-                if (c is Label && c.BackColor == serverPlaceholder.BackColor)
-                {
-                    displayName = c.Text.Replace("✔️ ", "");
-                    break;
-                }
-            }
-
-            string folderPath = txtGameInstallFolder.Text;
             if (folderPaths != null)
             {
                 if (folderPaths.ContainsKey(displayName))
                 {
-                    folderPaths.Remove(displayName);
+                    if (MessageBox.Show($"Remove installation {displayName}? This will restart Minimalist Launcher.", this.Text, MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        folderPaths.Remove(displayName);
+                        string serializedPaths = JsonSerializer.Serialize(folderPaths);
+                        Properties.Settings.Default.availableServers = serializedPaths;
+                        Properties.Settings.Default.Save();
 
-                    string serializedPaths = JsonSerializer.Serialize(folderPaths);
-                    Properties.Settings.Default.availableServers = serializedPaths;
-                    Properties.Settings.Default.Save();
-
-                    Application.Restart();
+                        Application.Restart();
+                    }
                 }
             }
         }
@@ -692,6 +967,31 @@ namespace Singleplayerstate
             }
 
             Properties.Settings.Default.Save();
+        }
+
+        private void btnSelectAccount_Click(object sender, EventArgs e)
+        {
+            listProfiles();
+        }
+
+        private void btnSetUsername_Click(object sender, EventArgs e)
+        {
+            editGameProfile(btnSelectAccount.Text, txtGameInstallFolder.Text);
+        }
+
+        private void btnDeleteAccount_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtAccountAID_MouseDown(object sender, MouseEventArgs e)
+        {
+            lblServers.Select();
+        }
+
+        private void btnPlaySPTAKI_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
