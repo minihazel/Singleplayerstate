@@ -8,16 +8,12 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Net.Sockets;
-using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml.Linq;
 using WK.Libraries.BetterFolderBrowserNS;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
@@ -998,6 +994,12 @@ namespace Singleplayerstate
             lblServers.Select();
         }
 
+        private void scrollToBottom(RichTextBox richTextBox)
+        {
+            richTextBox.SelectionStart = richTextBox.Text.Length;
+            richTextBox.ScrollToCaret();
+        }
+
         private void btnPlaySPTAKI_Click(object sender, EventArgs e)
         {
             if (!serverIsRunning)
@@ -1035,6 +1037,50 @@ namespace Singleplayerstate
 
             killProcesses();
             launchServer();
+        }
+
+        private void killAkiServer()
+        {
+            string akiServerProcess = "Aki.Server";
+
+            try
+            {
+                Process[] procs = Process.GetProcessesByName(akiServerProcess);
+                if (procs != null && procs.Length > 0)
+                {
+                    foreach (Process aki in procs)
+                    {
+                        if (!aki.HasExited)
+                        {
+                            if (!aki.CloseMainWindow())
+                            {
+                                try
+                                {
+                                    aki.Kill();
+                                }
+                                catch (Exception ex)
+                                {
+                                    if (ex is System.ComponentModel.Win32Exception win32Exception && win32Exception.Message == "Access is denied")
+                                    {
+                                        Console.WriteLine("Controlled exception access is denied occurred. If administrator account, ignore");
+                                    }
+                                }
+                                aki.WaitForExit();
+                            }
+                            else
+                            {
+                                aki.WaitForExit();
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception err)
+            {
+                Debug.WriteLine($"TERMINATION FAILURE OF AKI SERVER (IGNORE): {err.ToString()}");
+            }
+
+            Task.Delay(200);
         }
 
         private void killProcesses()
@@ -1118,13 +1164,43 @@ namespace Singleplayerstate
                 Debug.WriteLine($"TERMINATION FAILURE OF AKI LAUNCHER (IGNORE): {err.ToString()}");
             }
 
-            mainTab.Enabled = true;
-            panelServers.Enabled = true;
-            btnClearList.Enabled = true;
+            if (panelServers.InvokeRequired)
+                BeginInvoke((MethodInvoker)delegate{panelServers.Enabled = true;});
+            else
+                panelServers.Enabled = true;
+
+            if (panelSPTAKI.InvokeRequired)
+                BeginInvoke((MethodInvoker)delegate { panelSPTAKI.Enabled = true; });
+            else
+                panelSPTAKI.Enabled = true;
+
+            if (panelGameOptions.InvokeRequired)
+                BeginInvoke((MethodInvoker)delegate { panelGameOptions.Enabled = true; });
+            else
+                panelGameOptions.Enabled = true;
+
+            if (panelAccount.InvokeRequired)
+                BeginInvoke((MethodInvoker)delegate { panelAccount.Enabled = true; });
+            else
+                panelAccount.Enabled = true;
+
+            if (panelAddInstall.InvokeRequired)
+                BeginInvoke((MethodInvoker)delegate { panelAddInstall.Enabled = true; });
+            else
+                panelAddInstall.Enabled = true;
+
+            if (btnClearList.InvokeRequired)
+                BeginInvoke((MethodInvoker)delegate { btnClearList.Enabled = true; });
+            else
+                btnClearList.Enabled = true;
+
             hasStopped = true;
             serverIsRunning = false;
 
-            akiOutput.Clear();
+            if (akiOutput.InvokeRequired)
+                BeginInvoke((MethodInvoker)delegate { akiOutput.Clear(); });
+            else
+                akiOutput.Clear();
         }
 
         private void launchServer()
@@ -1174,7 +1250,6 @@ namespace Singleplayerstate
             akiServer.StartInfo.UseShellExecute = false;
             akiServer.StartInfo.RedirectStandardOutput = true;
             akiServer.StartInfo.StandardOutputEncoding = Encoding.UTF8;
-
             akiServer.OutputDataReceived += akiServer_OutputDataReceived;
             akiServer.Exited += akiServer_Exited;
 
@@ -1186,6 +1261,36 @@ namespace Singleplayerstate
                 hasStopped = false;
                 serverIsRunning = true;
                 checkServerUptime();
+
+                if (panelServers.InvokeRequired)
+                    BeginInvoke((MethodInvoker)delegate { panelServers.Enabled = false; });
+                else
+                    panelServers.Enabled = false;
+
+                if (panelSPTAKI.InvokeRequired)
+                    BeginInvoke((MethodInvoker)delegate { panelSPTAKI.Enabled = false; });
+                else
+                    panelSPTAKI.Enabled = false;
+
+                if (panelGameOptions.InvokeRequired)
+                    BeginInvoke((MethodInvoker)delegate { panelGameOptions.Enabled = false; });
+                else
+                    panelGameOptions.Enabled = false;
+
+                if (panelAccount.InvokeRequired)
+                    BeginInvoke((MethodInvoker)delegate { panelAccount.Enabled = false; });
+                else
+                    panelAccount.Enabled = false;
+
+                if (panelAddInstall.InvokeRequired)
+                    BeginInvoke((MethodInvoker)delegate { panelAddInstall.Enabled = false; });
+                else
+                    panelAddInstall.Enabled = false;
+
+                if (btnClearList.InvokeRequired)
+                    BeginInvoke((MethodInvoker)delegate { btnClearList.Enabled = false; });
+                else
+                    btnClearList.Enabled = false;
 
                 AkiServerDetector = new BackgroundWorker();
                 AkiServerDetector.DoWork += AkiServerDetector_DoWork;
@@ -1269,11 +1374,13 @@ namespace Singleplayerstate
                 BeginInvoke((MethodInvoker)delegate
                 {
                     akiOutput.AppendText(data + Environment.NewLine);
+                    scrollToBottom(akiOutput);
                 });
             }
             else
             {
                 akiOutput.AppendText(data + Environment.NewLine);
+                scrollToBottom(akiOutput);
             }
         }
 
@@ -1512,8 +1619,8 @@ namespace Singleplayerstate
             }
             else
             {
-                killProcesses();
-                showMessage("Force killed Escape From Tarkov!");
+                killAkiServer();
+                showMessage("Force killed Aki.Server. Make sure to quit Escape From Tarkov!");
             }
         }
 

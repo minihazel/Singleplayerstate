@@ -97,7 +97,7 @@
             this.btnClearList = new System.Windows.Forms.Button();
             this.tabServer = new System.Windows.Forms.TabPage();
             this.panelServer = new System.Windows.Forms.Panel();
-            this.titleCloseAkiServer = new System.Windows.Forms.Label();
+            this.titleAkiServer = new System.Windows.Forms.Label();
             this.titleServer = new System.Windows.Forms.Label();
             this.btnCloseAkiServer = new System.Windows.Forms.Button();
             this.akiOutput = new System.Windows.Forms.RichTextBox();
@@ -1078,7 +1078,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelServer.Controls.Add(this.panel2);
-            this.panelServer.Controls.Add(this.titleCloseAkiServer);
+            this.panelServer.Controls.Add(this.titleAkiServer);
             this.panelServer.Controls.Add(this.titleServer);
             this.panelServer.Controls.Add(this.btnCloseAkiServer);
             this.panelServer.Location = new System.Drawing.Point(6, 15);
@@ -1086,16 +1086,16 @@
             this.panelServer.Size = new System.Drawing.Size(588, 455);
             this.panelServer.TabIndex = 0;
             // 
-            // titleCloseAkiServer
+            // titleAkiServer
             // 
-            this.titleCloseAkiServer.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.titleCloseAkiServer.ForeColor = System.Drawing.Color.LightGray;
-            this.titleCloseAkiServer.Location = new System.Drawing.Point(3, 38);
-            this.titleCloseAkiServer.Name = "titleCloseAkiServer";
-            this.titleCloseAkiServer.Size = new System.Drawing.Size(582, 20);
-            this.titleCloseAkiServer.TabIndex = 10;
-            this.titleCloseAkiServer.Text = "Close Aki.Server:";
-            this.titleCloseAkiServer.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.titleAkiServer.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.titleAkiServer.ForeColor = System.Drawing.Color.LightGray;
+            this.titleAkiServer.Location = new System.Drawing.Point(3, 38);
+            this.titleAkiServer.Name = "titleAkiServer";
+            this.titleAkiServer.Size = new System.Drawing.Size(582, 20);
+            this.titleAkiServer.TabIndex = 10;
+            this.titleAkiServer.Text = "Close Aki.Server:";
+            this.titleAkiServer.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // titleServer
             // 
@@ -1123,7 +1123,7 @@
             this.btnCloseAkiServer.Name = "btnCloseAkiServer";
             this.btnCloseAkiServer.Size = new System.Drawing.Size(300, 40);
             this.btnCloseAkiServer.TabIndex = 8;
-            this.btnCloseAkiServer.Text = "Force close";
+            this.btnCloseAkiServer.Text = "Run server";
             this.btnCloseAkiServer.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnCloseAkiServer.UseVisualStyleBackColor = false;
             this.btnCloseAkiServer.Click += new System.EventHandler(this.btnCloseAkiServer_Click);
@@ -1135,10 +1135,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.akiOutput.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
             this.akiOutput.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.akiOutput.Font = new System.Drawing.Font("Bender", 11F);
+            this.akiOutput.Font = new System.Drawing.Font("Consolas", 11F);
             this.akiOutput.ForeColor = System.Drawing.Color.LightGray;
             this.akiOutput.Location = new System.Drawing.Point(2, 2);
             this.akiOutput.Name = "akiOutput";
+            this.akiOutput.ReadOnly = true;
             this.akiOutput.Size = new System.Drawing.Size(575, 323);
             this.akiOutput.TabIndex = 11;
             this.akiOutput.Text = "";
@@ -1270,7 +1271,7 @@
         private System.Windows.Forms.Label titleAccountAID;
         private System.Windows.Forms.TabPage tabServer;
         private System.Windows.Forms.Panel panelServer;
-        private System.Windows.Forms.Label titleCloseAkiServer;
+        private System.Windows.Forms.Label titleAkiServer;
         private System.Windows.Forms.Label titleServer;
         private System.Windows.Forms.Button btnCloseAkiServer;
         private System.Windows.Forms.RichTextBox akiOutput;
