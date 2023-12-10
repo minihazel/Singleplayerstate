@@ -8,8 +8,13 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Security.Cryptography;
+using System.Text;
 using System.Text.Json;
+using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
@@ -26,12 +31,17 @@ namespace Singleplayerstate
         string temporaryAID;
 
         // BackgroundWorkers
+        public BackgroundWorker CheckServerStatus;
         public BackgroundWorker TarkovProcessDetector;
         public BackgroundWorker TarkovEndDetector;
         public BackgroundWorker AkiServerDetector;
 
         bool serverHasBeenSelected = false;
         bool isEditingInstall = false;
+        bool hasStopped = false;
+        bool hasNotifiedUser = false;
+        bool serverIsRunning = false;
+
         Dictionary<string, string> folderPaths = new Dictionary<string, string>();
 
         public Color hoverColor = Color.FromArgb(39, 44, 47);
@@ -93,10 +103,9 @@ namespace Singleplayerstate
             string serializedPaths = JsonSerializer.Serialize(folderPaths);
             Properties.Settings.Default.availableServers = serializedPaths;
             Properties.Settings.Default.Save();
-
-            showMessage($"SPT-AKI installation {displayName} saved!");
             enterInputMode(false, null);
 
+            showMessage($"SPT-AKI installation {displayName} saved!");
             listServers();
         }
 
@@ -991,7 +1000,479 @@ namespace Singleplayerstate
 
         private void btnPlaySPTAKI_Click(object sender, EventArgs e)
         {
+            beginLaunching();
+        }
 
+        private void beginLaunching()
+        {
+            if (TarkovProcessDetector != null)
+            {
+                TarkovProcessDetector.CancelAsync();
+                TarkovProcessDetector.Dispose();
+                TarkovProcessDetector = null;
+            }
+            if (TarkovEndDetector != null)
+            {
+                TarkovEndDetector.CancelAsync();
+                TarkovEndDetector.Dispose();
+                TarkovEndDetector = null;
+            }
+            if (AkiServerDetector != null)
+            {
+                AkiServerDetector.CancelAsync();
+                AkiServerDetector.Dispose();
+                AkiServerDetector = null;
+            }
+
+            TarkovProcessDetector = new BackgroundWorker();
+            TarkovProcessDetector.DoWork += TarkovProcessDetector_DoWork;
+            TarkovProcessDetector.RunWorkerCompleted += TarkovProcessDetector_RunWorkerCompleted;
+            TarkovProcessDetector.WorkerSupportsCancellation = true;
+            TarkovProcessDetector.RunWorkerAsync();
+
+            killProcesses();
+            launchServer();
+        }
+
+        private void killProcesses()
+        {
+            string akiServerProcess = "Aki.Server";
+            string eftProcess = "EscapeFromTarkov";
+
+            try
+            {
+                Process[] procs = Process.GetProcessesByName(akiServerProcess);
+                if (procs != null && procs.Length > 0)
+                {
+                    foreach (Process aki in procs)
+                    {
+                        if (!aki.HasExited)
+                        {
+                            if (!aki.CloseMainWindow())
+                            {
+                                try
+                                {
+                                    aki.Kill();
+                                }
+                                catch (Exception ex)
+                                {
+                                    if (ex is System.ComponentModel.Win32Exception win32Exception && win32Exception.Message == "Access is denied")
+                                    {
+                                        Console.WriteLine("Controlled exception access is denied occurred. If administrator account, ignore");
+                                    }
+                                }
+                                aki.WaitForExit();
+                            }
+                            else
+                            {
+                                aki.WaitForExit();
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception err)
+            {
+                Debug.WriteLine($"TERMINATION FAILURE OF AKI SERVER (IGNORE): {err.ToString()}");
+            }
+
+            Task.Delay(200);
+
+            try
+            {
+                Process[] procs = Process.GetProcessesByName(eftProcess);
+                if (procs != null && procs.Length > 0)
+                {
+                    foreach (Process aki in procs)
+                    {
+                        if (!aki.HasExited)
+                        {
+                            if (!aki.CloseMainWindow())
+                            {
+                                try
+                                {
+                                    aki.Kill();
+                                }
+                                catch (Exception ex)
+                                {
+                                    if (ex is System.ComponentModel.Win32Exception win32Exception && win32Exception.Message == "Access is denied")
+                                    {
+                                        Console.WriteLine("Controlled exception access is denied occurred. If administrator account, ignore");
+                                    }
+                                }
+                                aki.WaitForExit();
+                            }
+                            else
+                            {
+                                aki.WaitForExit();
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception err)
+            {
+                Debug.WriteLine($"TERMINATION FAILURE OF AKI LAUNCHER (IGNORE): {err.ToString()}");
+            }
+        }
+
+        private void launchServer()
+        {
+            Task.Delay(300);
+            string serverFolder = txtGameInstallFolder.Text;
+
+            string launcherProcess = "Aki.Server";
+            Process[] launchers = Process.GetProcessesByName(launcherProcess);
+            if (launchers != null && launchers.Length > 0)
+            {
+                foreach (Process aki in launchers)
+                {
+                    if (!aki.HasExited)
+                    {
+                        if (!aki.CloseMainWindow())
+                        {
+                            try
+                            {
+                                aki.Kill();
+                            }
+                            catch (Exception ex)
+                            {
+                                if (ex is System.ComponentModel.Win32Exception win32Exception && win32Exception.Message == "Access is denied")
+                                {
+                                    Console.WriteLine("Controlled exception access is denied occurred. If administrator account, ignore");
+                                }
+                            }
+                            aki.WaitForExit();
+                        }
+                        else
+                        {
+                            aki.WaitForExit();
+                        }
+                    }
+                }
+            }
+
+            currentDirectory = Directory.GetCurrentDirectory();
+
+            Directory.SetCurrentDirectory(serverFolder);
+            Process akiServer = new Process();
+
+            akiServer.StartInfo.WorkingDirectory = serverFolder;
+            akiServer.StartInfo.FileName = "Aki.Server.exe";
+            akiServer.StartInfo.CreateNoWindow = true;
+            akiServer.StartInfo.UseShellExecute = false;
+            akiServer.StartInfo.RedirectStandardOutput = true;
+            akiServer.StartInfo.StandardOutputEncoding = Encoding.UTF8;
+
+            akiServer.OutputDataReceived += akiServer_OutputDataReceived;
+            akiServer.Exited += akiServer_Exited;
+
+            try
+            {
+                akiServer.Start();
+                akiServer.BeginOutputReadLine();
+
+                hasStopped = false;
+                serverIsRunning = true;
+                checkServerUptime();
+
+                AkiServerDetector = new BackgroundWorker();
+                AkiServerDetector.DoWork += AkiServerDetector_DoWork;
+                AkiServerDetector.RunWorkerCompleted += AkiServerDetector_RunWorkerCompleted;
+                AkiServerDetector.WorkerSupportsCancellation = true;
+                AkiServerDetector.RunWorkerAsync();
+            }
+            catch (Exception ex)
+            {
+                showMessage("We appear to have run into a problem. If you\'re unsure what this is about, please contact the developer." +
+                                    Environment.NewLine +
+                                    Environment.NewLine +
+                                    ex.ToString());
+            }
+            Directory.SetCurrentDirectory(currentDirectory);
+        }
+
+        private void launchTarkov(int akiPort)
+        {
+            ProcessStartInfo _tarkov = new ProcessStartInfo();
+            string aid = txtAccountAID.Text;
+            string serverFolder = txtGameInstallFolder.Text;
+
+            _tarkov.FileName = Path.Combine(serverFolder, "EscapeFromTarkov.exe");
+            if (akiPort != 0)
+                _tarkov.Arguments = $"-token={aid} -config={{\"BackendUrl\":\"http://127.0.0.1:{akiPort}\",\"Version\":\"live\"}}";
+            else
+                _tarkov.Arguments = $"-token={aid} -config={{\"BackendUrl\":\"http://127.0.0.1:6969\",\"Version\":\"live\"}}";
+
+            Console.WriteLine(aid);
+
+            Process tarkovGame = new Process();
+            tarkovGame.StartInfo = _tarkov;
+            tarkovGame.Start();
+        }
+
+        private void checkServerUptime()
+        {
+            if (CheckServerStatus != null)
+            {
+                CheckServerStatus.CancelAsync();
+                CheckServerStatus.Dispose();
+                CheckServerStatus = null;
+            }
+
+            CheckServerStatus = new BackgroundWorker();
+            CheckServerStatus.WorkerSupportsCancellation = true;
+            CheckServerStatus.WorkerReportsProgress = false;
+            CheckServerStatus.DoWork += CheckServerWorker_DoWork;
+            CheckServerStatus.RunWorkerCompleted += CheckServerWorker_RunWorkerCompleted;
+
+            try
+            {
+                CheckServerStatus.RunWorkerAsync();
+            }
+            catch (Exception ex)
+            {
+                showMessage("We appear to have run into a problem. If you\'re unsure what this is about, please contact the developer." +
+                                    Environment.NewLine +
+                                    Environment.NewLine +
+                                    ex.ToString());
+            }
+        }
+
+        public void akiServer_OutputDataReceived(object sender, DataReceivedEventArgs e)
+        {
+        }
+
+        private void akiServer_Exited(object sender, EventArgs e)
+        {
+        }
+
+        public void TarkovProcessDetector_DoWork(object sender, DoWorkEventArgs e)
+        {
+            string processName = "EscapeFromTarkov";
+            while (true)
+            {
+                Process[] processes = Process.GetProcessesByName(processName);
+                if (processes.Length > 0)
+                {
+                    Console.WriteLine("Tarkov detected");
+
+                    TarkovEndDetector = new BackgroundWorker();
+                    TarkovEndDetector.DoWork += TarkovEndDetector_DoWork;
+                    TarkovEndDetector.RunWorkerCompleted += TarkovEndDetector_RunWorkerCompleted;
+                    TarkovEndDetector.WorkerSupportsCancellation = true;
+                    TarkovEndDetector.RunWorkerAsync();
+
+                    if (TarkovProcessDetector != null)
+                    {
+                        TarkovProcessDetector.CancelAsync();
+                        TarkovProcessDetector.Dispose();
+                        TarkovProcessDetector = null;
+                    }
+
+                    break;
+                }
+
+                System.Threading.Thread.Sleep(1000);
+            }
+        }
+
+        public void TarkovProcessDetector_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (TarkovProcessDetector != null && TarkovProcessDetector.IsBusy)
+            {
+                TarkovProcessDetector.CancelAsync();
+                TarkovProcessDetector.Dispose();
+                TarkovProcessDetector = null;
+            }
+        }
+
+        public void TarkovEndDetector_DoWork(object sender, DoWorkEventArgs e)
+        {
+            string processName = "EscapeFromTarkov";
+            while (true)
+            {
+                Process[] processes = Process.GetProcessesByName(processName);
+                if (processes.Length == 0)
+                {
+                    Console.WriteLine("Quit Tarkov");
+                    if (Properties.Settings.Default.launchParameter == 2)
+                    {
+                        if (this.InvokeRequired)
+                        {
+                            this.BeginInvoke((MethodInvoker)delegate
+                            {
+                                this.Show();
+                            });
+                        }
+                        else
+                        {
+                            this.Show();
+                        }
+                    }
+
+                    killProcesses();
+
+                    mainTab.Enabled = true;
+                    panelServers.Enabled = true;
+                    btnClearList.Enabled = true;
+                    hasStopped = true;
+
+                    break;
+                }
+                Thread.Sleep(2500);
+            }
+        }
+
+        public void TarkovEndDetector_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (TarkovEndDetector != null)
+            {
+                TarkovEndDetector.CancelAsync();
+                TarkovEndDetector.Dispose();
+                TarkovEndDetector = null;
+            }
+        }
+
+        public void AkiServerDetector_DoWork(object sender, DoWorkEventArgs e)
+        {
+            if (AkiServerDetector.CancellationPending)
+            {
+                e.Cancel = true;
+                return;
+            }
+
+            if (AkiServerDetector != null)
+            {
+                string aki_server = "Aki.Server";
+                bool isServerRunning = Process.GetProcesses().Any(p => p.ProcessName.Equals(aki_server, StringComparison.OrdinalIgnoreCase));
+
+                if (!isServerRunning)
+                {
+                    if (!hasNotifiedUser)
+                    {
+                        showMessage("It appears that the server has closed. This message will only show once." + Environment.NewLine + "Escape From Tarkov will not be closed.");
+                        hasNotifiedUser = true;
+                    }
+                }
+            }
+        }
+
+        public void AkiServerDetector_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (AkiServerDetector != null)
+            {
+                AkiServerDetector.CancelAsync();
+                AkiServerDetector.Dispose();
+                AkiServerDetector = null;
+            }
+        }
+
+        private void CheckServerWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            string serverFolder = txtGameInstallFolder.Text;
+            int akiPort;
+            string portPath = Path.Combine(serverFolder, "Aki_Data\\Server\\database\\server.json");
+            bool portExists = File.Exists(portPath);
+            if (portExists)
+            {
+                string readPort = File.ReadAllText(portPath);
+                JObject portObject = JObject.Parse(readPort);
+                akiPort = (int)portObject["port"];
+            }
+            else
+                akiPort = 6969;
+
+            int port = akiPort; // the port to check
+            int timeout = 600000; // the maximum time to wait for the port to open in milliseconds
+            int delay;
+
+            int elapsed = 0; // the time elapsed since starting to check the port
+
+            while (!CheckPort(port))
+            {
+                if (elapsed >= timeout)
+                {
+                    e.Cancel = true;
+
+                    if (CheckServerStatus != null)
+                    {
+                        CheckServerStatus.CancelAsync();
+                        CheckServerStatus.Dispose();
+                        CheckServerStatus = null;
+                    }
+
+                    showMessage("We could not detect a heartbeat from the Aki Server after 10 minutes.\n" +
+                                "\n" +
+                                "Max duration reached, falling back. Please diagnose your server and try again.");
+
+                    killProcesses();
+
+                    mainTab.Enabled = true;
+                    panelServers.Enabled = true;
+                    btnClearList.Enabled = true;
+                    return;
+                }
+                delay = 1000;
+                Thread.Sleep(delay); // wait before checking again
+                elapsed += delay;
+            }
+        }
+
+        private void CheckServerWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (e.Cancelled)
+            {
+                if (CheckServerStatus != null)
+                {
+                    CheckServerStatus.CancelAsync();
+                    CheckServerStatus.Dispose();
+                    CheckServerStatus = null;
+                }
+            }
+            else if (e.Error != null)
+            {
+                showMessage("An error occurred: " + e.Error.Message);
+            }
+            else
+            {
+                if (CheckServerStatus != null)
+                {
+                    CheckServerStatus.CancelAsync();
+                    CheckServerStatus.Dispose();
+                    CheckServerStatus = null;
+                }
+            }
+        }
+
+        private bool CheckPort(int port)
+        {
+            if (hasStopped)
+            {
+                return false;
+            }
+            else
+            {
+                try
+                {
+                    using (var client = new TcpClient())
+                    {
+                        client.Connect("127.0.0.1" /* GetLocalIPAddress() */, port);
+                        serverIsRunning = true;
+                        launchTarkov(port);
+                        return true;
+                    }
+                }
+                catch (System.Net.Sockets.SocketException ex)
+                {
+                    if (ex is System.Net.Sockets.SocketException)
+                    {
+                        Console.WriteLine($"Server is not running... waiting!");
+                        return false;
+                    }
+                }
+            }
+            return false;
         }
     }
 }
