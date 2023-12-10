@@ -104,8 +104,6 @@ namespace Singleplayerstate
             Properties.Settings.Default.availableServers = serializedPaths;
             Properties.Settings.Default.Save();
             enterInputMode(false, null);
-
-            showMessage($"SPT-AKI installation {displayName} saved!");
             listServers();
         }
 
@@ -481,6 +479,7 @@ namespace Singleplayerstate
         {
             txtLocalCache.Text = $"❌ user\\cache";
             txtLoadOrderEditor.Text = $"❌ user\\mods\\Load Order Editor.exe";
+            txtLOEPath.Text = $"❌ user\\mods\\Load Order Editor.exe";
             txtServerMods.Text = $"❌ user\\mods";
             txtClientMods.Text = $"❌ BepInEx\\plugins";
             infoServer.Text = $"Regular SPT-AKI (offline)";
@@ -491,8 +490,7 @@ namespace Singleplayerstate
             gameRequirementLauncher.ForeColor = Color.Red;
             gameRequirementEFT.Text = $"✔️ Escape From Tarkov not found";
             gameRequirementEFT.ForeColor = Color.Red;
-
-            extensionsRequirementLOE.Text = $"❌ Load Order Editor not found";
+            extensionsRequirementLOE.Text = $"❌ Load Order Editor not found [Click here to download]";
             extensionsRequirementLOE.ForeColor = Color.Red;
 
             btnSelectAccount.Text = "None selected";
@@ -526,7 +524,13 @@ namespace Singleplayerstate
                 txtLocalCache.Text = $"✔️ user\\cache";
 
             if (File.Exists(LOEPath))
+            {
+                txtLOEPath.Text = LOEPath;
+
                 txtLoadOrderEditor.Text = $"✔️ user\\mods\\Load Order Editor.exe";
+                extensionsRequirementLOE.Text = $"✔️ Load Order Editor found";
+                extensionsRequirementLOE.ForeColor = Color.SeaGreen;
+            }
 
             if (Directory.Exists(modsFolder))
                 txtServerMods.Text = $"✔️ user\\mods";
@@ -559,10 +563,6 @@ namespace Singleplayerstate
             gameRequirementLauncher.ForeColor = Color.SeaGreen;
             gameRequirementEFT.Text = $"✔️ Escape From Tarkov found";
             gameRequirementEFT.ForeColor = Color.SeaGreen;
-
-            txtLOEPath.Text = LOEPath;
-            extensionsRequirementLOE.Text = $"✔️ Load Order Editor found";
-            extensionsRequirementLOE.ForeColor = Color.SeaGreen;
 
             // Account Tab
             string firstProfile = convertProfile(profiles[0]);
@@ -1000,7 +1000,10 @@ namespace Singleplayerstate
 
         private void btnPlaySPTAKI_Click(object sender, EventArgs e)
         {
-            beginLaunching();
+            if (!serverIsRunning)
+                beginLaunching();
+            else
+                showMessage("The Aki Server is already running. Please refer to the Server tab to close it manually.");
         }
 
         private void beginLaunching()
@@ -1114,6 +1117,14 @@ namespace Singleplayerstate
             {
                 Debug.WriteLine($"TERMINATION FAILURE OF AKI LAUNCHER (IGNORE): {err.ToString()}");
             }
+
+            mainTab.Enabled = true;
+            panelServers.Enabled = true;
+            btnClearList.Enabled = true;
+            hasStopped = true;
+            serverIsRunning = false;
+
+            akiOutput.Clear();
         }
 
         private void launchServer()
@@ -1241,10 +1252,29 @@ namespace Singleplayerstate
 
         public void akiServer_OutputDataReceived(object sender, DataReceivedEventArgs e)
         {
+            if (!string.IsNullOrEmpty(e.Data))
+            {
+                printServerData(e.Data);
+            }
         }
 
         private void akiServer_Exited(object sender, EventArgs e)
         {
+        }
+
+        private void printServerData(string data)
+        {
+            if (InvokeRequired)
+            {
+                BeginInvoke((MethodInvoker)delegate
+                {
+                    akiOutput.AppendText(data + Environment.NewLine);
+                });
+            }
+            else
+            {
+                akiOutput.AppendText(data + Environment.NewLine);
+            }
         }
 
         public void TarkovProcessDetector_DoWork(object sender, DoWorkEventArgs e)
@@ -1312,12 +1342,6 @@ namespace Singleplayerstate
                     }
 
                     killProcesses();
-
-                    mainTab.Enabled = true;
-                    panelServers.Enabled = true;
-                    btnClearList.Enabled = true;
-                    hasStopped = true;
-
                     break;
                 }
                 Thread.Sleep(2500);
@@ -1473,6 +1497,55 @@ namespace Singleplayerstate
                 }
             }
             return false;
+        }
+
+        private void btnCloseAkiServer_Click(object sender, EventArgs e)
+        {
+            string aki_server = "Aki.Server";
+            string eft_process = "EscapeFromTarkov";
+            bool isServerRunning = Process.GetProcesses().Any(p => p.ProcessName.Equals(aki_server, StringComparison.OrdinalIgnoreCase));
+            bool isEFTRunning = Process.GetProcesses().Any(p => p.ProcessName.Equals(eft_process, StringComparison.OrdinalIgnoreCase));
+
+            if (!isServerRunning && !isEFTRunning)
+            {
+                showMessage("SPT-AKI is not running!");
+            }
+            else
+            {
+                killProcesses();
+                showMessage("Force killed Escape From Tarkov!");
+            }
+        }
+
+        private void extensionsRequirementLOE_Click(object sender, EventArgs e)
+        {
+            if (extensionsRequirementLOE.Text.StartsWith("❌") && extensionsRequirementLOE.Text.ToLower().Contains("click here to download"))
+            {
+                Process.Start("https://hub.sp-tarkov.com/files/file/1082-loe-load-order-editor");
+            }
+        }
+
+        private void extensionsRequirementLOE_MouseEnter(object sender, EventArgs e)
+        {
+            if (extensionsRequirementLOE.Text.StartsWith("❌") && extensionsRequirementLOE.Text.ToLower().Contains("click here to download"))
+            {
+                extensionsRequirementLOE.Cursor = Cursors.Hand;
+                extensionsRequirementLOE.ForeColor = Color.IndianRed;
+            }
+        }
+
+        private void extensionsRequirementLOE_MouseLeave(object sender, EventArgs e)
+        {
+            if (extensionsRequirementLOE.Text.StartsWith("❌") && extensionsRequirementLOE.Text.ToLower().Contains("click here to download"))
+            {
+                extensionsRequirementLOE.Cursor = Cursors.Hand;
+                extensionsRequirementLOE.ForeColor = Color.Red; 
+            }
+            else
+            {
+                extensionsRequirementLOE.Cursor = Cursors.Default;
+                extensionsRequirementLOE.ForeColor = Color.SeaGreen;
+            }
         }
     }
 }

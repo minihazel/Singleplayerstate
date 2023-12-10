@@ -69,6 +69,12 @@
             this.btnWhenSPTAKILauncher = new System.Windows.Forms.Button();
             this.tabAccount = new System.Windows.Forms.TabPage();
             this.panelAccount = new System.Windows.Forms.Panel();
+            this.panelAccountSeparator = new System.Windows.Forms.Panel();
+            this.panelAccountProfiles = new System.Windows.Forms.Panel();
+            this.profilesPlaceholder = new System.Windows.Forms.Label();
+            this.panelAID = new System.Windows.Forms.Panel();
+            this.txtAccountAID = new System.Windows.Forms.TextBox();
+            this.titleAccountAID = new System.Windows.Forms.Label();
             this.btnSetUsername = new System.Windows.Forms.Button();
             this.panelUsername = new System.Windows.Forms.Panel();
             this.txtUsername = new System.Windows.Forms.TextBox();
@@ -89,12 +95,13 @@
             this.titleAddInstall = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnClearList = new System.Windows.Forms.Button();
-            this.panelAccountProfiles = new System.Windows.Forms.Panel();
-            this.profilesPlaceholder = new System.Windows.Forms.Label();
-            this.panelAccountSeparator = new System.Windows.Forms.Panel();
-            this.panelAID = new System.Windows.Forms.Panel();
-            this.txtAccountAID = new System.Windows.Forms.TextBox();
-            this.titleAccountAID = new System.Windows.Forms.Label();
+            this.tabServer = new System.Windows.Forms.TabPage();
+            this.panelServer = new System.Windows.Forms.Panel();
+            this.titleCloseAkiServer = new System.Windows.Forms.Label();
+            this.titleServer = new System.Windows.Forms.Label();
+            this.btnCloseAkiServer = new System.Windows.Forms.Button();
+            this.akiOutput = new System.Windows.Forms.RichTextBox();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.panelServers.SuspendLayout();
             this.mainTab.SuspendLayout();
             this.tabSPTAKI.SuspendLayout();
@@ -104,12 +111,15 @@
             this.panelGameOptions.SuspendLayout();
             this.tabAccount.SuspendLayout();
             this.panelAccount.SuspendLayout();
+            this.panelAccountProfiles.SuspendLayout();
+            this.panelAID.SuspendLayout();
             this.panelUsername.SuspendLayout();
             this.tabAddInstall.SuspendLayout();
             this.panelAddInstall.SuspendLayout();
             this.panelSetDisplayName.SuspendLayout();
-            this.panelAccountProfiles.SuspendLayout();
-            this.panelAID.SuspendLayout();
+            this.tabServer.SuspendLayout();
+            this.panelServer.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelServers
@@ -178,6 +188,7 @@
             this.mainTab.Controls.Add(this.tabSPTAKI);
             this.mainTab.Controls.Add(this.tabGmeOptions);
             this.mainTab.Controls.Add(this.tabAccount);
+            this.mainTab.Controls.Add(this.tabServer);
             this.mainTab.Controls.Add(this.tabAddInstall);
             this.mainTab.Location = new System.Drawing.Point(335, 12);
             this.mainTab.Name = "mainTab";
@@ -516,6 +527,9 @@
             this.extensionsRequirementLOE.TabIndex = 15;
             this.extensionsRequirementLOE.Text = "✔️ Load Order Editor found";
             this.extensionsRequirementLOE.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.extensionsRequirementLOE.Click += new System.EventHandler(this.extensionsRequirementLOE_Click);
+            this.extensionsRequirementLOE.MouseEnter += new System.EventHandler(this.extensionsRequirementLOE_MouseEnter);
+            this.extensionsRequirementLOE.MouseLeave += new System.EventHandler(this.extensionsRequirementLOE_MouseLeave);
             // 
             // txtLOEPath
             // 
@@ -676,6 +690,82 @@
             this.panelAccount.Name = "panelAccount";
             this.panelAccount.Size = new System.Drawing.Size(588, 455);
             this.panelAccount.TabIndex = 2;
+            // 
+            // panelAccountSeparator
+            // 
+            this.panelAccountSeparator.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.panelAccountSeparator.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelAccountSeparator.Location = new System.Drawing.Point(314, -15);
+            this.panelAccountSeparator.Name = "panelAccountSeparator";
+            this.panelAccountSeparator.Size = new System.Drawing.Size(1, 468);
+            this.panelAccountSeparator.TabIndex = 19;
+            this.panelAccountSeparator.Visible = false;
+            // 
+            // panelAccountProfiles
+            // 
+            this.panelAccountProfiles.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelAccountProfiles.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(29)))), ((int)(((byte)(31)))));
+            this.panelAccountProfiles.Controls.Add(this.profilesPlaceholder);
+            this.panelAccountProfiles.Location = new System.Drawing.Point(315, 3);
+            this.panelAccountProfiles.Name = "panelAccountProfiles";
+            this.panelAccountProfiles.Size = new System.Drawing.Size(273, 419);
+            this.panelAccountProfiles.TabIndex = 18;
+            this.panelAccountProfiles.Visible = false;
+            // 
+            // profilesPlaceholder
+            // 
+            this.profilesPlaceholder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.profilesPlaceholder.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(44)))), ((int)(((byte)(47)))));
+            this.profilesPlaceholder.Font = new System.Drawing.Font("Bender", 13F, System.Drawing.FontStyle.Bold);
+            this.profilesPlaceholder.ForeColor = System.Drawing.Color.LightGray;
+            this.profilesPlaceholder.Location = new System.Drawing.Point(0, 0);
+            this.profilesPlaceholder.Name = "profilesPlaceholder";
+            this.profilesPlaceholder.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.profilesPlaceholder.Size = new System.Drawing.Size(273, 50);
+            this.profilesPlaceholder.TabIndex = 2;
+            this.profilesPlaceholder.Text = "✔️ Fresh profile";
+            this.profilesPlaceholder.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.profilesPlaceholder.Visible = false;
+            // 
+            // panelAID
+            // 
+            this.panelAID.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
+            this.panelAID.Controls.Add(this.txtAccountAID);
+            this.panelAID.Location = new System.Drawing.Point(6, 229);
+            this.panelAID.Name = "panelAID";
+            this.panelAID.Size = new System.Drawing.Size(300, 40);
+            this.panelAID.TabIndex = 21;
+            // 
+            // txtAccountAID
+            // 
+            this.txtAccountAID.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.txtAccountAID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.txtAccountAID.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.txtAccountAID.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.txtAccountAID.ForeColor = System.Drawing.Color.Gray;
+            this.txtAccountAID.Location = new System.Drawing.Point(2, 2);
+            this.txtAccountAID.Multiline = true;
+            this.txtAccountAID.Name = "txtAccountAID";
+            this.txtAccountAID.ReadOnly = true;
+            this.txtAccountAID.Size = new System.Drawing.Size(296, 36);
+            this.txtAccountAID.TabIndex = 0;
+            this.txtAccountAID.Text = "Placeholder";
+            this.txtAccountAID.MouseDown += new System.Windows.Forms.MouseEventHandler(this.txtAccountAID_MouseDown);
+            // 
+            // titleAccountAID
+            // 
+            this.titleAccountAID.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.titleAccountAID.ForeColor = System.Drawing.Color.LightGray;
+            this.titleAccountAID.Location = new System.Drawing.Point(3, 206);
+            this.titleAccountAID.Name = "titleAccountAID";
+            this.titleAccountAID.Size = new System.Drawing.Size(582, 20);
+            this.titleAccountAID.TabIndex = 20;
+            this.titleAccountAID.Text = "Account AID:";
+            this.titleAccountAID.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // btnSetUsername
             // 
@@ -972,81 +1062,98 @@
             this.btnClearList.UseVisualStyleBackColor = false;
             this.btnClearList.Click += new System.EventHandler(this.btnClearList_Click);
             // 
-            // panelAccountProfiles
+            // tabServer
             // 
-            this.panelAccountProfiles.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.tabServer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(29)))), ((int)(((byte)(31)))));
+            this.tabServer.Controls.Add(this.panelServer);
+            this.tabServer.Location = new System.Drawing.Point(4, 25);
+            this.tabServer.Name = "tabServer";
+            this.tabServer.Size = new System.Drawing.Size(600, 476);
+            this.tabServer.TabIndex = 4;
+            this.tabServer.Text = "Server";
+            // 
+            // panelServer
+            // 
+            this.panelServer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelAccountProfiles.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(29)))), ((int)(((byte)(31)))));
-            this.panelAccountProfiles.Controls.Add(this.profilesPlaceholder);
-            this.panelAccountProfiles.Location = new System.Drawing.Point(315, 3);
-            this.panelAccountProfiles.Name = "panelAccountProfiles";
-            this.panelAccountProfiles.Size = new System.Drawing.Size(273, 419);
-            this.panelAccountProfiles.TabIndex = 18;
-            this.panelAccountProfiles.Visible = false;
+            this.panelServer.Controls.Add(this.panel2);
+            this.panelServer.Controls.Add(this.titleCloseAkiServer);
+            this.panelServer.Controls.Add(this.titleServer);
+            this.panelServer.Controls.Add(this.btnCloseAkiServer);
+            this.panelServer.Location = new System.Drawing.Point(6, 15);
+            this.panelServer.Name = "panelServer";
+            this.panelServer.Size = new System.Drawing.Size(588, 455);
+            this.panelServer.TabIndex = 0;
             // 
-            // profilesPlaceholder
+            // titleCloseAkiServer
             // 
-            this.profilesPlaceholder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.titleCloseAkiServer.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.titleCloseAkiServer.ForeColor = System.Drawing.Color.LightGray;
+            this.titleCloseAkiServer.Location = new System.Drawing.Point(3, 38);
+            this.titleCloseAkiServer.Name = "titleCloseAkiServer";
+            this.titleCloseAkiServer.Size = new System.Drawing.Size(582, 20);
+            this.titleCloseAkiServer.TabIndex = 10;
+            this.titleCloseAkiServer.Text = "Close Aki.Server:";
+            this.titleCloseAkiServer.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // titleServer
+            // 
+            this.titleServer.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.titleServer.ForeColor = System.Drawing.Color.LightGray;
+            this.titleServer.Location = new System.Drawing.Point(3, 0);
+            this.titleServer.Name = "titleServer";
+            this.titleServer.Size = new System.Drawing.Size(582, 20);
+            this.titleServer.TabIndex = 9;
+            this.titleServer.Text = "Server settings";
+            this.titleServer.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // btnCloseAkiServer
+            // 
+            this.btnCloseAkiServer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.btnCloseAkiServer.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnCloseAkiServer.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
+            this.btnCloseAkiServer.FlatAppearance.BorderSize = 2;
+            this.btnCloseAkiServer.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnCloseAkiServer.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnCloseAkiServer.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCloseAkiServer.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.btnCloseAkiServer.ForeColor = System.Drawing.Color.Gray;
+            this.btnCloseAkiServer.Location = new System.Drawing.Point(6, 61);
+            this.btnCloseAkiServer.Name = "btnCloseAkiServer";
+            this.btnCloseAkiServer.Size = new System.Drawing.Size(300, 40);
+            this.btnCloseAkiServer.TabIndex = 8;
+            this.btnCloseAkiServer.Text = "Force close";
+            this.btnCloseAkiServer.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnCloseAkiServer.UseVisualStyleBackColor = false;
+            this.btnCloseAkiServer.Click += new System.EventHandler(this.btnCloseAkiServer_Click);
+            // 
+            // akiOutput
+            // 
+            this.akiOutput.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.profilesPlaceholder.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(44)))), ((int)(((byte)(47)))));
-            this.profilesPlaceholder.Font = new System.Drawing.Font("Bender", 13F, System.Drawing.FontStyle.Bold);
-            this.profilesPlaceholder.ForeColor = System.Drawing.Color.LightGray;
-            this.profilesPlaceholder.Location = new System.Drawing.Point(0, 0);
-            this.profilesPlaceholder.Name = "profilesPlaceholder";
-            this.profilesPlaceholder.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.profilesPlaceholder.Size = new System.Drawing.Size(273, 50);
-            this.profilesPlaceholder.TabIndex = 2;
-            this.profilesPlaceholder.Text = "✔️ Fresh profile";
-            this.profilesPlaceholder.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.profilesPlaceholder.Visible = false;
+            this.akiOutput.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.akiOutput.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.akiOutput.Font = new System.Drawing.Font("Bender", 11F);
+            this.akiOutput.ForeColor = System.Drawing.Color.LightGray;
+            this.akiOutput.Location = new System.Drawing.Point(2, 2);
+            this.akiOutput.Name = "akiOutput";
+            this.akiOutput.Size = new System.Drawing.Size(575, 323);
+            this.akiOutput.TabIndex = 11;
+            this.akiOutput.Text = "";
             // 
-            // panelAccountSeparator
+            // panel2
             // 
-            this.panelAccountSeparator.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.panelAccountSeparator.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelAccountSeparator.Location = new System.Drawing.Point(314, -15);
-            this.panelAccountSeparator.Name = "panelAccountSeparator";
-            this.panelAccountSeparator.Size = new System.Drawing.Size(1, 468);
-            this.panelAccountSeparator.TabIndex = 19;
-            this.panelAccountSeparator.Visible = false;
-            // 
-            // panelAID
-            // 
-            this.panelAID.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
-            this.panelAID.Controls.Add(this.txtAccountAID);
-            this.panelAID.Location = new System.Drawing.Point(6, 229);
-            this.panelAID.Name = "panelAID";
-            this.panelAID.Size = new System.Drawing.Size(300, 40);
-            this.panelAID.TabIndex = 21;
-            // 
-            // txtAccountAID
-            // 
-            this.txtAccountAID.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
-            this.txtAccountAID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtAccountAID.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.txtAccountAID.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.txtAccountAID.ForeColor = System.Drawing.Color.Gray;
-            this.txtAccountAID.Location = new System.Drawing.Point(2, 2);
-            this.txtAccountAID.Multiline = true;
-            this.txtAccountAID.Name = "txtAccountAID";
-            this.txtAccountAID.ReadOnly = true;
-            this.txtAccountAID.Size = new System.Drawing.Size(296, 36);
-            this.txtAccountAID.TabIndex = 0;
-            this.txtAccountAID.Text = "Placeholder";
-            this.txtAccountAID.MouseDown += new System.Windows.Forms.MouseEventHandler(this.txtAccountAID_MouseDown);
-            // 
-            // titleAccountAID
-            // 
-            this.titleAccountAID.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.titleAccountAID.ForeColor = System.Drawing.Color.LightGray;
-            this.titleAccountAID.Location = new System.Drawing.Point(3, 206);
-            this.titleAccountAID.Name = "titleAccountAID";
-            this.titleAccountAID.Size = new System.Drawing.Size(582, 20);
-            this.titleAccountAID.TabIndex = 20;
-            this.titleAccountAID.Text = "Account AID:";
-            this.titleAccountAID.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
+            this.panel2.Controls.Add(this.akiOutput);
+            this.panel2.Location = new System.Drawing.Point(6, 125);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(579, 327);
+            this.panel2.TabIndex = 12;
             // 
             // mainForm
             // 
@@ -1077,15 +1184,18 @@
             this.panelGameOptions.ResumeLayout(false);
             this.tabAccount.ResumeLayout(false);
             this.panelAccount.ResumeLayout(false);
+            this.panelAccountProfiles.ResumeLayout(false);
+            this.panelAID.ResumeLayout(false);
+            this.panelAID.PerformLayout();
             this.panelUsername.ResumeLayout(false);
             this.panelUsername.PerformLayout();
             this.tabAddInstall.ResumeLayout(false);
             this.panelAddInstall.ResumeLayout(false);
             this.panelSetDisplayName.ResumeLayout(false);
             this.panelSetDisplayName.PerformLayout();
-            this.panelAccountProfiles.ResumeLayout(false);
-            this.panelAID.ResumeLayout(false);
-            this.panelAID.PerformLayout();
+            this.tabServer.ResumeLayout(false);
+            this.panelServer.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1158,6 +1268,13 @@
         private System.Windows.Forms.Panel panelAID;
         private System.Windows.Forms.TextBox txtAccountAID;
         private System.Windows.Forms.Label titleAccountAID;
+        private System.Windows.Forms.TabPage tabServer;
+        private System.Windows.Forms.Panel panelServer;
+        private System.Windows.Forms.Label titleCloseAkiServer;
+        private System.Windows.Forms.Label titleServer;
+        private System.Windows.Forms.Button btnCloseAkiServer;
+        private System.Windows.Forms.RichTextBox akiOutput;
+        private System.Windows.Forms.Panel panel2;
     }
 }
 
