@@ -1226,6 +1226,7 @@
             // chkAutoScroll
             // 
             this.chkAutoScroll.AutoSize = true;
+            this.chkAutoScroll.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkAutoScroll.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
             this.chkAutoScroll.ForeColor = System.Drawing.Color.LightGray;
             this.chkAutoScroll.Location = new System.Drawing.Point(6, 127);
