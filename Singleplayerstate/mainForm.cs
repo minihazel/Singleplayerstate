@@ -37,6 +37,7 @@ namespace Singleplayerstate
         bool hasStopped = false;
         bool hasNotifiedUser = false;
         bool serverIsRunning = false;
+        bool firstServerNotify = false;
 
         Dictionary<string, string> folderPaths = new Dictionary<string, string>();
 
@@ -64,10 +65,7 @@ namespace Singleplayerstate
 
             listServers();
             txtSetDisplayName.Clear();
-
-            TabPage tabAddInstall = mainTab.TabPages["tabAddInstall"];
-            if (tabAddInstall != null)
-                mainTab.SelectedTab = tabAddInstall;
+            btnAddInstall.PerformClick();
         }
 
         private void showMessage(string message)
@@ -473,7 +471,7 @@ namespace Singleplayerstate
 
         private void displayInfo(string path)
         {
-            txtLocalCache.Text = $"❌ user\\cache";
+            txtLocalCache.Text = $"❌ user\\cache, server will load slower!";
             txtLoadOrderEditor.Text = $"❌ user\\mods\\Load Order Editor.exe";
             txtLOEPath.Text = $"❌ user\\mods\\Load Order Editor.exe";
             txtServerMods.Text = $"❌ user\\mods";
@@ -588,9 +586,7 @@ namespace Singleplayerstate
                             if (!serverHasBeenSelected)
                             {
                                 serverHasBeenSelected = true;
-                                TabPage tabSPTAKI = mainTab.TabPages["tabSPTAKI"];
-                                if (tabSPTAKI != null)
-                                    mainTab.SelectedTab = tabSPTAKI;
+                                btnSPTAKI.PerformClick();
                             }
                         }
                         else
@@ -711,6 +707,7 @@ namespace Singleplayerstate
         private void btnCancelProcess_Click(object sender, EventArgs e)
         {
             enterInputMode(false, null);
+            lblServers.Select();
         }
 
         private void mainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -751,6 +748,7 @@ namespace Singleplayerstate
                     saveServers(displayName, folderPath);
                 }
             }
+            lblServers.Select();
         }
 
         private void btnClearList_Click(object sender, EventArgs e)
@@ -764,19 +762,12 @@ namespace Singleplayerstate
                 Properties.Settings.Default.Save();
 
                 listServers();
-                mainTab.Visible = false;
             }
+            lblServers.Select();
         }
 
         private void mainTab_Selecting(object sender, TabControlCancelEventArgs e)
         {
-            if (!serverHasBeenSelected)
-            {
-                if (e.TabPage != mainTab.TabPages["tabAddInstall"])
-                {
-                    e.Cancel = true;
-                }
-            }
         }
 
         private void txtGameInstallFolder_MouseEnter(object sender, EventArgs e)
@@ -826,6 +817,7 @@ namespace Singleplayerstate
                     }
                 }
             }
+            lblServers.Select();
         }
 
         private void btnClearLocalCache_Click(object sender, EventArgs e)
@@ -853,6 +845,7 @@ namespace Singleplayerstate
                     }
                 }
             }
+            lblServers.Select();
         }
 
         private void btnLOE_Click(object sender, EventArgs e)
@@ -889,10 +882,28 @@ namespace Singleplayerstate
                     }
                 }
             }
+            lblServers.Select();
         }
 
         private void btnServerMods_Click(object sender, EventArgs e)
         {
+            /*
+            Label _Pnl = new Label();
+            _Pnl.Name = "messageNotice";
+            _Pnl.BackColor = Color.FromArgb(90, 0, 0, 0);
+            _Pnl.ForeColor = Color.LightGray;
+            _Pnl.AutoSize = false;
+            _Pnl.TextAlign = ContentAlignment.MiddleCenter;
+            _Pnl.Font = new Font("Bender", 13, FontStyle.Bold);
+            _Pnl.Size = new Size(this.Size.Width, this.Size.Height / 2);
+            _Pnl.Location = new Point(0, this.Size.Width / 8);
+            _Pnl.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right | AnchorStyles.Bottom;
+            _Pnl.Text = "Hello world!";
+
+            this.Controls.Add(_Pnl);
+            _Pnl.BringToFront();
+            */
+
             if (txtServerMods.Text.StartsWith("✔️"))
             {
                 string mainDir = txtGameInstallFolder.Text;
@@ -920,6 +931,7 @@ namespace Singleplayerstate
                     }
                 }
             }
+            lblServers.Select();
         }
 
         private void btnClientMods_Click(object sender, EventArgs e)
@@ -951,6 +963,7 @@ namespace Singleplayerstate
                     }
                 }
             }
+            lblServers.Select();
         }
 
         private void btnWhenSPTAKILauncher_Click(object sender, EventArgs e)
@@ -958,35 +971,39 @@ namespace Singleplayerstate
             switch (btnWhenSPTAKILauncher.Text.ToLower())
             {
                 case "do nothing":
-                    Properties.Settings.Default.launchParameter = 0;
+                    Properties.Settings.Default.launchParameter = "minimize";
                     btnWhenSPTAKILauncher.Text = "Minimize launcher";
                     break;
                 case "minimize launcher":
-                    Properties.Settings.Default.launchParameter = 1;
+                    Properties.Settings.Default.launchParameter = "minimizeclose";
                     btnWhenSPTAKILauncher.Text = "Minimize launcher + open after close";
                     break;
                 case "minimize launcher + open after close":
-                    Properties.Settings.Default.launchParameter = 2;
+                    Properties.Settings.Default.launchParameter = "donothing";
                     btnWhenSPTAKILauncher.Text = "Do nothing";
                     break;
             }
 
             Properties.Settings.Default.Save();
+            lblServers.Select();
         }
 
         private void btnSelectAccount_Click(object sender, EventArgs e)
         {
             listProfiles();
+            lblServers.Select();
         }
 
         private void btnSetUsername_Click(object sender, EventArgs e)
         {
             editGameProfile(btnSelectAccount.Text, txtGameInstallFolder.Text);
+            lblServers.Select();
         }
 
         private void btnDeleteAccount_Click(object sender, EventArgs e)
         {
 
+            lblServers.Select();
         }
 
         private void txtAccountAID_MouseDown(object sender, MouseEventArgs e)
@@ -1005,7 +1022,15 @@ namespace Singleplayerstate
             if (!serverIsRunning)
                 beginLaunching();
             else
-                showMessage("The Aki Server is already running. Please refer to the Server tab to close it manually.");
+            {
+                string launcherProcess = "EscapeFromTarkov";
+                Process[] launchers = Process.GetProcessesByName(launcherProcess);
+                if (launchers != null && launchers.Length > 0)
+                {
+                    showMessage("Escape From Tarkov is already running. Please close it and try again.");
+                }
+            }
+            lblServers.Select();
         }
 
         private void beginLaunching()
@@ -1037,12 +1062,12 @@ namespace Singleplayerstate
 
             killProcesses();
             launchServer();
+            this.WindowState = FormWindowState.Minimized;
         }
 
         private void killAkiServer()
         {
             string akiServerProcess = "Aki.Server";
-
             try
             {
                 Process[] procs = Process.GetProcessesByName(akiServerProcess);
@@ -1074,6 +1099,18 @@ namespace Singleplayerstate
                         }
                     }
                 }
+
+                if (AkiServerDetector != null)
+                {
+                    AkiServerDetector.CancelAsync();
+                    AkiServerDetector.Dispose();
+                    AkiServerDetector = null;
+                }
+
+                btnCloseAkiServer.Text = "Run server";
+                txtServerIsRunning.Text = "❌ Server is closed";
+                txtServerIsRunning.ForeColor = Color.Red;
+                firstServerNotify = true;
             }
             catch (Exception err)
             {
@@ -1197,10 +1234,128 @@ namespace Singleplayerstate
             hasStopped = true;
             serverIsRunning = false;
 
+            if (btnCloseAkiServer.InvokeRequired)
+                BeginInvoke((MethodInvoker)delegate { btnCloseAkiServer.Text = "Run server"; });
+            else
+                btnCloseAkiServer.Enabled = true;
+
+            if (txtServerIsRunning.InvokeRequired)
+                BeginInvoke((MethodInvoker)delegate {
+                    txtServerIsRunning.Text = "❌ Server is closed";
+                    txtServerIsRunning.ForeColor = Color.Red;
+                });
+            else
+                txtServerIsRunning.Enabled = true;
+
+            firstServerNotify = true;
+
             if (akiOutput.InvokeRequired)
                 BeginInvoke((MethodInvoker)delegate { akiOutput.Clear(); });
             else
                 akiOutput.Clear();
+        }
+
+        private void runServerOnly()
+        {
+            Task.Delay(300);
+            string serverFolder = txtGameInstallFolder.Text;
+
+            string launcherProcess = "Aki.Server";
+            Process[] launchers = Process.GetProcessesByName(launcherProcess);
+            if (launchers != null && launchers.Length > 0)
+            {
+                foreach (Process aki in launchers)
+                {
+                    if (!aki.HasExited)
+                    {
+                        if (!aki.CloseMainWindow())
+                        {
+                            try
+                            {
+                                aki.Kill();
+                            }
+                            catch (Exception ex)
+                            {
+                                if (ex is System.ComponentModel.Win32Exception win32Exception && win32Exception.Message == "Access is denied")
+                                {
+                                    Console.WriteLine("Controlled exception access is denied occurred. If administrator account, ignore");
+                                }
+                            }
+                            aki.WaitForExit();
+                        }
+                        else
+                        {
+                            aki.WaitForExit();
+                        }
+                    }
+                }
+            }
+
+            currentDirectory = Directory.GetCurrentDirectory();
+            Directory.SetCurrentDirectory(serverFolder);
+            Process akiServer = new Process();
+
+            akiServer.StartInfo.WorkingDirectory = serverFolder;
+            akiServer.StartInfo.FileName = "Aki.Server.exe";
+            akiServer.StartInfo.CreateNoWindow = true;
+            akiServer.StartInfo.UseShellExecute = false;
+            akiServer.StartInfo.RedirectStandardOutput = true;
+            akiServer.StartInfo.StandardOutputEncoding = Encoding.UTF8;
+            akiServer.OutputDataReceived += akiServer_OutputDataReceived;
+            akiServer.Exited += akiServer_Exited;
+
+            try
+            {
+                akiServer.Start();
+                akiServer.BeginOutputReadLine();
+
+                hasStopped = false;
+                serverIsRunning = true;
+
+                if (panelServers.InvokeRequired)
+                    BeginInvoke((MethodInvoker)delegate { panelServers.Enabled = false; });
+                else
+                    panelServers.Enabled = false;
+
+                if (panelSPTAKI.InvokeRequired)
+                    BeginInvoke((MethodInvoker)delegate { panelSPTAKI.Enabled = false; });
+                else
+                    panelSPTAKI.Enabled = false;
+
+                if (panelGameOptions.InvokeRequired)
+                    BeginInvoke((MethodInvoker)delegate { panelGameOptions.Enabled = false; });
+                else
+                    panelGameOptions.Enabled = false;
+
+                if (panelAccount.InvokeRequired)
+                    BeginInvoke((MethodInvoker)delegate { panelAccount.Enabled = false; });
+                else
+                    panelAccount.Enabled = false;
+
+                if (panelAddInstall.InvokeRequired)
+                    BeginInvoke((MethodInvoker)delegate { panelAddInstall.Enabled = false; });
+                else
+                    panelAddInstall.Enabled = false;
+
+                if (btnClearList.InvokeRequired)
+                    BeginInvoke((MethodInvoker)delegate { btnClearList.Enabled = false; });
+                else
+                    btnClearList.Enabled = false;
+
+                AkiServerDetector = new BackgroundWorker();
+                AkiServerDetector.DoWork += AkiServerDetector_DoWork;
+                AkiServerDetector.RunWorkerCompleted += AkiServerDetector_RunWorkerCompleted;
+                AkiServerDetector.WorkerSupportsCancellation = true;
+                AkiServerDetector.RunWorkerAsync();
+            }
+            catch (Exception ex)
+            {
+                showMessage("We appear to have run into a problem. If you\'re unsure what this is about, please contact the developer." +
+                                    Environment.NewLine +
+                                    Environment.NewLine +
+                                    ex.ToString());
+            }
+            Directory.SetCurrentDirectory(currentDirectory);
         }
 
         private void launchServer()
@@ -1240,7 +1395,6 @@ namespace Singleplayerstate
             }
 
             currentDirectory = Directory.GetCurrentDirectory();
-
             Directory.SetCurrentDirectory(serverFolder);
             Process akiServer = new Process();
 
@@ -1291,6 +1445,11 @@ namespace Singleplayerstate
                     BeginInvoke((MethodInvoker)delegate { btnClearList.Enabled = false; });
                 else
                     btnClearList.Enabled = false;
+
+                if (btnCloseAkiServer.InvokeRequired)
+                    BeginInvoke((MethodInvoker)delegate { btnCloseAkiServer.Text = "Force-close server"; });
+                else
+                    btnCloseAkiServer.Text = "Force-close server";
 
                 AkiServerDetector = new BackgroundWorker();
                 AkiServerDetector.DoWork += AkiServerDetector_DoWork;
@@ -1392,8 +1551,6 @@ namespace Singleplayerstate
                 Process[] processes = Process.GetProcessesByName(processName);
                 if (processes.Length > 0)
                 {
-                    Console.WriteLine("Tarkov detected");
-
                     TarkovEndDetector = new BackgroundWorker();
                     TarkovEndDetector.DoWork += TarkovEndDetector_DoWork;
                     TarkovEndDetector.RunWorkerCompleted += TarkovEndDetector_RunWorkerCompleted;
@@ -1432,19 +1589,18 @@ namespace Singleplayerstate
                 Process[] processes = Process.GetProcessesByName(processName);
                 if (processes.Length == 0)
                 {
-                    Console.WriteLine("Quit Tarkov");
-                    if (Properties.Settings.Default.launchParameter == 2)
+                    if (Properties.Settings.Default.launchParameter == "minimizeclose")
                     {
                         if (this.InvokeRequired)
                         {
                             this.BeginInvoke((MethodInvoker)delegate
                             {
-                                this.Show();
+                                this.WindowState = FormWindowState.Normal;
                             });
                         }
                         else
                         {
-                            this.Show();
+                            this.WindowState = FormWindowState.Normal;
                         }
                     }
 
@@ -1484,6 +1640,17 @@ namespace Singleplayerstate
                     {
                         showMessage("It appears that the server has closed. This message will only show once." + Environment.NewLine + "Escape From Tarkov will not be closed.");
                         hasNotifiedUser = true;
+                    }
+                }
+                else 
+                {
+                    if (!firstServerNotify)
+                    {
+                        btnCloseAkiServer.Enabled = true;
+                        btnCloseAkiServer.Text = "Force-close server";
+                        txtServerIsRunning.Text = "✔️ Server is running";
+                        txtServerIsRunning.ForeColor = Color.SeaGreen;
+                        firstServerNotify = true;
                     }
                 }
             }
@@ -1539,7 +1706,6 @@ namespace Singleplayerstate
 
                     killProcesses();
 
-                    mainTab.Enabled = true;
                     panelServers.Enabled = true;
                     btnClearList.Enabled = true;
                     return;
@@ -1589,7 +1755,12 @@ namespace Singleplayerstate
                     using (var client = new TcpClient())
                     {
                         client.Connect("127.0.0.1" /* GetLocalIPAddress() */, port);
+
                         serverIsRunning = true;
+                        btnCloseAkiServer.Text = "Force-close server";
+                        txtServerIsRunning.Text = "✔️ Server is running";
+                        txtServerIsRunning.ForeColor = Color.SeaGreen;
+
                         launchTarkov(port);
                         return true;
                     }
@@ -1608,19 +1779,32 @@ namespace Singleplayerstate
 
         private void btnCloseAkiServer_Click(object sender, EventArgs e)
         {
-            string aki_server = "Aki.Server";
-            string eft_process = "EscapeFromTarkov";
-            bool isServerRunning = Process.GetProcesses().Any(p => p.ProcessName.Equals(aki_server, StringComparison.OrdinalIgnoreCase));
-            bool isEFTRunning = Process.GetProcesses().Any(p => p.ProcessName.Equals(eft_process, StringComparison.OrdinalIgnoreCase));
-
-            if (!isServerRunning && !isEFTRunning)
+            if (btnCloseAkiServer.Text.ToLower() == "run server")
             {
-                showMessage("SPT-AKI is not running!");
+                runServerOnly();
+                btnCloseAkiServer.Enabled = false;
             }
-            else
+            else if (btnCloseAkiServer.Text.ToLower() == "force-close server")
             {
-                killAkiServer();
-                showMessage("Force killed Aki.Server. Make sure to quit Escape From Tarkov!");
+                string aki_server = "Aki.Server";
+                string eft_process = "EscapeFromTarkov";
+                bool isServerRunning = Process.GetProcesses().Any(p => p.ProcessName.Equals(aki_server, StringComparison.OrdinalIgnoreCase));
+                bool isEFTRunning = Process.GetProcesses().Any(p => p.ProcessName.Equals(eft_process, StringComparison.OrdinalIgnoreCase));
+
+                if (!isServerRunning && !isEFTRunning)
+                {
+                    showMessage("SPT-AKI is not running!");
+                }
+                else
+                {
+                    btnCloseAkiServer.Text = "Run server";
+                    txtServerIsRunning.Text = "✔️ Server is starting up...";
+                    txtServerIsRunning.ForeColor = Color.DodgerBlue;
+
+                    killAkiServer();
+                    showMessage("Force-closed Aki.Server. Make sure to quit Escape From Tarkov!");
+                }
+                lblServers.Select();
             }
         }
 
@@ -1653,6 +1837,78 @@ namespace Singleplayerstate
                 extensionsRequirementLOE.Cursor = Cursors.Default;
                 extensionsRequirementLOE.ForeColor = Color.SeaGreen;
             }
+        }
+
+        private void btnSPTAKI_Click(object sender, EventArgs e)
+        {
+            if (serverHasBeenSelected)
+            {
+                panelSPTAKI.BringToFront();
+            }
+            lblServers.Select();
+        }
+
+        private void btnGameOptions_Click(object sender, EventArgs e)
+        {
+            if (serverHasBeenSelected)
+            {
+                panelGameOptions.BringToFront();
+            }
+            lblServers.Select();
+        }
+
+        private void btnAccount_Click(object sender, EventArgs e)
+        {
+            if (serverHasBeenSelected)
+            {
+                panelAccount.BringToFront();
+            }
+            lblServers.Select();
+        }
+
+        private void btnServer_Click(object sender, EventArgs e)
+        {
+            if (serverHasBeenSelected)
+            {
+                panelServer.BringToFront();
+            }
+            lblServers.Select();
+        }
+
+        private void btnAddInstall_Click(object sender, EventArgs e)
+        {
+            panelAddInstall.BringToFront();
+            lblServers.Select();
+        }
+
+        private void btnServerFolder_Click(object sender, EventArgs e)
+        {
+            if (txtServerFolder.Text.StartsWith("✔️"))
+            {
+                string mainDir = txtGameInstallFolder.Text;
+
+                if (Directory.Exists(mainDir))
+                {
+                    try
+                    {
+                        ProcessStartInfo newApp = new ProcessStartInfo();
+                        newApp.WorkingDirectory = Path.GetDirectoryName(mainDir);
+                        newApp.FileName = Path.GetFileName(mainDir);
+                        newApp.UseShellExecute = true;
+                        newApp.Verb = "open";
+
+                        Process.Start(newApp);
+                    }
+                    catch (Exception ex)
+                    {
+                        showMessage("We appear to have run into a problem. If you\'re unsure what this is about, please contact the developer." +
+                                    Environment.NewLine +
+                                    Environment.NewLine +
+                                    ex.ToString());
+                    }
+                }
+            }
+            lblServers.Select();
         }
     }
 }

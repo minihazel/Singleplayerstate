@@ -33,9 +33,6 @@
             this.serverPlaceholder = new System.Windows.Forms.Label();
             this.lblServers = new System.Windows.Forms.Label();
             this.btnPlaySPTAKI = new System.Windows.Forms.Button();
-            this.mainTab = new System.Windows.Forms.TabControl();
-            this.tabSPTAKI = new System.Windows.Forms.TabPage();
-            this.panelSPTAKI = new System.Windows.Forms.Panel();
             this.txtLoadOrderEditor = new System.Windows.Forms.Label();
             this.txtClientMods = new System.Windows.Forms.Label();
             this.txtServerMods = new System.Windows.Forms.Label();
@@ -53,7 +50,6 @@
             this.infoServerTitle = new System.Windows.Forms.Label();
             this.infoGameEditionTitle = new System.Windows.Forms.Label();
             this.infoGameVersionTitle = new System.Windows.Forms.Label();
-            this.tabGmeOptions = new System.Windows.Forms.TabPage();
             this.panelGameOptions = new System.Windows.Forms.Panel();
             this.btnRemoveInstall = new System.Windows.Forms.Button();
             this.extensionsRequirementLOE = new System.Windows.Forms.Label();
@@ -67,7 +63,6 @@
             this.titleWhenSPTAKILauncher = new System.Windows.Forms.Label();
             this.titleGameOptions = new System.Windows.Forms.Label();
             this.btnWhenSPTAKILauncher = new System.Windows.Forms.Button();
-            this.tabAccount = new System.Windows.Forms.TabPage();
             this.panelAccount = new System.Windows.Forms.Panel();
             this.panelAccountSeparator = new System.Windows.Forms.Panel();
             this.panelAccountProfiles = new System.Windows.Forms.Panel();
@@ -83,43 +78,44 @@
             this.btnSelectAccount = new System.Windows.Forms.Button();
             this.titleSelectAccount = new System.Windows.Forms.Label();
             this.titleAccount = new System.Windows.Forms.Label();
-            this.tabAddInstall = new System.Windows.Forms.TabPage();
             this.panelAddInstall = new System.Windows.Forms.Panel();
+            this.titleAddInstall = new System.Windows.Forms.Label();
             this.btnCancelProcess = new System.Windows.Forms.Button();
+            this.titleBrowseForFolder = new System.Windows.Forms.Label();
+            this.titleSetDisplayName = new System.Windows.Forms.Label();
             this.btnSetDisplayName = new System.Windows.Forms.Button();
             this.panelSetDisplayName = new System.Windows.Forms.Panel();
             this.txtSetDisplayName = new System.Windows.Forms.TextBox();
-            this.titleSetDisplayName = new System.Windows.Forms.Label();
             this.btnBrowseForFolder = new System.Windows.Forms.Button();
-            this.titleBrowseForFolder = new System.Windows.Forms.Label();
-            this.titleAddInstall = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnClearList = new System.Windows.Forms.Button();
-            this.tabServer = new System.Windows.Forms.TabPage();
             this.panelServer = new System.Windows.Forms.Panel();
-            this.titleAkiServer = new System.Windows.Forms.Label();
             this.titleServer = new System.Windows.Forms.Label();
-            this.btnCloseAkiServer = new System.Windows.Forms.Button();
-            this.akiOutput = new System.Windows.Forms.RichTextBox();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.akiOutput = new System.Windows.Forms.RichTextBox();
+            this.btnCloseAkiServer = new System.Windows.Forms.Button();
+            this.titleAkiServer = new System.Windows.Forms.Label();
+            this.panelSPTAKI = new System.Windows.Forms.Panel();
+            this.btnSPTAKI = new System.Windows.Forms.Button();
+            this.btnGameOptions = new System.Windows.Forms.Button();
+            this.btnAccount = new System.Windows.Forms.Button();
+            this.btnServer = new System.Windows.Forms.Button();
+            this.btnAddInstall = new System.Windows.Forms.Button();
+            this.txtServerFolder = new System.Windows.Forms.Label();
+            this.btnServerFolder = new System.Windows.Forms.Button();
+            this.txtServerIsRunning = new System.Windows.Forms.Label();
             this.panelServers.SuspendLayout();
-            this.mainTab.SuspendLayout();
-            this.tabSPTAKI.SuspendLayout();
-            this.panelSPTAKI.SuspendLayout();
             this.panelGameInfo.SuspendLayout();
-            this.tabGmeOptions.SuspendLayout();
             this.panelGameOptions.SuspendLayout();
-            this.tabAccount.SuspendLayout();
             this.panelAccount.SuspendLayout();
             this.panelAccountProfiles.SuspendLayout();
             this.panelAID.SuspendLayout();
             this.panelUsername.SuspendLayout();
-            this.tabAddInstall.SuspendLayout();
             this.panelAddInstall.SuspendLayout();
             this.panelSetDisplayName.SuspendLayout();
-            this.tabServer.SuspendLayout();
             this.panelServer.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.panelSPTAKI.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelServers
@@ -131,7 +127,7 @@
             this.panelServers.Controls.Add(this.serverPlaceholder);
             this.panelServers.Location = new System.Drawing.Point(14, 52);
             this.panelServers.Name = "panelServers";
-            this.panelServers.Size = new System.Drawing.Size(305, 419);
+            this.panelServers.Size = new System.Drawing.Size(305, 466);
             this.panelServers.TabIndex = 0;
             // 
             // serverPlaceholder
@@ -171,7 +167,7 @@
             this.btnPlaySPTAKI.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnPlaySPTAKI.Font = new System.Drawing.Font("Bender", 16F);
             this.btnPlaySPTAKI.ForeColor = System.Drawing.Color.LightGray;
-            this.btnPlaySPTAKI.Location = new System.Drawing.Point(333, 22);
+            this.btnPlaySPTAKI.Location = new System.Drawing.Point(341, 22);
             this.btnPlaySPTAKI.Name = "btnPlaySPTAKI";
             this.btnPlaySPTAKI.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
             this.btnPlaySPTAKI.Size = new System.Drawing.Size(250, 66);
@@ -180,55 +176,6 @@
             this.btnPlaySPTAKI.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnPlaySPTAKI.UseVisualStyleBackColor = false;
             this.btnPlaySPTAKI.Click += new System.EventHandler(this.btnPlaySPTAKI_Click);
-            // 
-            // mainTab
-            // 
-            this.mainTab.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.mainTab.Controls.Add(this.tabSPTAKI);
-            this.mainTab.Controls.Add(this.tabGmeOptions);
-            this.mainTab.Controls.Add(this.tabAccount);
-            this.mainTab.Controls.Add(this.tabServer);
-            this.mainTab.Controls.Add(this.tabAddInstall);
-            this.mainTab.Location = new System.Drawing.Point(335, 12);
-            this.mainTab.Name = "mainTab";
-            this.mainTab.SelectedIndex = 0;
-            this.mainTab.Size = new System.Drawing.Size(608, 505);
-            this.mainTab.TabIndex = 2;
-            this.mainTab.Selecting += new System.Windows.Forms.TabControlCancelEventHandler(this.mainTab_Selecting);
-            // 
-            // tabSPTAKI
-            // 
-            this.tabSPTAKI.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(29)))), ((int)(((byte)(31)))));
-            this.tabSPTAKI.Controls.Add(this.panelSPTAKI);
-            this.tabSPTAKI.Controls.Add(this.panelGameInfo);
-            this.tabSPTAKI.Location = new System.Drawing.Point(4, 25);
-            this.tabSPTAKI.Name = "tabSPTAKI";
-            this.tabSPTAKI.Padding = new System.Windows.Forms.Padding(3);
-            this.tabSPTAKI.Size = new System.Drawing.Size(600, 476);
-            this.tabSPTAKI.TabIndex = 0;
-            this.tabSPTAKI.Text = "SPT-AKI";
-            // 
-            // panelSPTAKI
-            // 
-            this.panelSPTAKI.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelSPTAKI.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(29)))), ((int)(((byte)(31)))));
-            this.panelSPTAKI.Controls.Add(this.txtLoadOrderEditor);
-            this.panelSPTAKI.Controls.Add(this.txtClientMods);
-            this.panelSPTAKI.Controls.Add(this.txtServerMods);
-            this.panelSPTAKI.Controls.Add(this.btnClientMods);
-            this.panelSPTAKI.Controls.Add(this.titleModdingRelated);
-            this.panelSPTAKI.Controls.Add(this.txtLocalCache);
-            this.panelSPTAKI.Controls.Add(this.btnServerMods);
-            this.panelSPTAKI.Controls.Add(this.btnLOE);
-            this.panelSPTAKI.Controls.Add(this.btnClearLocalCache);
-            this.panelSPTAKI.Controls.Add(this.titleSPTAKI);
-            this.panelSPTAKI.Location = new System.Drawing.Point(7, 16);
-            this.panelSPTAKI.Name = "panelSPTAKI";
-            this.panelSPTAKI.Size = new System.Drawing.Size(588, 343);
-            this.panelSPTAKI.TabIndex = 5;
             // 
             // txtLoadOrderEditor
             // 
@@ -392,9 +339,9 @@
             this.panelGameInfo.Controls.Add(this.infoGameEditionTitle);
             this.panelGameInfo.Controls.Add(this.infoGameVersionTitle);
             this.panelGameInfo.Controls.Add(this.btnPlaySPTAKI);
-            this.panelGameInfo.Location = new System.Drawing.Point(0, 364);
+            this.panelGameInfo.Location = new System.Drawing.Point(0, 395);
             this.panelGameInfo.Name = "panelGameInfo";
-            this.panelGameInfo.Size = new System.Drawing.Size(600, 110);
+            this.panelGameInfo.Size = new System.Drawing.Size(608, 110);
             this.panelGameInfo.TabIndex = 4;
             // 
             // infoServer
@@ -463,17 +410,6 @@
             this.infoGameVersionTitle.Text = "Game version:";
             this.infoGameVersionTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // tabGmeOptions
-            // 
-            this.tabGmeOptions.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(29)))), ((int)(((byte)(31)))));
-            this.tabGmeOptions.Controls.Add(this.panelGameOptions);
-            this.tabGmeOptions.Location = new System.Drawing.Point(4, 25);
-            this.tabGmeOptions.Name = "tabGmeOptions";
-            this.tabGmeOptions.Padding = new System.Windows.Forms.Padding(3);
-            this.tabGmeOptions.Size = new System.Drawing.Size(600, 476);
-            this.tabGmeOptions.TabIndex = 1;
-            this.tabGmeOptions.Text = "Game Options";
-            // 
             // panelGameOptions
             // 
             this.panelGameOptions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -491,9 +427,9 @@
             this.panelGameOptions.Controls.Add(this.titleWhenSPTAKILauncher);
             this.panelGameOptions.Controls.Add(this.titleGameOptions);
             this.panelGameOptions.Controls.Add(this.btnWhenSPTAKILauncher);
-            this.panelGameOptions.Location = new System.Drawing.Point(6, 15);
+            this.panelGameOptions.Location = new System.Drawing.Point(335, 60);
             this.panelGameOptions.Name = "panelGameOptions";
-            this.panelGameOptions.Size = new System.Drawing.Size(588, 455);
+            this.panelGameOptions.Size = new System.Drawing.Size(608, 505);
             this.panelGameOptions.TabIndex = 1;
             // 
             // btnRemoveInstall
@@ -660,16 +596,6 @@
             this.btnWhenSPTAKILauncher.UseVisualStyleBackColor = false;
             this.btnWhenSPTAKILauncher.Click += new System.EventHandler(this.btnWhenSPTAKILauncher_Click);
             // 
-            // tabAccount
-            // 
-            this.tabAccount.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(29)))), ((int)(((byte)(31)))));
-            this.tabAccount.Controls.Add(this.panelAccount);
-            this.tabAccount.Location = new System.Drawing.Point(4, 25);
-            this.tabAccount.Name = "tabAccount";
-            this.tabAccount.Size = new System.Drawing.Size(600, 476);
-            this.tabAccount.TabIndex = 2;
-            this.tabAccount.Text = "Account";
-            // 
             // panelAccount
             // 
             this.panelAccount.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -686,9 +612,9 @@
             this.panelAccount.Controls.Add(this.btnSelectAccount);
             this.panelAccount.Controls.Add(this.titleSelectAccount);
             this.panelAccount.Controls.Add(this.titleAccount);
-            this.panelAccount.Location = new System.Drawing.Point(6, 15);
+            this.panelAccount.Location = new System.Drawing.Point(335, 60);
             this.panelAccount.Name = "panelAccount";
-            this.panelAccount.Size = new System.Drawing.Size(588, 455);
+            this.panelAccount.Size = new System.Drawing.Size(608, 505);
             this.panelAccount.TabIndex = 2;
             // 
             // panelAccountSeparator
@@ -698,7 +624,7 @@
             this.panelAccountSeparator.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelAccountSeparator.Location = new System.Drawing.Point(314, -15);
             this.panelAccountSeparator.Name = "panelAccountSeparator";
-            this.panelAccountSeparator.Size = new System.Drawing.Size(1, 468);
+            this.panelAccountSeparator.Size = new System.Drawing.Size(1, 518);
             this.panelAccountSeparator.TabIndex = 19;
             this.panelAccountSeparator.Visible = false;
             // 
@@ -711,7 +637,7 @@
             this.panelAccountProfiles.Controls.Add(this.profilesPlaceholder);
             this.panelAccountProfiles.Location = new System.Drawing.Point(315, 3);
             this.panelAccountProfiles.Name = "panelAccountProfiles";
-            this.panelAccountProfiles.Size = new System.Drawing.Size(273, 419);
+            this.panelAccountProfiles.Size = new System.Drawing.Size(293, 472);
             this.panelAccountProfiles.TabIndex = 18;
             this.panelAccountProfiles.Visible = false;
             // 
@@ -725,7 +651,7 @@
             this.profilesPlaceholder.Location = new System.Drawing.Point(0, 0);
             this.profilesPlaceholder.Name = "profilesPlaceholder";
             this.profilesPlaceholder.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.profilesPlaceholder.Size = new System.Drawing.Size(273, 50);
+            this.profilesPlaceholder.Size = new System.Drawing.Size(293, 50);
             this.profilesPlaceholder.TabIndex = 2;
             this.profilesPlaceholder.Text = "✔️ Fresh profile";
             this.profilesPlaceholder.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -882,32 +808,33 @@
             this.titleAccount.Text = "Account settings";
             this.titleAccount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // tabAddInstall
-            // 
-            this.tabAddInstall.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(29)))), ((int)(((byte)(31)))));
-            this.tabAddInstall.Controls.Add(this.panelAddInstall);
-            this.tabAddInstall.Location = new System.Drawing.Point(4, 25);
-            this.tabAddInstall.Name = "tabAddInstall";
-            this.tabAddInstall.Size = new System.Drawing.Size(600, 476);
-            this.tabAddInstall.TabIndex = 3;
-            this.tabAddInstall.Text = "Add install";
-            // 
             // panelAddInstall
             // 
             this.panelAddInstall.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
             this.panelAddInstall.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(29)))), ((int)(((byte)(31)))));
+            this.panelAddInstall.Controls.Add(this.titleAddInstall);
             this.panelAddInstall.Controls.Add(this.btnCancelProcess);
+            this.panelAddInstall.Controls.Add(this.titleBrowseForFolder);
+            this.panelAddInstall.Controls.Add(this.titleSetDisplayName);
             this.panelAddInstall.Controls.Add(this.btnSetDisplayName);
             this.panelAddInstall.Controls.Add(this.panelSetDisplayName);
-            this.panelAddInstall.Controls.Add(this.titleSetDisplayName);
             this.panelAddInstall.Controls.Add(this.btnBrowseForFolder);
-            this.panelAddInstall.Controls.Add(this.titleBrowseForFolder);
-            this.panelAddInstall.Controls.Add(this.titleAddInstall);
-            this.panelAddInstall.Location = new System.Drawing.Point(6, 15);
+            this.panelAddInstall.Location = new System.Drawing.Point(335, 60);
             this.panelAddInstall.Name = "panelAddInstall";
-            this.panelAddInstall.Size = new System.Drawing.Size(588, 455);
+            this.panelAddInstall.Size = new System.Drawing.Size(608, 505);
             this.panelAddInstall.TabIndex = 3;
+            // 
+            // titleAddInstall
+            // 
+            this.titleAddInstall.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.titleAddInstall.ForeColor = System.Drawing.Color.LightGray;
+            this.titleAddInstall.Location = new System.Drawing.Point(3, 0);
+            this.titleAddInstall.Name = "titleAddInstall";
+            this.titleAddInstall.Size = new System.Drawing.Size(582, 20);
+            this.titleAddInstall.TabIndex = 6;
+            this.titleAddInstall.Text = "Add new SPT-AKI install";
+            this.titleAddInstall.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // btnCancelProcess
             // 
@@ -929,6 +856,29 @@
             this.btnCancelProcess.UseVisualStyleBackColor = false;
             this.btnCancelProcess.Visible = false;
             this.btnCancelProcess.Click += new System.EventHandler(this.btnCancelProcess_Click);
+            // 
+            // titleBrowseForFolder
+            // 
+            this.titleBrowseForFolder.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.titleBrowseForFolder.ForeColor = System.Drawing.Color.LightGray;
+            this.titleBrowseForFolder.Location = new System.Drawing.Point(3, 38);
+            this.titleBrowseForFolder.Name = "titleBrowseForFolder";
+            this.titleBrowseForFolder.Size = new System.Drawing.Size(582, 20);
+            this.titleBrowseForFolder.TabIndex = 8;
+            this.titleBrowseForFolder.Text = "Browse for folder:";
+            this.titleBrowseForFolder.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // titleSetDisplayName
+            // 
+            this.titleSetDisplayName.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.titleSetDisplayName.ForeColor = System.Drawing.Color.LightGray;
+            this.titleSetDisplayName.Location = new System.Drawing.Point(3, 131);
+            this.titleSetDisplayName.Name = "titleSetDisplayName";
+            this.titleSetDisplayName.Size = new System.Drawing.Size(582, 20);
+            this.titleSetDisplayName.TabIndex = 18;
+            this.titleSetDisplayName.Text = "Set display name:";
+            this.titleSetDisplayName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.titleSetDisplayName.Visible = false;
             // 
             // btnSetDisplayName
             // 
@@ -975,18 +925,6 @@
             this.txtSetDisplayName.Text = "Placeholder";
             this.txtSetDisplayName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSetDisplayName_KeyDown);
             // 
-            // titleSetDisplayName
-            // 
-            this.titleSetDisplayName.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.titleSetDisplayName.ForeColor = System.Drawing.Color.LightGray;
-            this.titleSetDisplayName.Location = new System.Drawing.Point(3, 131);
-            this.titleSetDisplayName.Name = "titleSetDisplayName";
-            this.titleSetDisplayName.Size = new System.Drawing.Size(582, 20);
-            this.titleSetDisplayName.TabIndex = 18;
-            this.titleSetDisplayName.Text = "Set display name:";
-            this.titleSetDisplayName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.titleSetDisplayName.Visible = false;
-            // 
             // btnBrowseForFolder
             // 
             this.btnBrowseForFolder.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
@@ -1007,37 +945,15 @@
             this.btnBrowseForFolder.UseVisualStyleBackColor = false;
             this.btnBrowseForFolder.Click += new System.EventHandler(this.btnBrowseForFolder_Click);
             // 
-            // titleBrowseForFolder
-            // 
-            this.titleBrowseForFolder.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.titleBrowseForFolder.ForeColor = System.Drawing.Color.LightGray;
-            this.titleBrowseForFolder.Location = new System.Drawing.Point(3, 38);
-            this.titleBrowseForFolder.Name = "titleBrowseForFolder";
-            this.titleBrowseForFolder.Size = new System.Drawing.Size(582, 20);
-            this.titleBrowseForFolder.TabIndex = 8;
-            this.titleBrowseForFolder.Text = "Browse for folder:";
-            this.titleBrowseForFolder.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // titleAddInstall
-            // 
-            this.titleAddInstall.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.titleAddInstall.ForeColor = System.Drawing.Color.LightGray;
-            this.titleAddInstall.Location = new System.Drawing.Point(3, 0);
-            this.titleAddInstall.Name = "titleAddInstall";
-            this.titleAddInstall.Size = new System.Drawing.Size(582, 20);
-            this.titleAddInstall.TabIndex = 6;
-            this.titleAddInstall.Text = "Add new SPT-AKI install";
-            this.titleAddInstall.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // panel1
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(29)))), ((int)(((byte)(31)))));
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Location = new System.Drawing.Point(318, 52);
+            this.panel1.Location = new System.Drawing.Point(319, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1, 465);
+            this.panel1.Size = new System.Drawing.Size(1, 518);
             this.panel1.TabIndex = 1;
             // 
             // btnClearList
@@ -1053,7 +969,7 @@
             this.btnClearList.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClearList.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
             this.btnClearList.ForeColor = System.Drawing.Color.Red;
-            this.btnClearList.Location = new System.Drawing.Point(14, 477);
+            this.btnClearList.Location = new System.Drawing.Point(14, 524);
             this.btnClearList.Name = "btnClearList";
             this.btnClearList.Size = new System.Drawing.Size(298, 40);
             this.btnClearList.TabIndex = 22;
@@ -1062,40 +978,20 @@
             this.btnClearList.UseVisualStyleBackColor = false;
             this.btnClearList.Click += new System.EventHandler(this.btnClearList_Click);
             // 
-            // tabServer
-            // 
-            this.tabServer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(29)))), ((int)(((byte)(31)))));
-            this.tabServer.Controls.Add(this.panelServer);
-            this.tabServer.Location = new System.Drawing.Point(4, 25);
-            this.tabServer.Name = "tabServer";
-            this.tabServer.Size = new System.Drawing.Size(600, 476);
-            this.tabServer.TabIndex = 4;
-            this.tabServer.Text = "Server";
-            // 
             // panelServer
             // 
             this.panelServer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panelServer.Controls.Add(this.panel2);
-            this.panelServer.Controls.Add(this.titleAkiServer);
+            this.panelServer.Controls.Add(this.txtServerIsRunning);
             this.panelServer.Controls.Add(this.titleServer);
+            this.panelServer.Controls.Add(this.panel2);
             this.panelServer.Controls.Add(this.btnCloseAkiServer);
-            this.panelServer.Location = new System.Drawing.Point(6, 15);
+            this.panelServer.Controls.Add(this.titleAkiServer);
+            this.panelServer.Location = new System.Drawing.Point(335, 60);
             this.panelServer.Name = "panelServer";
-            this.panelServer.Size = new System.Drawing.Size(588, 455);
+            this.panelServer.Size = new System.Drawing.Size(608, 505);
             this.panelServer.TabIndex = 0;
-            // 
-            // titleAkiServer
-            // 
-            this.titleAkiServer.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.titleAkiServer.ForeColor = System.Drawing.Color.LightGray;
-            this.titleAkiServer.Location = new System.Drawing.Point(3, 38);
-            this.titleAkiServer.Name = "titleAkiServer";
-            this.titleAkiServer.Size = new System.Drawing.Size(582, 20);
-            this.titleAkiServer.TabIndex = 10;
-            this.titleAkiServer.Text = "Close Aki.Server:";
-            this.titleAkiServer.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // titleServer
             // 
@@ -1107,6 +1003,31 @@
             this.titleServer.TabIndex = 9;
             this.titleServer.Text = "Server settings";
             this.titleServer.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // panel2
+            // 
+            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
+            this.panel2.Controls.Add(this.akiOutput);
+            this.panel2.Location = new System.Drawing.Point(6, 125);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(595, 377);
+            this.panel2.TabIndex = 12;
+            // 
+            // akiOutput
+            // 
+            this.akiOutput.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.akiOutput.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.akiOutput.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.akiOutput.Font = new System.Drawing.Font("Consolas", 11F);
+            this.akiOutput.ForeColor = System.Drawing.Color.LightGray;
+            this.akiOutput.Location = new System.Drawing.Point(2, 2);
+            this.akiOutput.Name = "akiOutput";
+            this.akiOutput.ReadOnly = true;
+            this.akiOutput.Size = new System.Drawing.Size(591, 373);
+            this.akiOutput.TabIndex = 11;
+            this.akiOutput.Text = "";
             // 
             // btnCloseAkiServer
             // 
@@ -1128,75 +1049,221 @@
             this.btnCloseAkiServer.UseVisualStyleBackColor = false;
             this.btnCloseAkiServer.Click += new System.EventHandler(this.btnCloseAkiServer_Click);
             // 
-            // akiOutput
+            // titleAkiServer
             // 
-            this.akiOutput.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.akiOutput.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
-            this.akiOutput.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.akiOutput.Font = new System.Drawing.Font("Consolas", 11F);
-            this.akiOutput.ForeColor = System.Drawing.Color.LightGray;
-            this.akiOutput.Location = new System.Drawing.Point(2, 2);
-            this.akiOutput.Name = "akiOutput";
-            this.akiOutput.ReadOnly = true;
-            this.akiOutput.Size = new System.Drawing.Size(575, 323);
-            this.akiOutput.TabIndex = 11;
-            this.akiOutput.Text = "";
+            this.titleAkiServer.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.titleAkiServer.ForeColor = System.Drawing.Color.LightGray;
+            this.titleAkiServer.Location = new System.Drawing.Point(3, 38);
+            this.titleAkiServer.Name = "titleAkiServer";
+            this.titleAkiServer.Size = new System.Drawing.Size(582, 20);
+            this.titleAkiServer.TabIndex = 10;
+            this.titleAkiServer.Text = "Close Aki.Server:";
+            this.titleAkiServer.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // panel2
+            // panelSPTAKI
             // 
-            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
-            this.panel2.Controls.Add(this.akiOutput);
-            this.panel2.Location = new System.Drawing.Point(6, 125);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(579, 327);
-            this.panel2.TabIndex = 12;
+            this.panelSPTAKI.Controls.Add(this.txtServerFolder);
+            this.panelSPTAKI.Controls.Add(this.btnServerFolder);
+            this.panelSPTAKI.Controls.Add(this.txtLoadOrderEditor);
+            this.panelSPTAKI.Controls.Add(this.panelGameInfo);
+            this.panelSPTAKI.Controls.Add(this.txtClientMods);
+            this.panelSPTAKI.Controls.Add(this.txtServerMods);
+            this.panelSPTAKI.Controls.Add(this.titleSPTAKI);
+            this.panelSPTAKI.Controls.Add(this.btnClientMods);
+            this.panelSPTAKI.Controls.Add(this.btnClearLocalCache);
+            this.panelSPTAKI.Controls.Add(this.titleModdingRelated);
+            this.panelSPTAKI.Controls.Add(this.btnLOE);
+            this.panelSPTAKI.Controls.Add(this.txtLocalCache);
+            this.panelSPTAKI.Controls.Add(this.btnServerMods);
+            this.panelSPTAKI.Location = new System.Drawing.Point(335, 60);
+            this.panelSPTAKI.Name = "panelSPTAKI";
+            this.panelSPTAKI.Size = new System.Drawing.Size(608, 505);
+            this.panelSPTAKI.TabIndex = 23;
+            // 
+            // btnSPTAKI
+            // 
+            this.btnSPTAKI.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.btnSPTAKI.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnSPTAKI.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
+            this.btnSPTAKI.FlatAppearance.BorderSize = 2;
+            this.btnSPTAKI.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnSPTAKI.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnSPTAKI.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSPTAKI.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.btnSPTAKI.ForeColor = System.Drawing.Color.LightGray;
+            this.btnSPTAKI.Location = new System.Drawing.Point(335, 9);
+            this.btnSPTAKI.Name = "btnSPTAKI";
+            this.btnSPTAKI.Size = new System.Drawing.Size(120, 40);
+            this.btnSPTAKI.TabIndex = 24;
+            this.btnSPTAKI.Text = "SPT-AKI";
+            this.btnSPTAKI.UseVisualStyleBackColor = false;
+            this.btnSPTAKI.Click += new System.EventHandler(this.btnSPTAKI_Click);
+            // 
+            // btnGameOptions
+            // 
+            this.btnGameOptions.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.btnGameOptions.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnGameOptions.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
+            this.btnGameOptions.FlatAppearance.BorderSize = 2;
+            this.btnGameOptions.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnGameOptions.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnGameOptions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnGameOptions.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.btnGameOptions.ForeColor = System.Drawing.Color.LightGray;
+            this.btnGameOptions.Location = new System.Drawing.Point(461, 9);
+            this.btnGameOptions.Name = "btnGameOptions";
+            this.btnGameOptions.Size = new System.Drawing.Size(120, 40);
+            this.btnGameOptions.TabIndex = 25;
+            this.btnGameOptions.Text = "Game Options";
+            this.btnGameOptions.UseVisualStyleBackColor = false;
+            this.btnGameOptions.Click += new System.EventHandler(this.btnGameOptions_Click);
+            // 
+            // btnAccount
+            // 
+            this.btnAccount.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.btnAccount.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnAccount.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
+            this.btnAccount.FlatAppearance.BorderSize = 2;
+            this.btnAccount.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnAccount.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnAccount.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAccount.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.btnAccount.ForeColor = System.Drawing.Color.LightGray;
+            this.btnAccount.Location = new System.Drawing.Point(587, 9);
+            this.btnAccount.Name = "btnAccount";
+            this.btnAccount.Size = new System.Drawing.Size(120, 40);
+            this.btnAccount.TabIndex = 26;
+            this.btnAccount.Text = "Account";
+            this.btnAccount.UseVisualStyleBackColor = false;
+            this.btnAccount.Click += new System.EventHandler(this.btnAccount_Click);
+            // 
+            // btnServer
+            // 
+            this.btnServer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.btnServer.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnServer.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
+            this.btnServer.FlatAppearance.BorderSize = 2;
+            this.btnServer.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnServer.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnServer.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnServer.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.btnServer.ForeColor = System.Drawing.Color.LightGray;
+            this.btnServer.Location = new System.Drawing.Point(713, 9);
+            this.btnServer.Name = "btnServer";
+            this.btnServer.Size = new System.Drawing.Size(120, 40);
+            this.btnServer.TabIndex = 27;
+            this.btnServer.Text = "Server";
+            this.btnServer.UseVisualStyleBackColor = false;
+            this.btnServer.Click += new System.EventHandler(this.btnServer_Click);
+            // 
+            // btnAddInstall
+            // 
+            this.btnAddInstall.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.btnAddInstall.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnAddInstall.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
+            this.btnAddInstall.FlatAppearance.BorderSize = 2;
+            this.btnAddInstall.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnAddInstall.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnAddInstall.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAddInstall.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.btnAddInstall.ForeColor = System.Drawing.Color.LightGray;
+            this.btnAddInstall.Location = new System.Drawing.Point(839, 9);
+            this.btnAddInstall.Name = "btnAddInstall";
+            this.btnAddInstall.Size = new System.Drawing.Size(120, 40);
+            this.btnAddInstall.TabIndex = 28;
+            this.btnAddInstall.Text = "Add install";
+            this.btnAddInstall.UseVisualStyleBackColor = false;
+            this.btnAddInstall.Click += new System.EventHandler(this.btnAddInstall_Click);
+            // 
+            // txtServerFolder
+            // 
+            this.txtServerFolder.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.txtServerFolder.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.txtServerFolder.ForeColor = System.Drawing.Color.Gray;
+            this.txtServerFolder.Location = new System.Drawing.Point(212, 311);
+            this.txtServerFolder.Name = "txtServerFolder";
+            this.txtServerFolder.Size = new System.Drawing.Size(373, 20);
+            this.txtServerFolder.TabIndex = 17;
+            this.txtServerFolder.Text = "✔️";
+            this.txtServerFolder.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // btnServerFolder
+            // 
+            this.btnServerFolder.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.btnServerFolder.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnServerFolder.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
+            this.btnServerFolder.FlatAppearance.BorderSize = 2;
+            this.btnServerFolder.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnServerFolder.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnServerFolder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnServerFolder.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.btnServerFolder.ForeColor = System.Drawing.Color.Gray;
+            this.btnServerFolder.Location = new System.Drawing.Point(6, 301);
+            this.btnServerFolder.Name = "btnServerFolder";
+            this.btnServerFolder.Size = new System.Drawing.Size(200, 40);
+            this.btnServerFolder.TabIndex = 16;
+            this.btnServerFolder.Text = "Server folder";
+            this.btnServerFolder.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnServerFolder.UseVisualStyleBackColor = false;
+            this.btnServerFolder.Click += new System.EventHandler(this.btnServerFolder_Click);
+            // 
+            // txtServerIsRunning
+            // 
+            this.txtServerIsRunning.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.txtServerIsRunning.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.txtServerIsRunning.ForeColor = System.Drawing.Color.Red;
+            this.txtServerIsRunning.Location = new System.Drawing.Point(318, 71);
+            this.txtServerIsRunning.Name = "txtServerIsRunning";
+            this.txtServerIsRunning.Size = new System.Drawing.Size(283, 20);
+            this.txtServerIsRunning.TabIndex = 13;
+            this.txtServerIsRunning.Text = "❌ Server is closed";
+            this.txtServerIsRunning.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(29)))), ((int)(((byte)(31)))));
-            this.ClientSize = new System.Drawing.Size(965, 529);
+            this.ClientSize = new System.Drawing.Size(965, 576);
+            this.Controls.Add(this.btnAddInstall);
+            this.Controls.Add(this.btnServer);
+            this.Controls.Add(this.btnAccount);
+            this.Controls.Add(this.btnGameOptions);
+            this.Controls.Add(this.btnSPTAKI);
             this.Controls.Add(this.btnClearList);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.mainTab);
             this.Controls.Add(this.lblServers);
             this.Controls.Add(this.panelServers);
+            this.Controls.Add(this.panelServer);
+            this.Controls.Add(this.panelAccount);
+            this.Controls.Add(this.panelSPTAKI);
+            this.Controls.Add(this.panelGameOptions);
+            this.Controls.Add(this.panelAddInstall);
             this.Font = new System.Drawing.Font("Bahnschrift Light", 10F);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
-            this.MinimumSize = new System.Drawing.Size(981, 568);
+            this.MinimumSize = new System.Drawing.Size(981, 615);
             this.Name = "mainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Minimalist Launcher";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.mainForm_FormClosing);
             this.Load += new System.EventHandler(this.mainForm_Load);
             this.panelServers.ResumeLayout(false);
-            this.mainTab.ResumeLayout(false);
-            this.tabSPTAKI.ResumeLayout(false);
-            this.panelSPTAKI.ResumeLayout(false);
             this.panelGameInfo.ResumeLayout(false);
-            this.tabGmeOptions.ResumeLayout(false);
             this.panelGameOptions.ResumeLayout(false);
-            this.tabAccount.ResumeLayout(false);
             this.panelAccount.ResumeLayout(false);
             this.panelAccountProfiles.ResumeLayout(false);
             this.panelAID.ResumeLayout(false);
             this.panelAID.PerformLayout();
             this.panelUsername.ResumeLayout(false);
             this.panelUsername.PerformLayout();
-            this.tabAddInstall.ResumeLayout(false);
             this.panelAddInstall.ResumeLayout(false);
             this.panelSetDisplayName.ResumeLayout(false);
             this.panelSetDisplayName.PerformLayout();
-            this.tabServer.ResumeLayout(false);
             this.panelServer.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
+            this.panelSPTAKI.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1206,10 +1273,6 @@
         private System.Windows.Forms.Panel panelServers;
         private System.Windows.Forms.Label lblServers;
         private System.Windows.Forms.Button btnPlaySPTAKI;
-        private System.Windows.Forms.TabControl mainTab;
-        private System.Windows.Forms.TabPage tabSPTAKI;
-        private System.Windows.Forms.TabPage tabGmeOptions;
-        private System.Windows.Forms.TabPage tabAccount;
         private System.Windows.Forms.Panel panelGameInfo;
         private System.Windows.Forms.Label infoGameVersionTitle;
         private System.Windows.Forms.Label infoGameEditionTitle;
@@ -1218,7 +1281,6 @@
         private System.Windows.Forms.Label infoServer;
         private System.Windows.Forms.Label infoGameEdition;
         private System.Windows.Forms.Panel panelGameOptions;
-        private System.Windows.Forms.Panel panelSPTAKI;
         private System.Windows.Forms.Panel panelAccount;
         private System.Windows.Forms.Button btnWhenSPTAKILauncher;
         private System.Windows.Forms.Label titleGameOptions;
@@ -1250,7 +1312,6 @@
         private System.Windows.Forms.Panel panelUsername;
         private System.Windows.Forms.TextBox txtUsername;
         private System.Windows.Forms.Button btnSetUsername;
-        private System.Windows.Forms.TabPage tabAddInstall;
         private System.Windows.Forms.Panel panelAddInstall;
         private System.Windows.Forms.Button btnBrowseForFolder;
         private System.Windows.Forms.Label titleBrowseForFolder;
@@ -1269,13 +1330,21 @@
         private System.Windows.Forms.Panel panelAID;
         private System.Windows.Forms.TextBox txtAccountAID;
         private System.Windows.Forms.Label titleAccountAID;
-        private System.Windows.Forms.TabPage tabServer;
         private System.Windows.Forms.Panel panelServer;
         private System.Windows.Forms.Label titleAkiServer;
         private System.Windows.Forms.Label titleServer;
         private System.Windows.Forms.Button btnCloseAkiServer;
         private System.Windows.Forms.RichTextBox akiOutput;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel panelSPTAKI;
+        private System.Windows.Forms.Button btnSPTAKI;
+        private System.Windows.Forms.Button btnGameOptions;
+        private System.Windows.Forms.Button btnAccount;
+        private System.Windows.Forms.Button btnServer;
+        private System.Windows.Forms.Button btnAddInstall;
+        private System.Windows.Forms.Label txtServerFolder;
+        private System.Windows.Forms.Button btnServerFolder;
+        private System.Windows.Forms.Label txtServerIsRunning;
     }
 }
 

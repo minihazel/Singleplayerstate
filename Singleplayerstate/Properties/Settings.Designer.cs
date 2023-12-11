@@ -49,10 +49,10 @@ namespace Singleplayerstate.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int launchParameter {
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string launchParameter {
             get {
-                return ((int)(this["launchParameter"]));
+                return ((string)(this["launchParameter"]));
             }
             set {
                 this["launchParameter"] = value;
