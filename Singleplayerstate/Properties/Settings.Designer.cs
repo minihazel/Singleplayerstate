@@ -58,5 +58,17 @@ namespace Singleplayerstate.Properties {
                 this["launchParameter"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool autoScrollOption {
+            get {
+                return ((bool)(this["autoScrollOption"]));
+            }
+            set {
+                this["autoScrollOption"] = value;
+            }
+        }
     }
 }

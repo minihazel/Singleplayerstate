@@ -104,6 +104,7 @@
             this.txtServerFolder = new System.Windows.Forms.Label();
             this.btnServerFolder = new System.Windows.Forms.Button();
             this.txtServerIsRunning = new System.Windows.Forms.Label();
+            this.chkAutoScroll = new System.Windows.Forms.CheckBox();
             this.panelServers.SuspendLayout();
             this.panelGameInfo.SuspendLayout();
             this.panelGameOptions.SuspendLayout();
@@ -983,6 +984,7 @@
             this.panelServer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelServer.Controls.Add(this.chkAutoScroll);
             this.panelServer.Controls.Add(this.txtServerIsRunning);
             this.panelServer.Controls.Add(this.titleServer);
             this.panelServer.Controls.Add(this.panel2);
@@ -1008,9 +1010,9 @@
             // 
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
             this.panel2.Controls.Add(this.akiOutput);
-            this.panel2.Location = new System.Drawing.Point(6, 125);
+            this.panel2.Location = new System.Drawing.Point(6, 154);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(595, 377);
+            this.panel2.Size = new System.Drawing.Size(595, 348);
             this.panel2.TabIndex = 12;
             // 
             // akiOutput
@@ -1025,7 +1027,7 @@
             this.akiOutput.Location = new System.Drawing.Point(2, 2);
             this.akiOutput.Name = "akiOutput";
             this.akiOutput.ReadOnly = true;
-            this.akiOutput.Size = new System.Drawing.Size(591, 373);
+            this.akiOutput.Size = new System.Drawing.Size(591, 344);
             this.akiOutput.TabIndex = 11;
             this.akiOutput.Text = "";
             // 
@@ -1033,6 +1035,7 @@
             // 
             this.btnCloseAkiServer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
             this.btnCloseAkiServer.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnCloseAkiServer.Enabled = false;
             this.btnCloseAkiServer.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
             this.btnCloseAkiServer.FlatAppearance.BorderSize = 2;
             this.btnCloseAkiServer.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
@@ -1044,7 +1047,7 @@
             this.btnCloseAkiServer.Name = "btnCloseAkiServer";
             this.btnCloseAkiServer.Size = new System.Drawing.Size(300, 40);
             this.btnCloseAkiServer.TabIndex = 8;
-            this.btnCloseAkiServer.Text = "Run server";
+            this.btnCloseAkiServer.Text = "Force-close server";
             this.btnCloseAkiServer.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnCloseAkiServer.UseVisualStyleBackColor = false;
             this.btnCloseAkiServer.Click += new System.EventHandler(this.btnCloseAkiServer_Click);
@@ -1218,6 +1221,20 @@
             this.txtServerIsRunning.TabIndex = 13;
             this.txtServerIsRunning.Text = "❌ Server is closed";
             this.txtServerIsRunning.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.txtServerIsRunning.Visible = false;
+            // 
+            // chkAutoScroll
+            // 
+            this.chkAutoScroll.AutoSize = true;
+            this.chkAutoScroll.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.chkAutoScroll.ForeColor = System.Drawing.Color.LightGray;
+            this.chkAutoScroll.Location = new System.Drawing.Point(6, 127);
+            this.chkAutoScroll.Name = "chkAutoScroll";
+            this.chkAutoScroll.Size = new System.Drawing.Size(105, 21);
+            this.chkAutoScroll.TabIndex = 14;
+            this.chkAutoScroll.Text = "Auto-scroll";
+            this.chkAutoScroll.UseVisualStyleBackColor = true;
+            this.chkAutoScroll.CheckedChanged += new System.EventHandler(this.chkAutoScroll_CheckedChanged);
             // 
             // mainForm
             // 
@@ -1234,11 +1251,11 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.lblServers);
             this.Controls.Add(this.panelServers);
-            this.Controls.Add(this.panelServer);
-            this.Controls.Add(this.panelAccount);
             this.Controls.Add(this.panelSPTAKI);
             this.Controls.Add(this.panelGameOptions);
             this.Controls.Add(this.panelAddInstall);
+            this.Controls.Add(this.panelServer);
+            this.Controls.Add(this.panelAccount);
             this.Font = new System.Drawing.Font("Bahnschrift Light", 10F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -1262,6 +1279,7 @@
             this.panelSetDisplayName.ResumeLayout(false);
             this.panelSetDisplayName.PerformLayout();
             this.panelServer.ResumeLayout(false);
+            this.panelServer.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panelSPTAKI.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -1345,6 +1363,7 @@
         private System.Windows.Forms.Label txtServerFolder;
         private System.Windows.Forms.Button btnServerFolder;
         private System.Windows.Forms.Label txtServerIsRunning;
+        private System.Windows.Forms.CheckBox chkAutoScroll;
     }
 }
 

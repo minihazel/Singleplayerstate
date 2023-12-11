@@ -64,8 +64,15 @@ namespace Singleplayerstate
             folderPaths = JsonSerializer.Deserialize<Dictionary<string, string>>(availableServers);
 
             listServers();
+
             txtSetDisplayName.Clear();
             btnAddInstall.PerformClick();
+            chkAutoScroll.Checked = Properties.Settings.Default.autoScrollOption;
+
+            if (Properties.Settings.Default.launchParameter == "donothing")
+                btnWhenSPTAKILauncher.Text = "Do nothing";
+            else
+                btnWhenSPTAKILauncher.Text = "Minimize launcher";
         }
 
         private void showMessage(string message)
@@ -353,6 +360,32 @@ namespace Singleplayerstate
             return null;
         }
 
+        public static bool IsAkiServerRunning(string expectedFilePath)
+        {
+            Process[] processes = Process.GetProcessesByName("Aki.Server");
+
+            foreach (Process process in processes)
+            {
+                try
+                {
+                    if (process.MainModule != null && process.MainModule.FileName.Equals(expectedFilePath, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return true;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("We appear to have run into a problem. If you\'re unsure what this is about, please contact the developer." +
+                                    Environment.NewLine +
+                                    Environment.NewLine +
+                                    ex.ToString());
+                }
+            }
+
+            // Aki.Server process not found or path mismatch
+            return false;
+        }
+
         private void listServers()
         {
             panelServers.Controls.Clear();
@@ -563,6 +596,13 @@ namespace Singleplayerstate
             btnSelectAccount.Text = firstProfile;
             txtUsername.Text = firstProfile;
             txtAccountAID.Text = findAID(btnSelectAccount.Text);
+
+            // Checking local server status
+            bool serverOn = IsAkiServerRunning(akiServerFile);
+            if (serverOn)
+            {
+                showMessage("The server for this installation seems to be running already, go ahead and hit Play!");
+            }
         }
 
         private void selectServer(string displayName, Control c)
@@ -975,10 +1015,6 @@ namespace Singleplayerstate
                     btnWhenSPTAKILauncher.Text = "Minimize launcher";
                     break;
                 case "minimize launcher":
-                    Properties.Settings.Default.launchParameter = "minimizeclose";
-                    btnWhenSPTAKILauncher.Text = "Minimize launcher + open after close";
-                    break;
-                case "minimize launcher + open after close":
                     Properties.Settings.Default.launchParameter = "donothing";
                     btnWhenSPTAKILauncher.Text = "Do nothing";
                     break;
@@ -1029,12 +1065,39 @@ namespace Singleplayerstate
                 {
                     showMessage("Escape From Tarkov is already running. Please close it and try again.");
                 }
+                else
+                {
+                    string mainDir = txtGameInstallFolder.Text;
+                    string serverFolder = Path.Combine(mainDir, "Aki.Server.exe");
+
+                    bool serverOn = IsAkiServerRunning(serverFolder);
+                    if (serverOn)
+                    {
+                        int akiPort;
+                        string portPath = Path.Combine(mainDir, "Aki_Data\\Server\\database\\server.json");
+                        bool portExists = File.Exists(portPath);
+                        if (portExists)
+                        {
+                            string readPort = File.ReadAllText(portPath);
+                            JObject portObject = JObject.Parse(readPort);
+                            akiPort = (int)portObject["port"];
+                        }
+                        else
+                            akiPort = 6969;
+
+                        int port = akiPort;
+
+                        launchTarkov(port);
+                    }
+                }
             }
             lblServers.Select();
         }
 
         private void beginLaunching()
         {
+            killProcesses();
+
             if (TarkovProcessDetector != null)
             {
                 TarkovProcessDetector.CancelAsync();
@@ -1060,9 +1123,12 @@ namespace Singleplayerstate
             TarkovProcessDetector.WorkerSupportsCancellation = true;
             TarkovProcessDetector.RunWorkerAsync();
 
-            killProcesses();
+            Task.Delay(500);
+
             launchServer();
-            this.WindowState = FormWindowState.Minimized;
+
+            if (Properties.Settings.Default.launchParameter == "minimize")
+                this.WindowState = FormWindowState.Minimized;
         }
 
         private void killAkiServer()
@@ -1234,6 +1300,7 @@ namespace Singleplayerstate
             hasStopped = true;
             serverIsRunning = false;
 
+            /*
             if (btnCloseAkiServer.InvokeRequired)
                 BeginInvoke((MethodInvoker)delegate { btnCloseAkiServer.Text = "Run server"; });
             else
@@ -1248,11 +1315,31 @@ namespace Singleplayerstate
                 txtServerIsRunning.Enabled = true;
 
             firstServerNotify = true;
+            */
 
             if (akiOutput.InvokeRequired)
                 BeginInvoke((MethodInvoker)delegate { akiOutput.Clear(); });
             else
                 akiOutput.Clear();
+
+            if (TarkovProcessDetector != null)
+            {
+                TarkovProcessDetector.CancelAsync();
+                TarkovProcessDetector.Dispose();
+                TarkovProcessDetector = null;
+            }
+            if (TarkovEndDetector != null)
+            {
+                TarkovEndDetector.CancelAsync();
+                TarkovEndDetector.Dispose();
+                TarkovEndDetector = null;
+            }
+            if (AkiServerDetector != null)
+            {
+                AkiServerDetector.CancelAsync();
+                AkiServerDetector.Dispose();
+                AkiServerDetector = null;
+            }
         }
 
         private void runServerOnly()
@@ -1528,18 +1615,21 @@ namespace Singleplayerstate
 
         private void printServerData(string data)
         {
-            if (InvokeRequired)
+            if (chkAutoScroll.Checked)
             {
-                BeginInvoke((MethodInvoker)delegate
+                if (InvokeRequired)
+                {
+                    BeginInvoke((MethodInvoker)delegate
+                    {
+                        akiOutput.AppendText(data + Environment.NewLine);
+                        scrollToBottom(akiOutput);
+                    });
+                }
+                else
                 {
                     akiOutput.AppendText(data + Environment.NewLine);
                     scrollToBottom(akiOutput);
-                });
-            }
-            else
-            {
-                akiOutput.AppendText(data + Environment.NewLine);
-                scrollToBottom(akiOutput);
+                }
             }
         }
 
@@ -1589,25 +1679,22 @@ namespace Singleplayerstate
                 Process[] processes = Process.GetProcessesByName(processName);
                 if (processes.Length == 0)
                 {
-                    if (Properties.Settings.Default.launchParameter == "minimizeclose")
+                    killProcesses();
+
+                    if (this.InvokeRequired)
                     {
-                        if (this.InvokeRequired)
-                        {
-                            this.BeginInvoke((MethodInvoker)delegate
-                            {
-                                this.WindowState = FormWindowState.Normal;
-                            });
-                        }
-                        else
+                        this.BeginInvoke((MethodInvoker)delegate
                         {
                             this.WindowState = FormWindowState.Normal;
-                        }
+                        });
                     }
-
-                    killProcesses();
+                    else
+                    {
+                        this.WindowState = FormWindowState.Normal;
+                    }
                     break;
                 }
-                Thread.Sleep(2500);
+                Thread.Sleep(1500);
             }
         }
 
@@ -1644,6 +1731,10 @@ namespace Singleplayerstate
                 }
                 else 
                 {
+                    txtServerIsRunning.Text = "✔️ Server is running";
+                    txtServerIsRunning.ForeColor = Color.SeaGreen;
+
+                    /*
                     if (!firstServerNotify)
                     {
                         btnCloseAkiServer.Enabled = true;
@@ -1652,6 +1743,7 @@ namespace Singleplayerstate
                         txtServerIsRunning.ForeColor = Color.SeaGreen;
                         firstServerNotify = true;
                     }
+                    */
                 }
             }
         }
@@ -1755,9 +1847,10 @@ namespace Singleplayerstate
                     using (var client = new TcpClient())
                     {
                         client.Connect("127.0.0.1" /* GetLocalIPAddress() */, port);
-
+                        Console.WriteLine("Success");
                         serverIsRunning = true;
-                        btnCloseAkiServer.Text = "Force-close server";
+
+                        // btnCloseAkiServer.Text = "Force-close server";
                         txtServerIsRunning.Text = "✔️ Server is running";
                         txtServerIsRunning.ForeColor = Color.SeaGreen;
 
@@ -1781,8 +1874,8 @@ namespace Singleplayerstate
         {
             if (btnCloseAkiServer.Text.ToLower() == "run server")
             {
-                runServerOnly();
-                btnCloseAkiServer.Enabled = false;
+                // runServerOnly();
+                // btnCloseAkiServer.Enabled = false;
             }
             else if (btnCloseAkiServer.Text.ToLower() == "force-close server")
             {
@@ -1797,8 +1890,11 @@ namespace Singleplayerstate
                 }
                 else
                 {
-                    btnCloseAkiServer.Text = "Run server";
-                    txtServerIsRunning.Text = "✔️ Server is starting up...";
+                    // btnCloseAkiServer.Text = "Run server";
+                    // txtServerIsRunning.Text = "✔️ Server is starting up...";
+                    // txtServerIsRunning.ForeColor = Color.DodgerBlue;
+
+                    txtServerIsRunning.Text = "❌ Server is closed";
                     txtServerIsRunning.ForeColor = Color.DodgerBlue;
 
                     killAkiServer();
@@ -1909,6 +2005,16 @@ namespace Singleplayerstate
                 }
             }
             lblServers.Select();
+        }
+
+        private void chkAutoScroll_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkAutoScroll.Checked)
+                Properties.Settings.Default.autoScrollOption = true;
+            else
+                Properties.Settings.Default.autoScrollOption = false;
+
+            Properties.Settings.Default.Save();
         }
     }
 }
