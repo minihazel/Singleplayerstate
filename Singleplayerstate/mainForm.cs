@@ -2310,5 +2310,15 @@ namespace Singleplayerstate
                 }
             }
         }
+
+        private void txtAddons_MouseEnter(object sender, EventArgs e)
+        {
+            txtAddons.ForeColor = Color.DodgerBlue;
+        }
+
+        private void txtAddons_MouseLeave(object sender, EventArgs e)
+        {
+            txtAddons.ForeColor = Color.Gray;
+        }
     }
 }

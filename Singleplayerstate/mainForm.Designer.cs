@@ -954,7 +954,7 @@
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Location = new System.Drawing.Point(319, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1, 549);
+            this.panel1.Size = new System.Drawing.Size(1, 595);
             this.panel1.TabIndex = 1;
             // 
             // btnClearList
@@ -1149,9 +1149,11 @@
             this.txtAddons.Name = "txtAddons";
             this.txtAddons.Size = new System.Drawing.Size(373, 20);
             this.txtAddons.TabIndex = 19;
-            this.txtAddons.Text = "✔️ Clear all";
+            this.txtAddons.Text = "✔️ Click to clear all";
             this.txtAddons.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.txtAddons.Click += new System.EventHandler(this.txtAddons_Click);
+            this.txtAddons.MouseEnter += new System.EventHandler(this.txtAddons_MouseEnter);
+            this.txtAddons.MouseLeave += new System.EventHandler(this.txtAddons_MouseLeave);
             // 
             // btnAddons
             // 
