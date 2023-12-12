@@ -22,8 +22,10 @@ namespace Singleplayerstate
     public partial class mainForm : Form
     {
         string currentDirectory = Environment.CurrentDirectory;
-        string availableServers;
+        public string availableServers;
+        public string availableAddons;
         string selectedServer = "";
+
         string temporaryAID;
 
         // BackgroundWorkers
@@ -39,7 +41,8 @@ namespace Singleplayerstate
         bool serverIsRunning = false;
         bool firstServerNotify = false;
 
-        Dictionary<string, string> folderPaths = new Dictionary<string, string>();
+        public Dictionary<string, string> folderPaths = new Dictionary<string, string>();
+        public Dictionary<string, string> addonPaths = new Dictionary<string, string>();
 
         public Color hoverColor = Color.FromArgb(39, 44, 47);
         public Color holdColor = Color.FromArgb(39, 44, 47);
@@ -52,7 +55,9 @@ namespace Singleplayerstate
         private void mainForm_Load(object sender, EventArgs e)
         {
             folderPaths.Add("Placeholder", "Placeholder");
+            addonPaths.Add("Placeholder", "Placeholder");
             availableServers = Properties.Settings.Default.availableServers;
+            availableAddons = Properties.Settings.Default.availableAddons;
 
             if (string.IsNullOrWhiteSpace(availableServers) || availableServers == null)
             {
@@ -60,8 +65,17 @@ namespace Singleplayerstate
                 Properties.Settings.Default.Save();
             }
 
+            if (string.IsNullOrWhiteSpace(availableAddons) || availableAddons == null)
+            {
+                Properties.Settings.Default.availableAddons = "{}";
+                Properties.Settings.Default.Save();
+            }
+
             availableServers = Properties.Settings.Default.availableServers;
             folderPaths = JsonSerializer.Deserialize<Dictionary<string, string>>(availableServers);
+
+            availableAddons = Properties.Settings.Default.availableAddons;
+            addonPaths = JsonSerializer.Deserialize<Dictionary<string, string>>(availableAddons);
 
             listServers();
 
@@ -137,6 +151,31 @@ namespace Singleplayerstate
             enterInputMode(false, null);
 
             listServers();
+        }
+
+        public void saveAddon(string displayName, string addonPath)
+        {
+            try
+            {
+                if (addonPaths != null)
+                    addonPaths[displayName] = addonPath;
+                else
+                    addonPaths = new Dictionary<string, string>();
+            }
+            catch (Exception ex)
+            {
+                showMessage("We appear to have run into a problem. If you\'re unsure what this is about, please contact the developer." +
+                                    Environment.NewLine +
+                                    Environment.NewLine +
+                                    ex.ToString());
+            }
+
+            string serializedPaths = JsonSerializer.Serialize(addonPaths);
+            Properties.Settings.Default.availableAddons = serializedPaths;
+            Properties.Settings.Default.Save();
+
+            listAddons();
+            showMessage($"Addon {displayName} created with path {addonPath}!");
         }
 
         public void deselectAllServers()
@@ -457,6 +496,146 @@ namespace Singleplayerstate
             }
         }
 
+        public void listAddons()
+        {
+            panelAddons.Controls.Clear();
+
+            string[] addons = new string[0];
+            arrInsert(ref addons, "Create new addon");
+
+            foreach (var entry in addonPaths)
+            {
+                arrInsert(ref addons, entry.Key.ToString());
+            }
+
+            for (int i = 0; i < addons.Length; i++)
+            {
+                Label lbl = new Label();
+                lbl.Name = $"addonItem{i}";
+                lbl.AutoSize = false;
+                lbl.Anchor = (AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right);
+                lbl.TextAlign = ContentAlignment.MiddleLeft;
+                lbl.Size = new Size(addonPlaceholder.Size.Width, addonPlaceholder.Size.Height);
+                lbl.Location = new Point(addonPlaceholder.Location.X, addonPlaceholder.Location.Y + (i * addonPlaceholder.Size.Height));
+                lbl.Font = new Font("Bender", 13, FontStyle.Bold);
+                lbl.BackColor = panelAddons.BackColor;
+                lbl.ForeColor = Color.LightGray;
+                lbl.Padding = new Padding(10, 0, 0, 0);
+                lbl.Cursor = Cursors.Hand;
+                lbl.MouseEnter += new EventHandler(addon_MouseEnter);
+                lbl.MouseLeave += new EventHandler(addon_MouseLeave);
+                lbl.MouseDown += new MouseEventHandler(addon_MouseDown);
+                lbl.MouseUp += new MouseEventHandler(addon_MouseUp);
+
+                if (addons[i].ToLower() == "create new addon")
+                    lbl.Text = addons[i].Replace("✔️ ", "");
+                else
+                    lbl.Text = $"✔️ {addons[i]}";
+
+                panelAddons.Controls.Add(lbl);
+            }
+        }
+
+        private void addon_MouseDown(object sender, MouseEventArgs e)
+        {
+            System.Windows.Forms.Label label = (System.Windows.Forms.Label)sender;
+            if (label.Text != "")
+            {
+                if (label.Text.ToLower().Contains("create new addon"))
+                {
+                    AddonCreate frm = new AddonCreate(this, panelAddons, folderPaths, availableAddons);
+                    frm.Show();
+
+                    panelAddons.Visible = false;
+                    panelAddonSeparator.Location = new Point(314, 0);
+                    panelAddonSeparator.Visible = false;
+
+                    toggleUI(false);
+                }
+                else
+                {
+                    string cleanItem = label.Text.Replace("✔️ ", "");
+                    if ((Control.MouseButtons & MouseButtons.Right) != 0)
+                    {
+                        if (MessageBox.Show($"Would you like to remove addon {cleanItem}? This will not delete the path.", this.Text, MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        {
+                            if (addonPaths.ContainsKey(cleanItem))
+                            {
+                                addonPaths.Remove(cleanItem);
+                                string serializedPaths = JsonSerializer.Serialize(addonPaths);
+                                Properties.Settings.Default.availableAddons = serializedPaths;
+                                Properties.Settings.Default.Save();
+
+                                listAddons();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        foreach (var entry in addonPaths)
+                        {
+                            if (entry.Key.ToString() == cleanItem)
+                            {
+                                string fullPath = entry.Value.ToString().Replace("\\", "/").Replace(Environment.NewLine, "").Replace("\r", "");
+
+                                ProcessStartInfo newApp = new ProcessStartInfo();
+
+                                try
+                                {
+                                    newApp.WorkingDirectory = Path.GetDirectoryName(fullPath);
+                                }
+                                catch (Exception ex)
+                                {
+                                    if (ex is ArgumentException && ex.Message.ToLower().Contains("illegal characters in path"))
+                                    {
+                                        fullPath = fullPath.Replace(Environment.NewLine, "").Replace("\r", "");
+                                    }
+                                }
+
+                                newApp.FileName = Path.GetFileName(fullPath);
+                                newApp.UseShellExecute = true;
+                                newApp.Verb = "open";
+                                Process.Start(newApp);
+
+                                panelAddons.Visible = false;
+                                panelAddonSeparator.Location = new Point(314, 0);
+                                panelAddonSeparator.Visible = false;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private void addon_MouseEnter(object sender, EventArgs e)
+        {
+            System.Windows.Forms.Label label = (System.Windows.Forms.Label)sender;
+            if (label.Text != "")
+            {
+                label.ForeColor = Color.Gray;
+            }
+        }
+
+        private void addon_MouseLeave(object sender, EventArgs e)
+        {
+            System.Windows.Forms.Label label = (System.Windows.Forms.Label)sender;
+            if (label.Text != "")
+            {
+                label.ForeColor = Color.LightGray;
+                label.Invalidate();
+            }
+        }
+
+        private void addon_MouseUp(object sender, MouseEventArgs e)
+        {
+            System.Windows.Forms.Label label = (System.Windows.Forms.Label)sender;
+            if (label.Text != "")
+            {
+                label.BackColor = panelAddons.BackColor;
+                label.Invalidate();
+            }
+        }
+
         private void profile_MouseDown(object sender, MouseEventArgs e)
         {
             System.Windows.Forms.Label label = (System.Windows.Forms.Label)sender;
@@ -601,7 +780,7 @@ namespace Singleplayerstate
             bool serverOn = IsAkiServerRunning(akiServerFile);
             if (serverOn)
             {
-                showMessage("The server for this installation seems to be running already, go ahead and hit Play!");
+                showMessage("The server for this installation seems to be running already. Go ahead and hit Play!");
             }
         }
 
@@ -1094,6 +1273,79 @@ namespace Singleplayerstate
             lblServers.Select();
         }
 
+        public void toggleUI(bool enable)
+        {
+            if (enable)
+            {
+                if (panelServers.InvokeRequired)
+                    BeginInvoke((MethodInvoker)delegate { panelServers.Enabled = true; });
+                else
+                    panelServers.Enabled = true;
+
+                if (panelSPTAKI.InvokeRequired)
+                    BeginInvoke((MethodInvoker)delegate { panelSPTAKI.Enabled = true; });
+                else
+                    panelSPTAKI.Enabled = true;
+
+                if (panelGameOptions.InvokeRequired)
+                    BeginInvoke((MethodInvoker)delegate { panelGameOptions.Enabled = true; });
+                else
+                    panelGameOptions.Enabled = true;
+
+                if (panelAccount.InvokeRequired)
+                    BeginInvoke((MethodInvoker)delegate { panelAccount.Enabled = true; });
+                else
+                    panelAccount.Enabled = true;
+
+                if (panelAddInstall.InvokeRequired)
+                    BeginInvoke((MethodInvoker)delegate { panelAddInstall.Enabled = true; });
+                else
+                    panelAddInstall.Enabled = true;
+
+                if (btnClearList.InvokeRequired)
+                    BeginInvoke((MethodInvoker)delegate { btnClearList.Enabled = true; });
+                else
+                    btnClearList.Enabled = true;
+            }
+            else
+            {
+                if (panelServers.InvokeRequired)
+                    BeginInvoke((MethodInvoker)delegate { panelServers.Enabled = false; });
+                else
+                    panelServers.Enabled = false;
+
+                if (panelSPTAKI.InvokeRequired)
+                    BeginInvoke((MethodInvoker)delegate { panelSPTAKI.Enabled = false; });
+                else
+                    panelSPTAKI.Enabled = false;
+
+                if (panelGameOptions.InvokeRequired)
+                    BeginInvoke((MethodInvoker)delegate { panelGameOptions.Enabled = false; });
+                else
+                    panelGameOptions.Enabled = false;
+
+                if (panelAccount.InvokeRequired)
+                    BeginInvoke((MethodInvoker)delegate { panelAccount.Enabled = false; });
+                else
+                    panelAccount.Enabled = false;
+
+                if (panelAddInstall.InvokeRequired)
+                    BeginInvoke((MethodInvoker)delegate { panelAddInstall.Enabled = false; });
+                else
+                    panelAddInstall.Enabled = false;
+
+                if (btnClearList.InvokeRequired)
+                    BeginInvoke((MethodInvoker)delegate { btnClearList.Enabled = false; });
+                else
+                    btnClearList.Enabled = false;
+
+                if (btnCloseAkiServer.InvokeRequired)
+                    BeginInvoke((MethodInvoker)delegate { btnCloseAkiServer.Text = "Force-close server"; });
+                else
+                    btnCloseAkiServer.Text = "Force-close server";
+            }
+        }
+
         private void beginLaunching()
         {
             killProcesses();
@@ -1503,35 +1755,7 @@ namespace Singleplayerstate
                 serverIsRunning = true;
                 checkServerUptime();
 
-                if (panelServers.InvokeRequired)
-                    BeginInvoke((MethodInvoker)delegate { panelServers.Enabled = false; });
-                else
-                    panelServers.Enabled = false;
-
-                if (panelSPTAKI.InvokeRequired)
-                    BeginInvoke((MethodInvoker)delegate { panelSPTAKI.Enabled = false; });
-                else
-                    panelSPTAKI.Enabled = false;
-
-                if (panelGameOptions.InvokeRequired)
-                    BeginInvoke((MethodInvoker)delegate { panelGameOptions.Enabled = false; });
-                else
-                    panelGameOptions.Enabled = false;
-
-                if (panelAccount.InvokeRequired)
-                    BeginInvoke((MethodInvoker)delegate { panelAccount.Enabled = false; });
-                else
-                    panelAccount.Enabled = false;
-
-                if (panelAddInstall.InvokeRequired)
-                    BeginInvoke((MethodInvoker)delegate { panelAddInstall.Enabled = false; });
-                else
-                    panelAddInstall.Enabled = false;
-
-                if (btnClearList.InvokeRequired)
-                    BeginInvoke((MethodInvoker)delegate { btnClearList.Enabled = false; });
-                else
-                    btnClearList.Enabled = false;
+                toggleUI(false);
 
                 if (btnCloseAkiServer.InvokeRequired)
                     BeginInvoke((MethodInvoker)delegate { btnCloseAkiServer.Text = "Force-close server"; });
@@ -2015,6 +2239,74 @@ namespace Singleplayerstate
                 Properties.Settings.Default.autoScrollOption = false;
 
             Properties.Settings.Default.Save();
+        }
+
+        private void btnAddons_Click(object sender, EventArgs e)
+        {
+            if (panelAddons.Visible)
+            {
+                panelAddons.Location = new Point(315, 0);
+                panelAddons.Size = new Size(293, 419);
+                panelAddons.Visible = false;
+
+                panelAddonSeparator.Location = new Point(314, 0);
+                panelAddonSeparator.Visible = false;
+            }
+            else
+            {
+                panelAddons.Location = new Point(215, 0);
+                panelAddons.Size = new Size(393, 419);
+                panelAddons.Visible = true;
+
+                panelAddonSeparator.Location = new Point(214, 0);
+                panelAddonSeparator.Visible = true;
+
+                listAddons();
+            }
+
+            lblServers.Select();
+        }
+
+        private void txtAddons_Click(object sender, EventArgs e)
+        {
+            int c = addonPaths.Count;
+
+            if (c == 1)
+            {
+                if (MessageBox.Show($"Are you sure you want to clear {c.ToString()} addon? This is a permanent action.", this.Text, MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    addonPaths.Clear();
+                    Properties.Settings.Default.availableAddons = "{}";
+                    Properties.Settings.Default.Save();
+
+                    panelAddons.Visible = false;
+                    panelAddons.Controls.Clear();
+                }
+            }
+            else if (c == 2)
+            {
+                if (MessageBox.Show($"Are you sure you want to clear both of your {c.ToString()} addons? This is a permanent action.", this.Text, MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    addonPaths.Clear();
+                    Properties.Settings.Default.availableAddons = "{}";
+                    Properties.Settings.Default.Save();
+
+                    panelAddons.Visible = false;
+                    panelAddons.Controls.Clear();
+                }
+            }
+            else if (c > 2)
+            {
+                if (MessageBox.Show($"Are you sure you want to clear all of your {c.ToString()} addons? This is a permanent action.", this.Text, MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    addonPaths.Clear();
+                    Properties.Settings.Default.availableAddons = "{}";
+                    Properties.Settings.Default.Save();
+
+                    panelAddons.Visible = false;
+                    panelAddons.Controls.Clear();
+                }
+            }
         }
     }
 }

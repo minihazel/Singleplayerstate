@@ -90,21 +90,26 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnClearList = new System.Windows.Forms.Button();
             this.panelServer = new System.Windows.Forms.Panel();
+            this.chkAutoScroll = new System.Windows.Forms.CheckBox();
+            this.txtServerIsRunning = new System.Windows.Forms.Label();
             this.titleServer = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.akiOutput = new System.Windows.Forms.RichTextBox();
             this.btnCloseAkiServer = new System.Windows.Forms.Button();
             this.titleAkiServer = new System.Windows.Forms.Label();
             this.panelSPTAKI = new System.Windows.Forms.Panel();
+            this.panelAddons = new System.Windows.Forms.Panel();
+            this.addonPlaceholder = new System.Windows.Forms.Label();
+            this.txtAddons = new System.Windows.Forms.Label();
+            this.btnAddons = new System.Windows.Forms.Button();
+            this.txtServerFolder = new System.Windows.Forms.Label();
+            this.btnServerFolder = new System.Windows.Forms.Button();
             this.btnSPTAKI = new System.Windows.Forms.Button();
             this.btnGameOptions = new System.Windows.Forms.Button();
             this.btnAccount = new System.Windows.Forms.Button();
             this.btnServer = new System.Windows.Forms.Button();
             this.btnAddInstall = new System.Windows.Forms.Button();
-            this.txtServerFolder = new System.Windows.Forms.Label();
-            this.btnServerFolder = new System.Windows.Forms.Button();
-            this.txtServerIsRunning = new System.Windows.Forms.Label();
-            this.chkAutoScroll = new System.Windows.Forms.CheckBox();
+            this.panelAddonSeparator = new System.Windows.Forms.Panel();
             this.panelServers.SuspendLayout();
             this.panelGameInfo.SuspendLayout();
             this.panelGameOptions.SuspendLayout();
@@ -117,6 +122,7 @@
             this.panelServer.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panelSPTAKI.SuspendLayout();
+            this.panelAddons.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelServers
@@ -128,7 +134,7 @@
             this.panelServers.Controls.Add(this.serverPlaceholder);
             this.panelServers.Location = new System.Drawing.Point(14, 52);
             this.panelServers.Name = "panelServers";
-            this.panelServers.Size = new System.Drawing.Size(305, 466);
+            this.panelServers.Size = new System.Drawing.Size(305, 497);
             this.panelServers.TabIndex = 0;
             // 
             // serverPlaceholder
@@ -340,7 +346,7 @@
             this.panelGameInfo.Controls.Add(this.infoGameEditionTitle);
             this.panelGameInfo.Controls.Add(this.infoGameVersionTitle);
             this.panelGameInfo.Controls.Add(this.btnPlaySPTAKI);
-            this.panelGameInfo.Location = new System.Drawing.Point(0, 395);
+            this.panelGameInfo.Location = new System.Drawing.Point(0, 425);
             this.panelGameInfo.Name = "panelGameInfo";
             this.panelGameInfo.Size = new System.Drawing.Size(608, 110);
             this.panelGameInfo.TabIndex = 4;
@@ -413,8 +419,6 @@
             // 
             // panelGameOptions
             // 
-            this.panelGameOptions.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
             this.panelGameOptions.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(29)))), ((int)(((byte)(31)))));
             this.panelGameOptions.Controls.Add(this.btnRemoveInstall);
             this.panelGameOptions.Controls.Add(this.extensionsRequirementLOE);
@@ -430,7 +434,7 @@
             this.panelGameOptions.Controls.Add(this.btnWhenSPTAKILauncher);
             this.panelGameOptions.Location = new System.Drawing.Point(335, 60);
             this.panelGameOptions.Name = "panelGameOptions";
-            this.panelGameOptions.Size = new System.Drawing.Size(608, 505);
+            this.panelGameOptions.Size = new System.Drawing.Size(608, 535);
             this.panelGameOptions.TabIndex = 1;
             // 
             // btnRemoveInstall
@@ -599,8 +603,6 @@
             // 
             // panelAccount
             // 
-            this.panelAccount.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
             this.panelAccount.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(29)))), ((int)(((byte)(31)))));
             this.panelAccount.Controls.Add(this.panelAccountSeparator);
             this.panelAccount.Controls.Add(this.panelAccountProfiles);
@@ -615,7 +617,7 @@
             this.panelAccount.Controls.Add(this.titleAccount);
             this.panelAccount.Location = new System.Drawing.Point(335, 60);
             this.panelAccount.Name = "panelAccount";
-            this.panelAccount.Size = new System.Drawing.Size(608, 505);
+            this.panelAccount.Size = new System.Drawing.Size(608, 535);
             this.panelAccount.TabIndex = 2;
             // 
             // panelAccountSeparator
@@ -625,7 +627,7 @@
             this.panelAccountSeparator.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelAccountSeparator.Location = new System.Drawing.Point(314, -15);
             this.panelAccountSeparator.Name = "panelAccountSeparator";
-            this.panelAccountSeparator.Size = new System.Drawing.Size(1, 518);
+            this.panelAccountSeparator.Size = new System.Drawing.Size(1, 548);
             this.panelAccountSeparator.TabIndex = 19;
             this.panelAccountSeparator.Visible = false;
             // 
@@ -638,7 +640,7 @@
             this.panelAccountProfiles.Controls.Add(this.profilesPlaceholder);
             this.panelAccountProfiles.Location = new System.Drawing.Point(315, 3);
             this.panelAccountProfiles.Name = "panelAccountProfiles";
-            this.panelAccountProfiles.Size = new System.Drawing.Size(293, 472);
+            this.panelAccountProfiles.Size = new System.Drawing.Size(293, 502);
             this.panelAccountProfiles.TabIndex = 18;
             this.panelAccountProfiles.Visible = false;
             // 
@@ -811,8 +813,6 @@
             // 
             // panelAddInstall
             // 
-            this.panelAddInstall.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
             this.panelAddInstall.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(29)))), ((int)(((byte)(31)))));
             this.panelAddInstall.Controls.Add(this.titleAddInstall);
             this.panelAddInstall.Controls.Add(this.btnCancelProcess);
@@ -823,7 +823,7 @@
             this.panelAddInstall.Controls.Add(this.btnBrowseForFolder);
             this.panelAddInstall.Location = new System.Drawing.Point(335, 60);
             this.panelAddInstall.Name = "panelAddInstall";
-            this.panelAddInstall.Size = new System.Drawing.Size(608, 505);
+            this.panelAddInstall.Size = new System.Drawing.Size(608, 535);
             this.panelAddInstall.TabIndex = 3;
             // 
             // titleAddInstall
@@ -954,7 +954,7 @@
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Location = new System.Drawing.Point(319, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1, 518);
+            this.panel1.Size = new System.Drawing.Size(1, 549);
             this.panel1.TabIndex = 1;
             // 
             // btnClearList
@@ -970,7 +970,7 @@
             this.btnClearList.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClearList.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
             this.btnClearList.ForeColor = System.Drawing.Color.Red;
-            this.btnClearList.Location = new System.Drawing.Point(14, 524);
+            this.btnClearList.Location = new System.Drawing.Point(14, 555);
             this.btnClearList.Name = "btnClearList";
             this.btnClearList.Size = new System.Drawing.Size(298, 40);
             this.btnClearList.TabIndex = 22;
@@ -981,9 +981,6 @@
             // 
             // panelServer
             // 
-            this.panelServer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.panelServer.Controls.Add(this.chkAutoScroll);
             this.panelServer.Controls.Add(this.txtServerIsRunning);
             this.panelServer.Controls.Add(this.titleServer);
@@ -992,8 +989,35 @@
             this.panelServer.Controls.Add(this.titleAkiServer);
             this.panelServer.Location = new System.Drawing.Point(335, 60);
             this.panelServer.Name = "panelServer";
-            this.panelServer.Size = new System.Drawing.Size(608, 505);
+            this.panelServer.Size = new System.Drawing.Size(608, 535);
             this.panelServer.TabIndex = 0;
+            // 
+            // chkAutoScroll
+            // 
+            this.chkAutoScroll.AutoSize = true;
+            this.chkAutoScroll.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.chkAutoScroll.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.chkAutoScroll.ForeColor = System.Drawing.Color.LightGray;
+            this.chkAutoScroll.Location = new System.Drawing.Point(6, 127);
+            this.chkAutoScroll.Name = "chkAutoScroll";
+            this.chkAutoScroll.Size = new System.Drawing.Size(105, 21);
+            this.chkAutoScroll.TabIndex = 14;
+            this.chkAutoScroll.Text = "Auto-scroll";
+            this.chkAutoScroll.UseVisualStyleBackColor = true;
+            this.chkAutoScroll.CheckedChanged += new System.EventHandler(this.chkAutoScroll_CheckedChanged);
+            // 
+            // txtServerIsRunning
+            // 
+            this.txtServerIsRunning.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.txtServerIsRunning.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.txtServerIsRunning.ForeColor = System.Drawing.Color.Red;
+            this.txtServerIsRunning.Location = new System.Drawing.Point(318, 71);
+            this.txtServerIsRunning.Name = "txtServerIsRunning";
+            this.txtServerIsRunning.Size = new System.Drawing.Size(283, 20);
+            this.txtServerIsRunning.TabIndex = 13;
+            this.txtServerIsRunning.Text = "❌ Server is closed";
+            this.txtServerIsRunning.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.txtServerIsRunning.Visible = false;
             // 
             // titleServer
             // 
@@ -1012,7 +1036,7 @@
             this.panel2.Controls.Add(this.akiOutput);
             this.panel2.Location = new System.Drawing.Point(6, 154);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(595, 348);
+            this.panel2.Size = new System.Drawing.Size(595, 378);
             this.panel2.TabIndex = 12;
             // 
             // akiOutput
@@ -1027,7 +1051,7 @@
             this.akiOutput.Location = new System.Drawing.Point(2, 2);
             this.akiOutput.Name = "akiOutput";
             this.akiOutput.ReadOnly = true;
-            this.akiOutput.Size = new System.Drawing.Size(591, 344);
+            this.akiOutput.Size = new System.Drawing.Size(591, 374);
             this.akiOutput.TabIndex = 11;
             this.akiOutput.Text = "";
             // 
@@ -1065,6 +1089,10 @@
             // 
             // panelSPTAKI
             // 
+            this.panelSPTAKI.Controls.Add(this.panelAddonSeparator);
+            this.panelSPTAKI.Controls.Add(this.panelAddons);
+            this.panelSPTAKI.Controls.Add(this.txtAddons);
+            this.panelSPTAKI.Controls.Add(this.btnAddons);
             this.panelSPTAKI.Controls.Add(this.txtServerFolder);
             this.panelSPTAKI.Controls.Add(this.btnServerFolder);
             this.panelSPTAKI.Controls.Add(this.txtLoadOrderEditor);
@@ -1080,103 +1108,70 @@
             this.panelSPTAKI.Controls.Add(this.btnServerMods);
             this.panelSPTAKI.Location = new System.Drawing.Point(335, 60);
             this.panelSPTAKI.Name = "panelSPTAKI";
-            this.panelSPTAKI.Size = new System.Drawing.Size(608, 505);
+            this.panelSPTAKI.Size = new System.Drawing.Size(608, 535);
             this.panelSPTAKI.TabIndex = 23;
             // 
-            // btnSPTAKI
+            // panelAddons
             // 
-            this.btnSPTAKI.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
-            this.btnSPTAKI.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnSPTAKI.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
-            this.btnSPTAKI.FlatAppearance.BorderSize = 2;
-            this.btnSPTAKI.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.btnSPTAKI.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.btnSPTAKI.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSPTAKI.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.btnSPTAKI.ForeColor = System.Drawing.Color.LightGray;
-            this.btnSPTAKI.Location = new System.Drawing.Point(335, 9);
-            this.btnSPTAKI.Name = "btnSPTAKI";
-            this.btnSPTAKI.Size = new System.Drawing.Size(120, 40);
-            this.btnSPTAKI.TabIndex = 24;
-            this.btnSPTAKI.Text = "SPT-AKI";
-            this.btnSPTAKI.UseVisualStyleBackColor = false;
-            this.btnSPTAKI.Click += new System.EventHandler(this.btnSPTAKI_Click);
+            this.panelAddons.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelAddons.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(29)))), ((int)(((byte)(31)))));
+            this.panelAddons.Controls.Add(this.addonPlaceholder);
+            this.panelAddons.Location = new System.Drawing.Point(315, 0);
+            this.panelAddons.Name = "panelAddons";
+            this.panelAddons.Size = new System.Drawing.Size(293, 419);
+            this.panelAddons.TabIndex = 20;
+            this.panelAddons.Visible = false;
             // 
-            // btnGameOptions
+            // addonPlaceholder
             // 
-            this.btnGameOptions.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
-            this.btnGameOptions.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnGameOptions.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
-            this.btnGameOptions.FlatAppearance.BorderSize = 2;
-            this.btnGameOptions.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.btnGameOptions.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.btnGameOptions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnGameOptions.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.btnGameOptions.ForeColor = System.Drawing.Color.LightGray;
-            this.btnGameOptions.Location = new System.Drawing.Point(461, 9);
-            this.btnGameOptions.Name = "btnGameOptions";
-            this.btnGameOptions.Size = new System.Drawing.Size(120, 40);
-            this.btnGameOptions.TabIndex = 25;
-            this.btnGameOptions.Text = "Game Options";
-            this.btnGameOptions.UseVisualStyleBackColor = false;
-            this.btnGameOptions.Click += new System.EventHandler(this.btnGameOptions_Click);
+            this.addonPlaceholder.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.addonPlaceholder.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(44)))), ((int)(((byte)(47)))));
+            this.addonPlaceholder.Font = new System.Drawing.Font("Bender", 13F, System.Drawing.FontStyle.Bold);
+            this.addonPlaceholder.ForeColor = System.Drawing.Color.LightGray;
+            this.addonPlaceholder.Location = new System.Drawing.Point(0, 0);
+            this.addonPlaceholder.Name = "addonPlaceholder";
+            this.addonPlaceholder.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.addonPlaceholder.Size = new System.Drawing.Size(293, 50);
+            this.addonPlaceholder.TabIndex = 2;
+            this.addonPlaceholder.Text = "✔️ Fresh profile";
+            this.addonPlaceholder.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.addonPlaceholder.Visible = false;
             // 
-            // btnAccount
+            // txtAddons
             // 
-            this.btnAccount.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
-            this.btnAccount.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnAccount.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
-            this.btnAccount.FlatAppearance.BorderSize = 2;
-            this.btnAccount.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.btnAccount.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.btnAccount.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAccount.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.btnAccount.ForeColor = System.Drawing.Color.LightGray;
-            this.btnAccount.Location = new System.Drawing.Point(587, 9);
-            this.btnAccount.Name = "btnAccount";
-            this.btnAccount.Size = new System.Drawing.Size(120, 40);
-            this.btnAccount.TabIndex = 26;
-            this.btnAccount.Text = "Account";
-            this.btnAccount.UseVisualStyleBackColor = false;
-            this.btnAccount.Click += new System.EventHandler(this.btnAccount_Click);
+            this.txtAddons.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.txtAddons.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.txtAddons.ForeColor = System.Drawing.Color.Gray;
+            this.txtAddons.Location = new System.Drawing.Point(212, 366);
+            this.txtAddons.Name = "txtAddons";
+            this.txtAddons.Size = new System.Drawing.Size(373, 20);
+            this.txtAddons.TabIndex = 19;
+            this.txtAddons.Text = "✔️ Clear all";
+            this.txtAddons.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.txtAddons.Click += new System.EventHandler(this.txtAddons_Click);
             // 
-            // btnServer
+            // btnAddons
             // 
-            this.btnServer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
-            this.btnServer.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnServer.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
-            this.btnServer.FlatAppearance.BorderSize = 2;
-            this.btnServer.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.btnServer.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.btnServer.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnServer.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.btnServer.ForeColor = System.Drawing.Color.LightGray;
-            this.btnServer.Location = new System.Drawing.Point(713, 9);
-            this.btnServer.Name = "btnServer";
-            this.btnServer.Size = new System.Drawing.Size(120, 40);
-            this.btnServer.TabIndex = 27;
-            this.btnServer.Text = "Server";
-            this.btnServer.UseVisualStyleBackColor = false;
-            this.btnServer.Click += new System.EventHandler(this.btnServer_Click);
-            // 
-            // btnAddInstall
-            // 
-            this.btnAddInstall.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
-            this.btnAddInstall.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnAddInstall.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
-            this.btnAddInstall.FlatAppearance.BorderSize = 2;
-            this.btnAddInstall.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.btnAddInstall.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.btnAddInstall.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAddInstall.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.btnAddInstall.ForeColor = System.Drawing.Color.LightGray;
-            this.btnAddInstall.Location = new System.Drawing.Point(839, 9);
-            this.btnAddInstall.Name = "btnAddInstall";
-            this.btnAddInstall.Size = new System.Drawing.Size(120, 40);
-            this.btnAddInstall.TabIndex = 28;
-            this.btnAddInstall.Text = "Add install";
-            this.btnAddInstall.UseVisualStyleBackColor = false;
-            this.btnAddInstall.Click += new System.EventHandler(this.btnAddInstall_Click);
+            this.btnAddons.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.btnAddons.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnAddons.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
+            this.btnAddons.FlatAppearance.BorderSize = 2;
+            this.btnAddons.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnAddons.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnAddons.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAddons.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.btnAddons.ForeColor = System.Drawing.Color.Gray;
+            this.btnAddons.Location = new System.Drawing.Point(6, 356);
+            this.btnAddons.Name = "btnAddons";
+            this.btnAddons.Size = new System.Drawing.Size(200, 40);
+            this.btnAddons.TabIndex = 18;
+            this.btnAddons.Text = "Addons";
+            this.btnAddons.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnAddons.UseVisualStyleBackColor = false;
+            this.btnAddons.Click += new System.EventHandler(this.btnAddons_Click);
             // 
             // txtServerFolder
             // 
@@ -1201,7 +1196,7 @@
             this.btnServerFolder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnServerFolder.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
             this.btnServerFolder.ForeColor = System.Drawing.Color.Gray;
-            this.btnServerFolder.Location = new System.Drawing.Point(6, 301);
+            this.btnServerFolder.Location = new System.Drawing.Point(6, 299);
             this.btnServerFolder.Name = "btnServerFolder";
             this.btnServerFolder.Size = new System.Drawing.Size(200, 40);
             this.btnServerFolder.TabIndex = 16;
@@ -1210,39 +1205,116 @@
             this.btnServerFolder.UseVisualStyleBackColor = false;
             this.btnServerFolder.Click += new System.EventHandler(this.btnServerFolder_Click);
             // 
-            // txtServerIsRunning
+            // btnSPTAKI
             // 
-            this.txtServerIsRunning.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.txtServerIsRunning.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.txtServerIsRunning.ForeColor = System.Drawing.Color.Red;
-            this.txtServerIsRunning.Location = new System.Drawing.Point(318, 71);
-            this.txtServerIsRunning.Name = "txtServerIsRunning";
-            this.txtServerIsRunning.Size = new System.Drawing.Size(283, 20);
-            this.txtServerIsRunning.TabIndex = 13;
-            this.txtServerIsRunning.Text = "❌ Server is closed";
-            this.txtServerIsRunning.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.txtServerIsRunning.Visible = false;
+            this.btnSPTAKI.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.btnSPTAKI.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnSPTAKI.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
+            this.btnSPTAKI.FlatAppearance.BorderSize = 2;
+            this.btnSPTAKI.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnSPTAKI.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnSPTAKI.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSPTAKI.Font = new System.Drawing.Font("Bender", 10F, System.Drawing.FontStyle.Bold);
+            this.btnSPTAKI.ForeColor = System.Drawing.Color.LightGray;
+            this.btnSPTAKI.Location = new System.Drawing.Point(335, 9);
+            this.btnSPTAKI.Name = "btnSPTAKI";
+            this.btnSPTAKI.Size = new System.Drawing.Size(120, 40);
+            this.btnSPTAKI.TabIndex = 24;
+            this.btnSPTAKI.Text = "SPT-AKI";
+            this.btnSPTAKI.UseVisualStyleBackColor = false;
+            this.btnSPTAKI.Click += new System.EventHandler(this.btnSPTAKI_Click);
             // 
-            // chkAutoScroll
+            // btnGameOptions
             // 
-            this.chkAutoScroll.AutoSize = true;
-            this.chkAutoScroll.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.chkAutoScroll.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.chkAutoScroll.ForeColor = System.Drawing.Color.LightGray;
-            this.chkAutoScroll.Location = new System.Drawing.Point(6, 127);
-            this.chkAutoScroll.Name = "chkAutoScroll";
-            this.chkAutoScroll.Size = new System.Drawing.Size(105, 21);
-            this.chkAutoScroll.TabIndex = 14;
-            this.chkAutoScroll.Text = "Auto-scroll";
-            this.chkAutoScroll.UseVisualStyleBackColor = true;
-            this.chkAutoScroll.CheckedChanged += new System.EventHandler(this.chkAutoScroll_CheckedChanged);
+            this.btnGameOptions.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.btnGameOptions.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnGameOptions.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
+            this.btnGameOptions.FlatAppearance.BorderSize = 2;
+            this.btnGameOptions.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnGameOptions.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnGameOptions.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnGameOptions.Font = new System.Drawing.Font("Bender", 10F, System.Drawing.FontStyle.Bold);
+            this.btnGameOptions.ForeColor = System.Drawing.Color.LightGray;
+            this.btnGameOptions.Location = new System.Drawing.Point(461, 9);
+            this.btnGameOptions.Name = "btnGameOptions";
+            this.btnGameOptions.Size = new System.Drawing.Size(120, 40);
+            this.btnGameOptions.TabIndex = 25;
+            this.btnGameOptions.Text = "Game Options";
+            this.btnGameOptions.UseVisualStyleBackColor = false;
+            this.btnGameOptions.Click += new System.EventHandler(this.btnGameOptions_Click);
+            // 
+            // btnAccount
+            // 
+            this.btnAccount.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.btnAccount.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnAccount.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
+            this.btnAccount.FlatAppearance.BorderSize = 2;
+            this.btnAccount.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnAccount.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnAccount.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAccount.Font = new System.Drawing.Font("Bender", 10F, System.Drawing.FontStyle.Bold);
+            this.btnAccount.ForeColor = System.Drawing.Color.LightGray;
+            this.btnAccount.Location = new System.Drawing.Point(587, 9);
+            this.btnAccount.Name = "btnAccount";
+            this.btnAccount.Size = new System.Drawing.Size(120, 40);
+            this.btnAccount.TabIndex = 26;
+            this.btnAccount.Text = "Account";
+            this.btnAccount.UseVisualStyleBackColor = false;
+            this.btnAccount.Click += new System.EventHandler(this.btnAccount_Click);
+            // 
+            // btnServer
+            // 
+            this.btnServer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.btnServer.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnServer.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
+            this.btnServer.FlatAppearance.BorderSize = 2;
+            this.btnServer.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnServer.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnServer.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnServer.Font = new System.Drawing.Font("Bender", 10F, System.Drawing.FontStyle.Bold);
+            this.btnServer.ForeColor = System.Drawing.Color.LightGray;
+            this.btnServer.Location = new System.Drawing.Point(713, 9);
+            this.btnServer.Name = "btnServer";
+            this.btnServer.Size = new System.Drawing.Size(120, 40);
+            this.btnServer.TabIndex = 27;
+            this.btnServer.Text = "Server";
+            this.btnServer.UseVisualStyleBackColor = false;
+            this.btnServer.Click += new System.EventHandler(this.btnServer_Click);
+            // 
+            // btnAddInstall
+            // 
+            this.btnAddInstall.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.btnAddInstall.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnAddInstall.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
+            this.btnAddInstall.FlatAppearance.BorderSize = 2;
+            this.btnAddInstall.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnAddInstall.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnAddInstall.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAddInstall.Font = new System.Drawing.Font("Bender", 10F, System.Drawing.FontStyle.Bold);
+            this.btnAddInstall.ForeColor = System.Drawing.Color.LightGray;
+            this.btnAddInstall.Location = new System.Drawing.Point(839, 9);
+            this.btnAddInstall.Name = "btnAddInstall";
+            this.btnAddInstall.Size = new System.Drawing.Size(120, 40);
+            this.btnAddInstall.TabIndex = 28;
+            this.btnAddInstall.Text = "Add install";
+            this.btnAddInstall.UseVisualStyleBackColor = false;
+            this.btnAddInstall.Click += new System.EventHandler(this.btnAddInstall_Click);
+            // 
+            // panelAddonSeparator
+            // 
+            this.panelAddonSeparator.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelAddonSeparator.Location = new System.Drawing.Point(314, 0);
+            this.panelAddonSeparator.Name = "panelAddonSeparator";
+            this.panelAddonSeparator.Size = new System.Drawing.Size(1, 425);
+            this.panelAddonSeparator.TabIndex = 21;
+            this.panelAddonSeparator.Visible = false;
             // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(29)))), ((int)(((byte)(31)))));
-            this.ClientSize = new System.Drawing.Size(965, 576);
+            this.ClientSize = new System.Drawing.Size(965, 607);
             this.Controls.Add(this.btnAddInstall);
             this.Controls.Add(this.btnServer);
             this.Controls.Add(this.btnAccount);
@@ -1261,7 +1333,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(4);
-            this.MinimumSize = new System.Drawing.Size(981, 615);
+            this.MinimumSize = new System.Drawing.Size(981, 646);
             this.Name = "mainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Minimalist Launcher";
@@ -1283,6 +1355,7 @@
             this.panelServer.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panelSPTAKI.ResumeLayout(false);
+            this.panelAddons.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1365,6 +1438,11 @@
         private System.Windows.Forms.Button btnServerFolder;
         private System.Windows.Forms.Label txtServerIsRunning;
         private System.Windows.Forms.CheckBox chkAutoScroll;
+        private System.Windows.Forms.Label txtAddons;
+        private System.Windows.Forms.Button btnAddons;
+        private System.Windows.Forms.Panel panelAddons;
+        private System.Windows.Forms.Label addonPlaceholder;
+        private System.Windows.Forms.Panel panelAddonSeparator;
     }
 }
 

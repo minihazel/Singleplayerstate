@@ -70,5 +70,17 @@ namespace Singleplayerstate.Properties {
                 this["autoScrollOption"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string availableAddons {
+            get {
+                return ((string)(this["availableAddons"]));
+            }
+            set {
+                this["availableAddons"] = value;
+            }
+        }
     }
 }
