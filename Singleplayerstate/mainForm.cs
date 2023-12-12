@@ -155,6 +155,8 @@ namespace Singleplayerstate
 
         public void saveAddon(string displayName, string addonPath)
         {
+            addonPath = addonPath.Replace(Environment.NewLine, "").Replace("\r", "");
+
             try
             {
                 if (addonPaths != null)
