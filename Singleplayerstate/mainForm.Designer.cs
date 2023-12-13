@@ -98,6 +98,7 @@
             this.btnCloseAkiServer = new System.Windows.Forms.Button();
             this.titleAkiServer = new System.Windows.Forms.Label();
             this.panelSPTAKI = new System.Windows.Forms.Panel();
+            this.panelAddonSeparator = new System.Windows.Forms.Panel();
             this.panelAddons = new System.Windows.Forms.Panel();
             this.addonPlaceholder = new System.Windows.Forms.Label();
             this.txtAddons = new System.Windows.Forms.Label();
@@ -109,7 +110,8 @@
             this.btnAccount = new System.Windows.Forms.Button();
             this.btnServer = new System.Windows.Forms.Button();
             this.btnAddInstall = new System.Windows.Forms.Button();
-            this.panelAddonSeparator = new System.Windows.Forms.Panel();
+            this.btnWhenSPTAKIExits = new System.Windows.Forms.Button();
+            this.titleWhenSPTAKIExits = new System.Windows.Forms.Label();
             this.panelServers.SuspendLayout();
             this.panelGameInfo.SuspendLayout();
             this.panelGameOptions.SuspendLayout();
@@ -420,6 +422,8 @@
             // panelGameOptions
             // 
             this.panelGameOptions.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(29)))), ((int)(((byte)(31)))));
+            this.panelGameOptions.Controls.Add(this.titleWhenSPTAKIExits);
+            this.panelGameOptions.Controls.Add(this.btnWhenSPTAKIExits);
             this.panelGameOptions.Controls.Add(this.btnRemoveInstall);
             this.panelGameOptions.Controls.Add(this.extensionsRequirementLOE);
             this.panelGameOptions.Controls.Add(this.txtLOEPath);
@@ -565,7 +569,7 @@
             this.titleWhenSPTAKILauncher.ForeColor = System.Drawing.Color.LightGray;
             this.titleWhenSPTAKILauncher.Location = new System.Drawing.Point(3, 38);
             this.titleWhenSPTAKILauncher.Name = "titleWhenSPTAKILauncher";
-            this.titleWhenSPTAKILauncher.Size = new System.Drawing.Size(582, 20);
+            this.titleWhenSPTAKILauncher.Size = new System.Drawing.Size(240, 20);
             this.titleWhenSPTAKILauncher.TabIndex = 7;
             this.titleWhenSPTAKILauncher.Text = "When SPT-AKI launches:";
             this.titleWhenSPTAKILauncher.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -594,7 +598,7 @@
             this.btnWhenSPTAKILauncher.ForeColor = System.Drawing.Color.Gray;
             this.btnWhenSPTAKILauncher.Location = new System.Drawing.Point(6, 61);
             this.btnWhenSPTAKILauncher.Name = "btnWhenSPTAKILauncher";
-            this.btnWhenSPTAKILauncher.Size = new System.Drawing.Size(300, 40);
+            this.btnWhenSPTAKILauncher.Size = new System.Drawing.Size(200, 40);
             this.btnWhenSPTAKILauncher.TabIndex = 4;
             this.btnWhenSPTAKILauncher.Text = "Minimize launcher";
             this.btnWhenSPTAKILauncher.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -995,6 +999,8 @@
             // chkAutoScroll
             // 
             this.chkAutoScroll.AutoSize = true;
+            this.chkAutoScroll.Checked = true;
+            this.chkAutoScroll.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkAutoScroll.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkAutoScroll.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
             this.chkAutoScroll.ForeColor = System.Drawing.Color.LightGray;
@@ -1054,6 +1060,7 @@
             this.akiOutput.Size = new System.Drawing.Size(591, 374);
             this.akiOutput.TabIndex = 11;
             this.akiOutput.Text = "";
+            this.akiOutput.WordWrap = false;
             // 
             // btnCloseAkiServer
             // 
@@ -1110,6 +1117,15 @@
             this.panelSPTAKI.Name = "panelSPTAKI";
             this.panelSPTAKI.Size = new System.Drawing.Size(608, 535);
             this.panelSPTAKI.TabIndex = 23;
+            // 
+            // panelAddonSeparator
+            // 
+            this.panelAddonSeparator.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelAddonSeparator.Location = new System.Drawing.Point(314, 0);
+            this.panelAddonSeparator.Name = "panelAddonSeparator";
+            this.panelAddonSeparator.Size = new System.Drawing.Size(1, 425);
+            this.panelAddonSeparator.TabIndex = 21;
+            this.panelAddonSeparator.Visible = false;
             // 
             // panelAddons
             // 
@@ -1302,14 +1318,35 @@
             this.btnAddInstall.UseVisualStyleBackColor = false;
             this.btnAddInstall.Click += new System.EventHandler(this.btnAddInstall_Click);
             // 
-            // panelAddonSeparator
+            // btnWhenSPTAKIExits
             // 
-            this.panelAddonSeparator.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelAddonSeparator.Location = new System.Drawing.Point(314, 0);
-            this.panelAddonSeparator.Name = "panelAddonSeparator";
-            this.panelAddonSeparator.Size = new System.Drawing.Size(1, 425);
-            this.panelAddonSeparator.TabIndex = 21;
-            this.panelAddonSeparator.Visible = false;
+            this.btnWhenSPTAKIExits.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.btnWhenSPTAKIExits.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnWhenSPTAKIExits.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
+            this.btnWhenSPTAKIExits.FlatAppearance.BorderSize = 2;
+            this.btnWhenSPTAKIExits.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnWhenSPTAKIExits.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnWhenSPTAKIExits.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnWhenSPTAKIExits.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.btnWhenSPTAKIExits.ForeColor = System.Drawing.Color.Gray;
+            this.btnWhenSPTAKIExits.Location = new System.Drawing.Point(252, 61);
+            this.btnWhenSPTAKIExits.Name = "btnWhenSPTAKIExits";
+            this.btnWhenSPTAKIExits.Size = new System.Drawing.Size(200, 40);
+            this.btnWhenSPTAKIExits.TabIndex = 17;
+            this.btnWhenSPTAKIExits.Text = "Show launcher";
+            this.btnWhenSPTAKIExits.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnWhenSPTAKIExits.UseVisualStyleBackColor = false;
+            // 
+            // titleWhenSPTAKIExits
+            // 
+            this.titleWhenSPTAKIExits.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.titleWhenSPTAKIExits.ForeColor = System.Drawing.Color.LightGray;
+            this.titleWhenSPTAKIExits.Location = new System.Drawing.Point(249, 38);
+            this.titleWhenSPTAKIExits.Name = "titleWhenSPTAKIExits";
+            this.titleWhenSPTAKIExits.Size = new System.Drawing.Size(356, 20);
+            this.titleWhenSPTAKIExits.TabIndex = 18;
+            this.titleWhenSPTAKIExits.Text = "When SPT-AKI exits:";
+            this.titleWhenSPTAKIExits.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // mainForm
             // 
@@ -1326,11 +1363,11 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.lblServers);
             this.Controls.Add(this.panelServers);
-            this.Controls.Add(this.panelSPTAKI);
             this.Controls.Add(this.panelGameOptions);
             this.Controls.Add(this.panelAddInstall);
             this.Controls.Add(this.panelServer);
             this.Controls.Add(this.panelAccount);
+            this.Controls.Add(this.panelSPTAKI);
             this.Font = new System.Drawing.Font("Bahnschrift Light", 10F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -1445,6 +1482,8 @@
         private System.Windows.Forms.Panel panelAddons;
         private System.Windows.Forms.Label addonPlaceholder;
         private System.Windows.Forms.Panel panelAddonSeparator;
+        private System.Windows.Forms.Button btnWhenSPTAKIExits;
+        private System.Windows.Forms.Label titleWhenSPTAKIExits;
     }
 }
 

@@ -11,6 +11,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -22,6 +23,7 @@ namespace Singleplayerstate
     public partial class mainForm : Form
     {
         string currentDirectory = Environment.CurrentDirectory;
+        public StringBuilder akiServerOutput;
         public string availableServers;
         public string availableAddons;
         string selectedServer = "";
@@ -34,6 +36,7 @@ namespace Singleplayerstate
         public BackgroundWorker TarkovEndDetector;
         public BackgroundWorker AkiServerDetector;
 
+        // Booleans
         bool serverHasBeenSelected = false;
         bool isEditingInstall = false;
         bool hasStopped = false;
@@ -41,9 +44,11 @@ namespace Singleplayerstate
         bool serverIsRunning = false;
         bool firstServerNotify = false;
 
+        // Dictionaries for servers and addons
         public Dictionary<string, string> folderPaths = new Dictionary<string, string>();
         public Dictionary<string, string> addonPaths = new Dictionary<string, string>();
 
+        // Default colors
         public Color hoverColor = Color.FromArgb(39, 44, 47);
         public Color holdColor = Color.FromArgb(39, 44, 47);
 
@@ -56,6 +61,7 @@ namespace Singleplayerstate
         {
             folderPaths.Add("Placeholder", "Placeholder");
             addonPaths.Add("Placeholder", "Placeholder");
+
             availableServers = Properties.Settings.Default.availableServers;
             availableAddons = Properties.Settings.Default.availableAddons;
 
@@ -85,8 +91,10 @@ namespace Singleplayerstate
 
             if (Properties.Settings.Default.launchParameter == "donothing")
                 btnWhenSPTAKILauncher.Text = "Do nothing";
-            else
+            else if (Properties.Settings.Default.launchParameter == "minimize")
                 btnWhenSPTAKILauncher.Text = "Minimize launcher";
+            else
+                btnWhenSPTAKILauncher.Text = "View server tab";
         }
 
         private void showMessage(string message)
@@ -1196,6 +1204,10 @@ namespace Singleplayerstate
                     btnWhenSPTAKILauncher.Text = "Minimize launcher";
                     break;
                 case "minimize launcher":
+                    Properties.Settings.Default.launchParameter = "viewserver";
+                    btnWhenSPTAKILauncher.Text = "View server tab";
+                    break;
+                case "view server tab":
                     Properties.Settings.Default.launchParameter = "donothing";
                     btnWhenSPTAKILauncher.Text = "Do nothing";
                     break;
@@ -1383,6 +1395,8 @@ namespace Singleplayerstate
 
             if (Properties.Settings.Default.launchParameter == "minimize")
                 this.WindowState = FormWindowState.Minimized;
+            else if (Properties.Settings.Default.launchParameter == "viewserver")
+                btnServer.PerformClick();
         }
 
         private void killAkiServer()
@@ -1750,9 +1764,11 @@ namespace Singleplayerstate
 
             try
             {
+
                 akiServer.Start();
                 akiServer.BeginOutputReadLine();
 
+                akiServerOutput = new StringBuilder();
                 hasStopped = false;
                 serverIsRunning = true;
                 checkServerUptime();
@@ -1791,8 +1807,6 @@ namespace Singleplayerstate
                 _tarkov.Arguments = $"-token={aid} -config={{\"BackendUrl\":\"http://127.0.0.1:{akiPort}\",\"Version\":\"live\"}}";
             else
                 _tarkov.Arguments = $"-token={aid} -config={{\"BackendUrl\":\"http://127.0.0.1:6969\",\"Version\":\"live\"}}";
-
-            Console.WriteLine(aid);
 
             Process tarkovGame = new Process();
             tarkovGame.StartInfo = _tarkov;
@@ -1843,18 +1857,26 @@ namespace Singleplayerstate
         {
             if (chkAutoScroll.Checked)
             {
-                if (InvokeRequired)
+                string res = data;
+                if (!string.IsNullOrEmpty(res))
                 {
-                    BeginInvoke((MethodInvoker)delegate
+                    res = Regex.Replace(res, @"\[[0-1];[0-9][a-z]|\[[0-9][0-9][a-z]|\[[0-9][a-z]|\[[0-9][A-Z]", String.Empty);
+
+                    if (InvokeRequired)
                     {
-                        akiOutput.AppendText(data + Environment.NewLine);
+                        BeginInvoke((MethodInvoker)delegate
+                        {
+                            akiOutput.AppendText($"{res}\n");
+                            akiServerOutput.AppendLine(res);
+                            scrollToBottom(akiOutput);
+                        });
+                    }
+                    else
+                    {
+                        akiOutput.AppendText($"{res}\n");
+                        akiServerOutput.AppendLine(res);
                         scrollToBottom(akiOutput);
-                    });
-                }
-                else
-                {
-                    akiOutput.AppendText(data + Environment.NewLine);
-                    scrollToBottom(akiOutput);
+                    }
                 }
             }
         }
@@ -2073,7 +2095,7 @@ namespace Singleplayerstate
                     using (var client = new TcpClient())
                     {
                         client.Connect("127.0.0.1" /* GetLocalIPAddress() */, port);
-                        Console.WriteLine("Success");
+                        Console.WriteLine("Port connection success. This is a debug message so ignore");
                         serverIsRunning = true;
 
                         // btnCloseAkiServer.Text = "Force-close server";

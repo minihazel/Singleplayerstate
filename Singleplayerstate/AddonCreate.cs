@@ -37,16 +37,16 @@ namespace Singleplayerstate
             txtSetDisplayName.Select();
         }
 
-        private void btnCancel_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
         private void AddonCreate_FormClosing(object sender, FormClosingEventArgs e)
         {
             frm.toggleUI(true);
             panelAddons.Visible = false;
             panelAddons.Controls.Clear();
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
 
         private void txtSetDisplayName_KeyDown(object sender, KeyEventArgs e)
@@ -106,6 +106,14 @@ namespace Singleplayerstate
                     txtSetAddonPath.Select();
                 }
             }
+        }
+
+        private void chkPathType_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkPathType.Checked)
+                chkPathType.Text = "Folder";
+            else
+                chkPathType.Text = "File";
         }
 
         private void btnBrowsePath_Click(object sender, EventArgs e)
@@ -174,14 +182,6 @@ namespace Singleplayerstate
                     }
                 }
             }
-        }
-
-        private void chkPathType_CheckedChanged(object sender, EventArgs e)
-        {
-            if (chkPathType.Checked)
-                chkPathType.Text = "Folder";
-            else
-                chkPathType.Text = "File";
         }
     }
 }
