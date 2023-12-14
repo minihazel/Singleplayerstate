@@ -51,6 +51,8 @@
             this.infoGameEditionTitle = new System.Windows.Forms.Label();
             this.infoGameVersionTitle = new System.Windows.Forms.Label();
             this.panelGameOptions = new System.Windows.Forms.Panel();
+            this.titleWhenSPTAKIExits = new System.Windows.Forms.Label();
+            this.btnWhenSPTAKIExits = new System.Windows.Forms.Button();
             this.btnRemoveInstall = new System.Windows.Forms.Button();
             this.extensionsRequirementLOE = new System.Windows.Forms.Label();
             this.txtLOEPath = new System.Windows.Forms.Label();
@@ -110,8 +112,6 @@
             this.btnAccount = new System.Windows.Forms.Button();
             this.btnServer = new System.Windows.Forms.Button();
             this.btnAddInstall = new System.Windows.Forms.Button();
-            this.btnWhenSPTAKIExits = new System.Windows.Forms.Button();
-            this.titleWhenSPTAKIExits = new System.Windows.Forms.Label();
             this.panelServers.SuspendLayout();
             this.panelGameInfo.SuspendLayout();
             this.panelGameOptions.SuspendLayout();
@@ -441,6 +441,38 @@
             this.panelGameOptions.Size = new System.Drawing.Size(608, 535);
             this.panelGameOptions.TabIndex = 1;
             // 
+            // titleWhenSPTAKIExits
+            // 
+            this.titleWhenSPTAKIExits.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.titleWhenSPTAKIExits.ForeColor = System.Drawing.Color.LightGray;
+            this.titleWhenSPTAKIExits.Location = new System.Drawing.Point(249, 38);
+            this.titleWhenSPTAKIExits.Name = "titleWhenSPTAKIExits";
+            this.titleWhenSPTAKIExits.Size = new System.Drawing.Size(356, 20);
+            this.titleWhenSPTAKIExits.TabIndex = 18;
+            this.titleWhenSPTAKIExits.Text = "When SPT-AKI exits:";
+            this.titleWhenSPTAKIExits.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // btnWhenSPTAKIExits
+            // 
+            this.btnWhenSPTAKIExits.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.btnWhenSPTAKIExits.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnWhenSPTAKIExits.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
+            this.btnWhenSPTAKIExits.FlatAppearance.BorderSize = 2;
+            this.btnWhenSPTAKIExits.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnWhenSPTAKIExits.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnWhenSPTAKIExits.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnWhenSPTAKIExits.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.btnWhenSPTAKIExits.ForeColor = System.Drawing.Color.Gray;
+            this.btnWhenSPTAKIExits.Location = new System.Drawing.Point(252, 61);
+            this.btnWhenSPTAKIExits.Name = "btnWhenSPTAKIExits";
+            this.btnWhenSPTAKIExits.Size = new System.Drawing.Size(200, 40);
+            this.btnWhenSPTAKIExits.TabIndex = 17;
+            this.btnWhenSPTAKIExits.Text = "Display launcher";
+            this.btnWhenSPTAKIExits.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnWhenSPTAKIExits.UseVisualStyleBackColor = false;
+            this.btnWhenSPTAKIExits.Click += new System.EventHandler(this.btnWhenSPTAKIExits_Click);
+            this.btnWhenSPTAKIExits.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnWhenSPTAKIExits_MouseDown);
+            // 
             // btnRemoveInstall
             // 
             this.btnRemoveInstall.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
@@ -604,6 +636,7 @@
             this.btnWhenSPTAKILauncher.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnWhenSPTAKILauncher.UseVisualStyleBackColor = false;
             this.btnWhenSPTAKILauncher.Click += new System.EventHandler(this.btnWhenSPTAKILauncher_Click);
+            this.btnWhenSPTAKILauncher.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnWhenSPTAKILauncher_MouseDown);
             // 
             // panelAccount
             // 
@@ -1317,36 +1350,6 @@
             this.btnAddInstall.Text = "Add install";
             this.btnAddInstall.UseVisualStyleBackColor = false;
             this.btnAddInstall.Click += new System.EventHandler(this.btnAddInstall_Click);
-            // 
-            // btnWhenSPTAKIExits
-            // 
-            this.btnWhenSPTAKIExits.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
-            this.btnWhenSPTAKIExits.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnWhenSPTAKIExits.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
-            this.btnWhenSPTAKIExits.FlatAppearance.BorderSize = 2;
-            this.btnWhenSPTAKIExits.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.btnWhenSPTAKIExits.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.btnWhenSPTAKIExits.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnWhenSPTAKIExits.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.btnWhenSPTAKIExits.ForeColor = System.Drawing.Color.Gray;
-            this.btnWhenSPTAKIExits.Location = new System.Drawing.Point(252, 61);
-            this.btnWhenSPTAKIExits.Name = "btnWhenSPTAKIExits";
-            this.btnWhenSPTAKIExits.Size = new System.Drawing.Size(200, 40);
-            this.btnWhenSPTAKIExits.TabIndex = 17;
-            this.btnWhenSPTAKIExits.Text = "Show launcher";
-            this.btnWhenSPTAKIExits.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnWhenSPTAKIExits.UseVisualStyleBackColor = false;
-            // 
-            // titleWhenSPTAKIExits
-            // 
-            this.titleWhenSPTAKIExits.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.titleWhenSPTAKIExits.ForeColor = System.Drawing.Color.LightGray;
-            this.titleWhenSPTAKIExits.Location = new System.Drawing.Point(249, 38);
-            this.titleWhenSPTAKIExits.Name = "titleWhenSPTAKIExits";
-            this.titleWhenSPTAKIExits.Size = new System.Drawing.Size(356, 20);
-            this.titleWhenSPTAKIExits.TabIndex = 18;
-            this.titleWhenSPTAKIExits.Text = "When SPT-AKI exits:";
-            this.titleWhenSPTAKIExits.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // mainForm
             // 

@@ -82,5 +82,17 @@ namespace Singleplayerstate.Properties {
                 this["availableAddons"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string exitParameter {
+            get {
+                return ((string)(this["exitParameter"]));
+            }
+            set {
+                this["exitParameter"] = value;
+            }
+        }
     }
 }

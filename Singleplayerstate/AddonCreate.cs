@@ -152,6 +152,18 @@ namespace Singleplayerstate
             }
             else
             {
+                if (this.InvokeRequired)
+                {
+                    this.BeginInvoke((MethodInvoker)delegate
+                    {
+                        this.WindowState = FormWindowState.Normal;
+                    });
+                }
+                else
+                {
+                    this.WindowState = FormWindowState.Normal;
+                }
+
                 CommonOpenFileDialog dialog = new CommonOpenFileDialog();
                 dialog.Title = "Select file that your addon will point to";
                 dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
@@ -164,18 +176,6 @@ namespace Singleplayerstate
                     if (File.Exists(fullPath))
                     {
                         txtSetAddonPath.Text = fullPath;
-
-                        if (this.InvokeRequired)
-                        {
-                            this.BeginInvoke((MethodInvoker)delegate
-                            {
-                                this.WindowState = FormWindowState.Normal;
-                            });
-                        }
-                        else
-                        {
-                            this.WindowState = FormWindowState.Normal;
-                        }
 
                         txtSetAddonPath.Select();
                         SendKeys.Send("{RIGHT}");

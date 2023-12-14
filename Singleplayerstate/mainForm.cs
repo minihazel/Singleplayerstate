@@ -95,6 +95,11 @@ namespace Singleplayerstate
                 btnWhenSPTAKILauncher.Text = "Minimize launcher";
             else
                 btnWhenSPTAKILauncher.Text = "View server tab";
+
+            if (Properties.Settings.Default.exitParameter == "displaylauncher")
+                btnWhenSPTAKIExits.Text = "Display launcher";
+            else
+                btnWhenSPTAKIExits.Text = "Do nothing";
         }
 
         private void showMessage(string message)
@@ -185,7 +190,6 @@ namespace Singleplayerstate
             Properties.Settings.Default.Save();
 
             listAddons();
-            showMessage($"Addon {displayName} created with path {addonPath}!");
         }
 
         public void deselectAllServers()
@@ -711,6 +715,7 @@ namespace Singleplayerstate
 
             btnSelectAccount.Text = "None selected";
             txtUsername.Clear();
+            btnPlaySPTAKI.Enabled = false;
 
             string mainDir = path;
 
@@ -773,18 +778,32 @@ namespace Singleplayerstate
             // Game Options Tab
             txtGameInstallFolder.Text = path;
 
-            gameRequirementServer.Text = $"✔️ Aki.Server found";
-            gameRequirementServer.ForeColor = Color.SeaGreen;
-            gameRequirementLauncher.Text = $"✔️ Aki.Launcher found";
-            gameRequirementLauncher.ForeColor = Color.SeaGreen;
-            gameRequirementEFT.Text = $"✔️ Escape From Tarkov found";
-            gameRequirementEFT.ForeColor = Color.SeaGreen;
+            if (File.Exists(akiServerFile))
+            {
+                gameRequirementServer.Text = $"✔️ Aki.Server found";
+                gameRequirementServer.ForeColor = Color.SeaGreen;
+            }
+            if (File.Exists(akiLauncherFile))
+            {
+                gameRequirementLauncher.Text = $"✔️ Aki.Launcher found";
+                gameRequirementLauncher.ForeColor = Color.SeaGreen;
+            }
+            if (File.Exists(EFTFile))
+            {
+                gameRequirementEFT.Text = $"✔️ Escape From Tarkov found";
+                gameRequirementEFT.ForeColor = Color.SeaGreen;
+            }
 
             // Account Tab
             string firstProfile = convertProfile(profiles[0]);
             btnSelectAccount.Text = firstProfile;
             txtUsername.Text = firstProfile;
             txtAccountAID.Text = findAID(btnSelectAccount.Text);
+
+            if (File.Exists(akiServerFile) && File.Exists(akiLauncherFile) && File.Exists(EFTFile))
+                btnPlaySPTAKI.Enabled = true;
+            else
+                btnPlaySPTAKI.Enabled = false;
 
             // Checking local server status
             bool serverOn = IsAkiServerRunning(akiServerFile);
@@ -984,14 +1003,33 @@ namespace Singleplayerstate
         {
             int serverCount = folderPaths.Count;
 
-            if (MessageBox.Show($"Are you sure you want to clear all your {serverCount} folders? This will not delete them from your computer.", this.Text, MessageBoxButtons.YesNo) == DialogResult.Yes)
+            if (serverCount == 0)
             {
-                folderPaths.Clear();
-                Properties.Settings.Default.availableServers = "{}";
-                Properties.Settings.Default.Save();
-
-                listServers();
+                showMessage("There are no AKI folders available, please browse for one.");
             }
+            else if (serverCount == 1)
+            {
+                if (MessageBox.Show($"Are you sure you want to clear {serverCount} folder? This will not delete them from your computer.", this.Text, MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    folderPaths.Clear();
+                    Properties.Settings.Default.availableServers = "{}";
+                    Properties.Settings.Default.Save();
+
+                    listServers();
+                }
+            }
+            else if (serverCount > 1)
+            {
+                if (MessageBox.Show($"Are you sure you want to clear {serverCount} folders? This will not delete them from your computer.", this.Text, MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    folderPaths.Clear();
+                    Properties.Settings.Default.availableServers = "{}";
+                    Properties.Settings.Default.Save();
+
+                    listServers();
+                }
+            }
+
             lblServers.Select();
         }
 
@@ -1196,6 +1234,10 @@ namespace Singleplayerstate
         }
 
         private void btnWhenSPTAKILauncher_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void btnWhenSPTAKILauncher_MouseDown(object sender, MouseEventArgs e)
         {
             switch (btnWhenSPTAKILauncher.Text.ToLower())
             {
@@ -1928,17 +1970,19 @@ namespace Singleplayerstate
                 if (processes.Length == 0)
                 {
                     killProcesses();
-
-                    if (this.InvokeRequired)
+                    if (Properties.Settings.Default.exitParameter == "displaylauncher")
                     {
-                        this.BeginInvoke((MethodInvoker)delegate
+                        if (this.InvokeRequired)
+                        {
+                            this.BeginInvoke((MethodInvoker)delegate
+                            {
+                                this.WindowState = FormWindowState.Normal;
+                            });
+                        }
+                        else
                         {
                             this.WindowState = FormWindowState.Normal;
-                        });
-                    }
-                    else
-                    {
-                        this.WindowState = FormWindowState.Normal;
+                        }
                     }
                     break;
                 }
@@ -2341,6 +2385,28 @@ namespace Singleplayerstate
         private void txtAddons_MouseLeave(object sender, EventArgs e)
         {
             txtAddons.ForeColor = Color.Gray;
+        }
+
+        private void btnWhenSPTAKIExits_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void btnWhenSPTAKIExits_MouseDown(object sender, MouseEventArgs e)
+        {
+            switch (btnWhenSPTAKIExits.Text.ToLower())
+            {
+                case "do nothing":
+                    Properties.Settings.Default.exitParameter = "displaylauncher";
+                    btnWhenSPTAKIExits.Text = "Display launcher";
+                    break;
+                case "display launcher":
+                    Properties.Settings.Default.exitParameter = "donothing";
+                    btnWhenSPTAKIExits.Text = "Do nothing";
+                    break;
+            }
+
+            Properties.Settings.Default.Save();
+            lblServers.Select();
         }
     }
 }
