@@ -102,6 +102,71 @@ namespace Singleplayerstate
                 btnWhenSPTAKIExits.Text = "Do nothing";
         }
 
+        // ASYNC
+        private async void enterInputMode(bool enter, string path)
+        {
+            if (enter)
+            {
+                await Task.Delay(350);
+
+                btnBrowseForFolder.Size = new Size(579, 40);
+                titleSetDisplayName.Visible = true;
+                panelSetDisplayName.Visible = true;
+                btnSetDisplayName.Visible = true;
+                btnCancelProcess.Visible = true;
+                btnBrowseForFolder.Text = path;
+
+                txtSetDisplayName.Select();
+            }
+            else
+            {
+                btnBrowseForFolder.Size = new Size(300, 40);
+                titleSetDisplayName.Visible = false;
+                panelSetDisplayName.Visible = false;
+                btnSetDisplayName.Visible = false;
+                btnCancelProcess.Visible = false;
+                btnBrowseForFolder.Text = "Browse...";
+            }
+        }
+
+        private async void editGameInstall(string displayName, string oldInstall)
+        {
+            var browse = new BetterFolderBrowser();
+            browse.Title = "Select folder that contains SPT-AKI";
+            browse.RootFolder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            browse.Multiselect = false;
+
+            if (browse.ShowDialog(this) == DialogResult.OK)
+            {
+                string selectedFolder = browse.SelectedFolder;
+                bool folderExists = Directory.Exists(selectedFolder);
+                if (folderExists)
+                {
+                    if (folderPaths != null)
+                    {
+                        folderPaths[displayName] = selectedFolder;
+                        string serializedPaths = JsonSerializer.Serialize(folderPaths);
+                        Properties.Settings.Default.availableServers = serializedPaths;
+                        Properties.Settings.Default.Save();
+
+                        showMessage($"Updated folder:\n{oldInstall}\n\nto:\n{selectedFolder}");
+                        listServers();
+
+                        foreach (Control c in panelServers.Controls)
+                        {
+                            if (c is Label lbl)
+                            {
+                                if (lbl.Text.Contains(displayName))
+                                {
+                                    selectServer(lbl.Text, lbl);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         private void showMessage(string message)
         {
             MessageBox.Show(message, this.Text, MessageBoxButtons.OK);
@@ -199,70 +264,6 @@ namespace Singleplayerstate
                 if (c is Label)
                 {
                     c.BackColor = panelServers.BackColor;
-                }
-            }
-        }
-
-        private async void enterInputMode(bool enter, string path)
-        {
-            if (enter)
-            {
-                await Task.Delay(350);
-
-                btnBrowseForFolder.Size = new Size(579, 40);
-                titleSetDisplayName.Visible = true;
-                panelSetDisplayName.Visible = true;
-                btnSetDisplayName.Visible = true;
-                btnCancelProcess.Visible = true;
-                btnBrowseForFolder.Text = path;
-
-                txtSetDisplayName.Select();
-            }
-            else
-            {
-                btnBrowseForFolder.Size = new Size(300, 40);
-                titleSetDisplayName.Visible = false;
-                panelSetDisplayName.Visible = false;
-                btnSetDisplayName.Visible = false;
-                btnCancelProcess.Visible = false;
-                btnBrowseForFolder.Text = "Browse...";
-            }
-        }
-
-        private async void editGameInstall(string displayName, string oldInstall)
-        {
-            var browse = new BetterFolderBrowser();
-            browse.Title = "Select folder that contains SPT-AKI";
-            browse.RootFolder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            browse.Multiselect = false;
-
-            if (browse.ShowDialog(this) == DialogResult.OK)
-            {
-                string selectedFolder = browse.SelectedFolder;
-                bool folderExists = Directory.Exists(selectedFolder);
-                if (folderExists)
-                {
-                    if (folderPaths != null)
-                    {
-                        folderPaths[displayName] = selectedFolder;
-                        string serializedPaths = JsonSerializer.Serialize(folderPaths);
-                        Properties.Settings.Default.availableServers = serializedPaths;
-                        Properties.Settings.Default.Save();
-
-                        showMessage($"Updated folder:\n{oldInstall}\n\nto:\n{selectedFolder}");
-                        listServers();
-
-                        foreach (Control c in panelServers.Controls)
-                        {
-                            if (c is Label lbl)
-                            {
-                                if (lbl.Text.Contains(displayName))
-                                {
-                                    selectServer(lbl.Text, lbl);
-                                }
-                            }
-                        }
-                    }
                 }
             }
         }
