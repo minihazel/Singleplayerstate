@@ -158,7 +158,7 @@ namespace Singleplayerstate
                             {
                                 if (lbl.Text.Contains(displayName))
                                 {
-                                    selectServer(lbl.Text, lbl);
+                                    selectServer(lbl.Text, lbl, false);
                                 }
                             }
                         }
@@ -611,10 +611,6 @@ namespace Singleplayerstate
                                 newApp.UseShellExecute = true;
                                 newApp.Verb = "open";
                                 Process.Start(newApp);
-
-                                panelAddons.Visible = false;
-                                panelAddonSeparator.Location = new Point(314, 0);
-                                panelAddonSeparator.Visible = false;
                             }
                         }
                     }
@@ -814,7 +810,26 @@ namespace Singleplayerstate
             }
         }
 
-        private void selectServer(string displayName, Control c)
+        private void clickServer(Control label, bool autoClick)
+        {
+            foreach (Control c in panelServers.Controls)
+            {
+                if (c is Label lbl && c.Name != label.Name)
+                {
+                    lbl.Invalidate();
+                    lbl.Padding = new Padding(0, 0, 0, 0);
+                }
+            }
+
+            label.Invalidate();
+            label.BackColor = panelServers.BackColor;
+            label.Padding = new Padding(10, 0, 0, 0);
+
+            selectedServer = label.Name;
+            selectServer(label.Text, label, autoClick);
+        }
+
+        private void selectServer(string displayName, Control c, bool autoClick)
         {
             deselectAllServers();
             string cleanOutput = c.Text.Replace("✔️ ", "");
@@ -835,8 +850,10 @@ namespace Singleplayerstate
                             if (!serverHasBeenSelected)
                             {
                                 serverHasBeenSelected = true;
-                                btnSPTAKI.PerformClick();
                             }
+
+                            if (autoClick)
+                                btnSPTAKI.PerformClick();
                         }
                         else
                         {
@@ -854,21 +871,10 @@ namespace Singleplayerstate
             System.Windows.Forms.Label label = (System.Windows.Forms.Label)sender;
             if (label.Text != "")
             {
-                foreach (Control c in panelServers.Controls)
-                {
-                    if (c is Label lbl && c.Name != label.Name)
-                    {
-                        lbl.Invalidate();
-                        lbl.Padding = new Padding(0, 0, 0, 0);
-                    }
-                }
-
-                label.BackColor = panelServers.BackColor;
-                label.Padding = new Padding(10, 0, 0, 0);
-                label.Invalidate();
-
-                selectedServer = label.Name;
-                selectServer(label.Text, label);
+                if (!serverHasBeenSelected)
+                    clickServer(label, true);
+                else
+                    clickServer(label, false);
             }
         }
 
@@ -997,6 +1003,8 @@ namespace Singleplayerstate
                     saveServers(displayName, folderPath);
                 }
             }
+
+            txtSetDisplayName.Clear();
             lblServers.Select();
         }
 
@@ -1016,7 +1024,8 @@ namespace Singleplayerstate
                     Properties.Settings.Default.availableServers = "{}";
                     Properties.Settings.Default.Save();
 
-                    listServers();
+                    btnAddInstall.PerformClick();
+                    serverHasBeenSelected = false;
                 }
             }
             else if (serverCount > 1)
@@ -1027,7 +1036,8 @@ namespace Singleplayerstate
                     Properties.Settings.Default.availableServers = "{}";
                     Properties.Settings.Default.Save();
 
-                    listServers();
+                    btnAddInstall.PerformClick();
+                    serverHasBeenSelected = false;
                 }
             }
 
@@ -1081,7 +1091,22 @@ namespace Singleplayerstate
                         Properties.Settings.Default.availableServers = serializedPaths;
                         Properties.Settings.Default.Save();
 
-                        Application.Restart();
+                        if (folderPaths.Count < 1)
+                        {
+                            listServers();
+                            btnAddInstall.PerformClick();
+                            serverHasBeenSelected = false;
+                        }
+                        else
+                        {
+                            listServers();
+
+                            Control lbl = panelServers.Controls.Find("listedServer0", false).FirstOrDefault();
+                            if (lbl != null)
+                            {
+                                clickServer(lbl, true);
+                            }
+                        }
                     }
                 }
             }
