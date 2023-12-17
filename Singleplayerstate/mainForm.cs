@@ -93,11 +93,15 @@ namespace Singleplayerstate
                 btnWhenSPTAKILauncher.Text = "Do nothing";
             else if (Properties.Settings.Default.launchParameter == "minimize")
                 btnWhenSPTAKILauncher.Text = "Minimize launcher";
+            else if (Properties.Settings.Default.launchParameter == "tray")
+                btnWhenSPTAKILauncher.Text = "Minimize to tray";
             else
                 btnWhenSPTAKILauncher.Text = "View server tab";
 
             if (Properties.Settings.Default.exitParameter == "displaylauncher")
                 btnWhenSPTAKIExits.Text = "Display launcher";
+            else if (Properties.Settings.Default.exitParameter == "closelauncher")
+                btnWhenSPTAKIExits.Text = "Close launcher";
             else
                 btnWhenSPTAKIExits.Text = "Do nothing";
         }
