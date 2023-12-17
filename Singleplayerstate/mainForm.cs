@@ -1272,6 +1272,10 @@ namespace Singleplayerstate
                     btnWhenSPTAKILauncher.Text = "Minimize launcher";
                     break;
                 case "minimize launcher":
+                    Properties.Settings.Default.launchParameter = "tray";
+                    btnWhenSPTAKILauncher.Text = "Minimize to tray";
+                    break;
+                case "minimize to tray":
                     Properties.Settings.Default.launchParameter = "viewserver";
                     btnWhenSPTAKILauncher.Text = "View server tab";
                     break;
@@ -1860,6 +1864,13 @@ namespace Singleplayerstate
                 else
                     btnCloseAkiServer.Text = "Force-close server";
 
+                if (Properties.Settings.Default.launchParameter == "tray")
+                {
+                    Hide();
+                    trayIcon.Visible = true;
+                    trayIcon.ShowBalloonTip(2000);
+                }
+
                 AkiServerDetector = new BackgroundWorker();
                 AkiServerDetector.DoWork += AkiServerDetector_DoWork;
                 AkiServerDetector.RunWorkerCompleted += AkiServerDetector_RunWorkerCompleted;
@@ -2008,18 +2019,36 @@ namespace Singleplayerstate
                 if (processes.Length == 0)
                 {
                     killProcesses();
+                    trayIcon.Visible = false;
+
                     if (Properties.Settings.Default.exitParameter == "displaylauncher")
                     {
                         if (this.InvokeRequired)
                         {
                             this.BeginInvoke((MethodInvoker)delegate
                             {
+                                Show();
                                 this.WindowState = FormWindowState.Normal;
                             });
                         }
                         else
                         {
+                            Show();
                             this.WindowState = FormWindowState.Normal;
+                        }
+                    }
+                    else if (Properties.Settings.Default.exitParameter == "closelauncher")
+                    {
+                        if (this.InvokeRequired)
+                        {
+                            this.BeginInvoke((MethodInvoker)delegate
+                            {
+                                Application.Exit();
+                            });
+                        }
+                        else
+                        {
+                            Application.Exit();
                         }
                     }
                     break;
@@ -2438,6 +2467,10 @@ namespace Singleplayerstate
                     btnWhenSPTAKIExits.Text = "Display launcher";
                     break;
                 case "display launcher":
+                    Properties.Settings.Default.exitParameter = "closelauncher";
+                    btnWhenSPTAKIExits.Text = "Close launcher";
+                    break;
+                case "close launcher":
                     Properties.Settings.Default.exitParameter = "donothing";
                     btnWhenSPTAKIExits.Text = "Do nothing";
                     break;
@@ -2445,6 +2478,13 @@ namespace Singleplayerstate
 
             Properties.Settings.Default.Save();
             lblServers.Select();
+        }
+
+        private void trayIcon_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            Show();
+            WindowState = FormWindowState.Normal;
+            trayIcon.Visible = false;
         }
     }
 }
