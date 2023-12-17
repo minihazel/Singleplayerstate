@@ -1334,11 +1334,6 @@ namespace Singleplayerstate
         {
             if (enable)
             {
-                if (panelServers.InvokeRequired)
-                    BeginInvoke((MethodInvoker)delegate { panelServers.Enabled = true; });
-                else
-                    panelServers.Enabled = true;
-
                 if (btnClearLocalCache.InvokeRequired)
                     BeginInvoke((MethodInvoker)delegate { btnClearLocalCache.Enabled = true; });
                 else
@@ -1348,6 +1343,11 @@ namespace Singleplayerstate
                     BeginInvoke((MethodInvoker)delegate { btnPlaySPTAKI.Enabled = true; });
                 else
                     btnPlaySPTAKI.Enabled = true;
+
+                if (panelServers.InvokeRequired)
+                    BeginInvoke((MethodInvoker)delegate { panelServers.Enabled = true; });
+                else
+                    panelServers.Enabled = true;
 
                 if (panelGameOptions.InvokeRequired)
                     BeginInvoke((MethodInvoker)delegate { panelGameOptions.Enabled = true; });
@@ -1371,11 +1371,6 @@ namespace Singleplayerstate
             }
             else
             {
-                if (panelServers.InvokeRequired)
-                    BeginInvoke((MethodInvoker)delegate { panelServers.Enabled = false; });
-                else
-                    panelServers.Enabled = false;
-
                 if (btnClearLocalCache.InvokeRequired)
                     BeginInvoke((MethodInvoker)delegate { btnClearLocalCache.Enabled = false; });
                 else
@@ -1385,6 +1380,11 @@ namespace Singleplayerstate
                     BeginInvoke((MethodInvoker)delegate { btnPlaySPTAKI.Enabled = false; });
                 else
                     btnPlaySPTAKI.Enabled = false;
+
+                if (panelServers.InvokeRequired)
+                    BeginInvoke((MethodInvoker)delegate { panelServers.Enabled = false; });
+                else
+                    panelServers.Enabled = false;
 
                 if (panelGameOptions.InvokeRequired)
                     BeginInvoke((MethodInvoker)delegate { panelGameOptions.Enabled = false; });
@@ -1661,6 +1661,8 @@ namespace Singleplayerstate
                 AkiServerDetector.Dispose();
                 AkiServerDetector = null;
             }
+
+            toggleUI(true);
         }
 
         private void runServerOnly()
