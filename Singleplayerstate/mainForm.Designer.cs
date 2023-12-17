@@ -112,6 +112,8 @@
             this.btnAccount = new System.Windows.Forms.Button();
             this.btnServer = new System.Windows.Forms.Button();
             this.btnAddInstall = new System.Windows.Forms.Button();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.panel4 = new System.Windows.Forms.Panel();
             this.panelServers.SuspendLayout();
             this.panelGameInfo.SuspendLayout();
             this.panelGameOptions.SuspendLayout();
@@ -125,6 +127,7 @@
             this.panel2.SuspendLayout();
             this.panelSPTAKI.SuspendLayout();
             this.panelAddons.SuspendLayout();
+            this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelServers
@@ -134,9 +137,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panelServers.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(29)))), ((int)(((byte)(31)))));
             this.panelServers.Controls.Add(this.serverPlaceholder);
-            this.panelServers.Location = new System.Drawing.Point(14, 52);
+            this.panelServers.Location = new System.Drawing.Point(14, 92);
             this.panelServers.Name = "panelServers";
-            this.panelServers.Size = new System.Drawing.Size(305, 497);
+            this.panelServers.Size = new System.Drawing.Size(305, 457);
             this.panelServers.TabIndex = 0;
             // 
             // serverPlaceholder
@@ -157,12 +160,14 @@
             // 
             // lblServers
             // 
+            this.lblServers.Font = new System.Drawing.Font("Bahnschrift SemiLight", 13F);
             this.lblServers.ForeColor = System.Drawing.Color.LightGray;
-            this.lblServers.Location = new System.Drawing.Point(12, 22);
+            this.lblServers.Location = new System.Drawing.Point(12, 9);
             this.lblServers.Name = "lblServers";
-            this.lblServers.Size = new System.Drawing.Size(305, 27);
+            this.lblServers.Size = new System.Drawing.Size(305, 64);
             this.lblServers.TabIndex = 1;
             this.lblServers.Text = "Available installations";
+            this.lblServers.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // btnPlaySPTAKI
             // 
@@ -1351,12 +1356,31 @@
             this.btnAddInstall.UseVisualStyleBackColor = false;
             this.btnAddInstall.Click += new System.EventHandler(this.btnAddInstall_Click);
             // 
+            // panel3
+            // 
+            this.panel3.Controls.Add(this.panel4);
+            this.panel3.Location = new System.Drawing.Point(14, 60);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(305, 32);
+            this.panel3.TabIndex = 29;
+            // 
+            // panel4
+            // 
+            this.panel4.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel4.Location = new System.Drawing.Point(32, 16);
+            this.panel4.Name = "panel4";
+            this.panel4.Size = new System.Drawing.Size(240, 1);
+            this.panel4.TabIndex = 30;
+            // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(29)))), ((int)(((byte)(31)))));
             this.ClientSize = new System.Drawing.Size(965, 607);
+            this.Controls.Add(this.panel3);
             this.Controls.Add(this.btnAddInstall);
             this.Controls.Add(this.btnServer);
             this.Controls.Add(this.btnAccount);
@@ -1366,11 +1390,11 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.lblServers);
             this.Controls.Add(this.panelServers);
+            this.Controls.Add(this.panelSPTAKI);
             this.Controls.Add(this.panelGameOptions);
             this.Controls.Add(this.panelAddInstall);
             this.Controls.Add(this.panelServer);
             this.Controls.Add(this.panelAccount);
-            this.Controls.Add(this.panelSPTAKI);
             this.Font = new System.Drawing.Font("Bahnschrift Light", 10F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -1398,6 +1422,7 @@
             this.panel2.ResumeLayout(false);
             this.panelSPTAKI.ResumeLayout(false);
             this.panelAddons.ResumeLayout(false);
+            this.panel3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1487,6 +1512,8 @@
         private System.Windows.Forms.Panel panelAddonSeparator;
         private System.Windows.Forms.Button btnWhenSPTAKIExits;
         private System.Windows.Forms.Label titleWhenSPTAKIExits;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Panel panel4;
     }
 }
 

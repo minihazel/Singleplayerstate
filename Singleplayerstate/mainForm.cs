@@ -1339,10 +1339,15 @@ namespace Singleplayerstate
                 else
                     panelServers.Enabled = true;
 
-                if (panelSPTAKI.InvokeRequired)
-                    BeginInvoke((MethodInvoker)delegate { panelSPTAKI.Enabled = true; });
+                if (btnClearLocalCache.InvokeRequired)
+                    BeginInvoke((MethodInvoker)delegate { btnClearLocalCache.Enabled = true; });
                 else
-                    panelSPTAKI.Enabled = true;
+                    btnClearLocalCache.Enabled = true;
+
+                if (btnPlaySPTAKI.InvokeRequired)
+                    BeginInvoke((MethodInvoker)delegate { btnPlaySPTAKI.Enabled = true; });
+                else
+                    btnPlaySPTAKI.Enabled = true;
 
                 if (panelGameOptions.InvokeRequired)
                     BeginInvoke((MethodInvoker)delegate { panelGameOptions.Enabled = true; });
@@ -1371,10 +1376,15 @@ namespace Singleplayerstate
                 else
                     panelServers.Enabled = false;
 
-                if (panelSPTAKI.InvokeRequired)
-                    BeginInvoke((MethodInvoker)delegate { panelSPTAKI.Enabled = false; });
+                if (btnClearLocalCache.InvokeRequired)
+                    BeginInvoke((MethodInvoker)delegate { btnClearLocalCache.Enabled = false; });
                 else
-                    panelSPTAKI.Enabled = false;
+                    btnClearLocalCache.Enabled = false;
+
+                if (btnPlaySPTAKI.InvokeRequired)
+                    BeginInvoke((MethodInvoker)delegate { btnPlaySPTAKI.Enabled = false; });
+                else
+                    btnPlaySPTAKI.Enabled = false;
 
                 if (panelGameOptions.InvokeRequired)
                     BeginInvoke((MethodInvoker)delegate { panelGameOptions.Enabled = false; });

@@ -49,7 +49,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>rocket.ico</ApplicationIcon>
+    <ApplicationIcon>spt.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
@@ -177,6 +177,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="rocket.ico" />
+    <Content Include="spt.ico" />
   </ItemGroup>
   <ItemGroup>
     <PublishFile Include="Microsoft.Bcl.AsyncInterfaces">
