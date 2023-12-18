@@ -831,6 +831,7 @@ namespace Singleplayerstate
 
             selectedServer = label.Name;
             selectServer(label.Text, label, autoClick);
+            toggleAddonView(Properties.Settings.Default.addonPanelVisible);
         }
 
         private void selectServer(string displayName, Control c, bool autoClick)
@@ -971,6 +972,7 @@ namespace Singleplayerstate
 
         private void mainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            Properties.Settings.Default.addonPanelVisible = panelAddons.Visible;
             Properties.Settings.Default.Save();
         }
 
@@ -1443,6 +1445,30 @@ namespace Singleplayerstate
                     BeginInvoke((MethodInvoker)delegate { btnCloseAkiServer.Text = "Force-close server"; });
                 else
                     btnCloseAkiServer.Text = "Force-close server";
+            }
+        }
+        
+        public void toggleAddonView(bool enable)
+        {
+            if (enable)
+            {
+                panelAddons.Location = new Point(215, 0);
+                panelAddons.Size = new Size(393, 419);
+                panelAddons.Visible = true;
+
+                panelAddonSeparator.Location = new Point(214, 0);
+                panelAddonSeparator.Visible = true;
+
+                listAddons();
+            }
+            else
+            {
+                panelAddons.Location = new Point(315, 0);
+                panelAddons.Size = new Size(293, 419);
+                panelAddons.Visible = false;
+
+                panelAddonSeparator.Location = new Point(314, 0);
+                panelAddonSeparator.Visible = false;
             }
         }
 
@@ -2384,23 +2410,11 @@ namespace Singleplayerstate
         {
             if (panelAddons.Visible)
             {
-                panelAddons.Location = new Point(315, 0);
-                panelAddons.Size = new Size(293, 419);
-                panelAddons.Visible = false;
-
-                panelAddonSeparator.Location = new Point(314, 0);
-                panelAddonSeparator.Visible = false;
+                toggleAddonView(false);
             }
             else
             {
-                panelAddons.Location = new Point(215, 0);
-                panelAddons.Size = new Size(393, 419);
-                panelAddons.Visible = true;
-
-                panelAddonSeparator.Location = new Point(214, 0);
-                panelAddonSeparator.Visible = true;
-
-                listAddons();
+                toggleAddonView(true);
             }
 
             lblServers.Select();
