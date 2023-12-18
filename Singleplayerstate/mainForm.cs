@@ -1391,7 +1391,19 @@ namespace Singleplayerstate
         private void btnPlaySPTAKI_Click(object sender, EventArgs e)
         {
             if (!serverIsRunning)
-                beginLaunching();
+                if (txtAccountAID.Text.ToLower() == "incomplete profile")
+                {
+                    showMessage("You\'re trying to launch SPT-AKI with an incomplete profile." + Environment.NewLine +
+                        "" + Environment.NewLine +
+                        "You can fix this by" + Environment.NewLine + Environment.NewLine +
+                        "a) Running your incomplete profile in Aki.Launcher.exe" + Environment.NewLine +
+                        "b) Selecting a working profile.");
+                    btnAccount.PerformClick();
+                }
+                else
+                {
+                    beginLaunching();
+                }
             else
             {
                 string launcherProcess = "EscapeFromTarkov";
