@@ -352,69 +352,96 @@ namespace Singleplayerstate
                 bool fullAIDExists = File.Exists(fullAID);
                 if (fullAIDExists)
                 {
-                    string fullProfile = File.ReadAllText(fullAID);
                     string fileContent = File.ReadAllText(fullAID);
                     JObject parsedFile = JObject.Parse(fileContent);
-                    JObject info = (JObject)parsedFile["info"];
-                    string infoAID = (string)info["id"];
-
                     JObject characters = (JObject)parsedFile["characters"];
-                    JObject pmc = (JObject)characters["pmc"];
-                    JObject Info = (JObject)pmc["Info"];
+                    JObject info = (JObject)parsedFile["info"];
 
-                    string Nickname = (string)Info["Nickname"];
-
-                    if (infoAID == cleanAID)
+                    if (characters.Type != JTokenType.Null)
                     {
-                        return Nickname;
+                        JObject pmc = (JObject)characters["pmc"];
+
+                        if (pmc.Type != JTokenType.Null)
+                        {
+                            JObject Info = (JObject)pmc["Info"];
+                            if (Info != null)
+                            {
+                                string Nickname = (string)Info["Nickname"];
+                                string infoAID = (string)info["id"];
+
+                                if (infoAID == cleanAID)
+                                {
+                                    return Nickname;
+                                }
+                            }
+                        }
                     }
                 }
             }
-            return null;
+
+            return "Incomplete profile";
         }
 
         private string findAID(string displayName)
         {
-            string mainDir = txtGameInstallFolder.Text;
-            string userFolder = Path.Combine(mainDir, "user");
-            string profilesFolder = Path.Combine(userFolder, "profiles");
-            bool profilesFolderExists = Directory.Exists(profilesFolder);
-            if (profilesFolderExists)
+            if (displayName.ToLower() == "incomplete profile" || displayName.ToLower() == "")
             {
-                string[] profiles = Directory.GetFiles(profilesFolder, "*.json");
-
-                foreach (string profile in profiles)
+                return "Incomplete profile";
+            }
+            else
+            {
+                string mainDir = txtGameInstallFolder.Text;
+                string userFolder = Path.Combine(mainDir, "user");
+                string profilesFolder = Path.Combine(userFolder, "profiles");
+                bool profilesFolderExists = Directory.Exists(profilesFolder);
+                if (profilesFolderExists)
                 {
-                    string AID = Path.GetFileNameWithoutExtension(profile);
+                    string[] profiles = Directory.GetFiles(profilesFolder, "*.json");
 
-                    string fileContent = File.ReadAllText(profile);
-                    JObject parsedFile = JObject.Parse(fileContent);
-                    JObject info = (JObject)parsedFile["info"];
-                    string infoAID = (string)info["id"];
-
-                    JObject characters = (JObject)parsedFile["characters"];
-                    JObject pmc = (JObject)characters["pmc"];
-                    JObject Info = (JObject)pmc["Info"];
-
-                    string GameVersion = (string)Info["GameVersion"];
-                    if (GameVersion.ToLower() == "standard")
-                        GameVersion = "Standard Edition";
-                    else if (GameVersion.ToLower() == "left_behind")
-                        GameVersion = "Left Behind Edition";
-                    else if (GameVersion.ToLower() == "prepare_for_darkness")
-                        GameVersion = "Prepare for Darkness Edition";
-                    else if (GameVersion.ToLower() == "edge_of_darkness")
-                        GameVersion = "Edge of Darkness Edition";
-
-                    string Nickname = (string)Info["Nickname"];
-
-                    if (Nickname == displayName)
+                    foreach (string profile in profiles)
                     {
-                        infoGameEdition.Text = GameVersion;
-                        return AID;
+                        string AID = Path.GetFileNameWithoutExtension(profile);
+
+                        string fileContent = File.ReadAllText(profile);
+                        JObject parsedFile = JObject.Parse(fileContent);
+                        JObject info = (JObject)parsedFile["info"];
+                        string infoAID = (string)info["id"];
+
+                        JObject characters = (JObject)parsedFile["characters"];
+                        JObject pmc = (JObject)characters["pmc"];
+
+                        if (pmc != null)
+                        {
+                            JObject Info = (JObject)pmc["Info"];
+                            if (Info != null)
+                            {
+                                string GameVersion = (string)Info["GameVersion"];
+                                if (GameVersion.ToLower() == "standard")
+                                    GameVersion = "Standard Edition";
+                                else if (GameVersion.ToLower() == "left_behind")
+                                    GameVersion = "Left Behind Edition";
+                                else if (GameVersion.ToLower() == "prepare_for_darkness")
+                                    GameVersion = "Prepare for Darkness Edition";
+                                else if (GameVersion.ToLower() == "edge_of_darkness")
+                                    GameVersion = "Edge of Darkness Edition";
+
+                                string Nickname = (string)Info["Nickname"];
+
+                                if (Nickname == displayName)
+                                {
+                                    infoGameEdition.Text = GameVersion;
+                                    return AID;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            return "Incomplete profile";
+                        }
                     }
                 }
             }
+
             return null;
         }
 
@@ -510,7 +537,16 @@ namespace Singleplayerstate
                 lbl.MouseDown += new MouseEventHandler(profile_MouseDown);
                 lbl.MouseUp += new MouseEventHandler(profile_MouseUp);
 
-                lbl.Text = $"✔️ {convertProfile(profiles[i])}";
+                string convertedProfile = convertProfile(profiles[i]);
+                if (convertedProfile != null || convertedProfile != "")
+                {
+                    lbl.Text = $"✔️ {convertProfile(profiles[i])}";
+                }
+                else
+                {
+                    lbl.Text = $"✔️ Incomplete profile";
+                }
+
                 panelAccountProfiles.Controls.Add(lbl);
             }
         }
@@ -658,9 +694,22 @@ namespace Singleplayerstate
             {
                 string cleanProfile = label.Text.Replace("✔️ ", "");
 
-                btnSelectAccount.Text = cleanProfile;
-                txtUsername.Text = cleanProfile;
-                txtAccountAID.Text = findAID(cleanProfile.TrimEnd());
+                string aidFound = findAID(cleanProfile.TrimEnd());
+
+                if (aidFound.ToLower().Contains("incomplete profile"))
+                {
+                    btnSelectAccount.Text = "Incomplete profile";
+                    txtUsername.Text = "Incomplete profile";
+                    txtAccountAID.Text = aidFound;
+                    btnSetUsername.Enabled = false;
+                }
+                else
+                {
+                    btnSelectAccount.Text = cleanProfile;
+                    txtUsername.Text = cleanProfile;
+                    txtAccountAID.Text = aidFound;
+                    btnSetUsername.Enabled = true;
+                }
 
                 panelAccountProfiles.Visible = false;
                 panelAccountSeparator.Visible = false;
@@ -850,6 +899,11 @@ namespace Singleplayerstate
 
                         if (doesServerExist)
                         {
+                            panelAccountProfiles.Controls.Clear();
+                            panelAccountProfiles.Visible = false;
+                            panelAccountSeparator.Visible = false;
+                            btnSetUsername.Enabled = true;
+
                             displayInfo(serverPath);
 
                             if (!serverHasBeenSelected)
@@ -1297,7 +1351,17 @@ namespace Singleplayerstate
 
         private void btnSelectAccount_Click(object sender, EventArgs e)
         {
-            listProfiles();
+            if (panelAccountProfiles.Visible)
+            {
+                panelAccountProfiles.Controls.Clear();
+                panelAccountProfiles.Visible = false;
+                panelAccountSeparator.Visible = false;
+            }
+            else
+            {
+                listProfiles();
+            }
+
             lblServers.Select();
         }
 
