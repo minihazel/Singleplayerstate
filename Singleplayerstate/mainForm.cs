@@ -1054,14 +1054,17 @@ namespace Singleplayerstate
 
         private void mainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (string.Equals((sender as Button).Name, @"CloseButton"))
-            {
-            }
-            else
+            if (e.CloseReason == CloseReason.UserClosing)
             {
                 if (serverIsRunning && !hasStopped)
                 {
-                    if (MessageBox.Show("Aki's server is running, are you sure you want to exit?", this.Text, MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    DialogResult result = MessageBox.Show("Aki's server is running, are you sure you want to exit?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                    if (result == DialogResult.No)
+                    {
+                        e.Cancel = true;
+                    }
+                    else
                     {
                         Properties.Settings.Default.addonPanelVisible = panelAddons.Visible;
                         Properties.Settings.Default.Save();
