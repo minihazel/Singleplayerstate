@@ -801,6 +801,34 @@ namespace Singleplayerstate
                 txtLoadOrderEditor.Text = $"✔️ user\\mods\\Load Order Editor.exe";
                 extensionsRequirementLOE.Text = $"✔️ Load Order Editor found";
                 extensionsRequirementLOE.ForeColor = Color.SeaGreen;
+
+                string order = Path.Combine(modsFolder, "order.json");
+                bool orderExists = File.Exists(order);
+                if (orderExists)
+                {
+                    string allMods = File.ReadAllText(order);
+                    JObject orderMods = JObject.Parse(allMods);
+
+                    JArray orderArray = (JArray)orderMods["order"];
+                    if (orderArray != null)
+                    {
+                        int serverModsCount = orderArray.Count;
+                        btnServerMods.Text = $"Server mods - {serverModsCount.ToString()}";
+                    }
+                }
+                else
+                {
+                    int serverModsCount = 0;
+                    string[] serverMods = Directory.GetDirectories(modsFolder);
+                    foreach (string serverMod in serverMods)
+                    {
+                        string packageFile = Path.Combine(serverMod, "package.json");
+                        bool packageFileExists = File.Exists(packageFile);
+                        if (packageFileExists)
+                            serverModsCount++;
+                    }
+                    btnServerMods.Text = $"Server mods - {serverModsCount.ToString()}";
+                }
             }
 
             if (Directory.Exists(modsFolder))
