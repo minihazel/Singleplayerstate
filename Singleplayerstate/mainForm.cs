@@ -2625,5 +2625,10 @@ namespace Singleplayerstate
             WindowState = FormWindowState.Normal;
             trayIcon.Visible = false;
         }
+
+        private void btnWorkshop_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://hub.sp-tarkov.com/files/");
+        }
     }
 }

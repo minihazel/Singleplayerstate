@@ -116,6 +116,7 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
             this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.btnWorkshop = new System.Windows.Forms.Button();
             this.panelServers.SuspendLayout();
             this.panelGameInfo.SuspendLayout();
             this.panelGameOptions.SuspendLayout();
@@ -141,7 +142,7 @@
             this.panelServers.Controls.Add(this.serverPlaceholder);
             this.panelServers.Location = new System.Drawing.Point(14, 92);
             this.panelServers.Name = "panelServers";
-            this.panelServers.Size = new System.Drawing.Size(305, 457);
+            this.panelServers.Size = new System.Drawing.Size(305, 505);
             this.panelServers.TabIndex = 0;
             // 
             // serverPlaceholder
@@ -355,7 +356,7 @@
             this.panelGameInfo.Controls.Add(this.infoGameEditionTitle);
             this.panelGameInfo.Controls.Add(this.infoGameVersionTitle);
             this.panelGameInfo.Controls.Add(this.btnPlaySPTAKI);
-            this.panelGameInfo.Location = new System.Drawing.Point(0, 425);
+            this.panelGameInfo.Location = new System.Drawing.Point(0, 473);
             this.panelGameInfo.Name = "panelGameInfo";
             this.panelGameInfo.Size = new System.Drawing.Size(608, 110);
             this.panelGameInfo.TabIndex = 4;
@@ -445,7 +446,7 @@
             this.panelGameOptions.Controls.Add(this.btnWhenSPTAKILauncher);
             this.panelGameOptions.Location = new System.Drawing.Point(335, 60);
             this.panelGameOptions.Name = "panelGameOptions";
-            this.panelGameOptions.Size = new System.Drawing.Size(608, 535);
+            this.panelGameOptions.Size = new System.Drawing.Size(608, 583);
             this.panelGameOptions.TabIndex = 1;
             // 
             // titleWhenSPTAKIExits
@@ -661,7 +662,7 @@
             this.panelAccount.Controls.Add(this.titleAccount);
             this.panelAccount.Location = new System.Drawing.Point(335, 60);
             this.panelAccount.Name = "panelAccount";
-            this.panelAccount.Size = new System.Drawing.Size(608, 535);
+            this.panelAccount.Size = new System.Drawing.Size(608, 583);
             this.panelAccount.TabIndex = 2;
             // 
             // panelAccountSeparator
@@ -671,7 +672,7 @@
             this.panelAccountSeparator.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelAccountSeparator.Location = new System.Drawing.Point(314, -15);
             this.panelAccountSeparator.Name = "panelAccountSeparator";
-            this.panelAccountSeparator.Size = new System.Drawing.Size(1, 548);
+            this.panelAccountSeparator.Size = new System.Drawing.Size(1, 596);
             this.panelAccountSeparator.TabIndex = 19;
             this.panelAccountSeparator.Visible = false;
             // 
@@ -684,7 +685,7 @@
             this.panelAccountProfiles.Controls.Add(this.profilesPlaceholder);
             this.panelAccountProfiles.Location = new System.Drawing.Point(315, 3);
             this.panelAccountProfiles.Name = "panelAccountProfiles";
-            this.panelAccountProfiles.Size = new System.Drawing.Size(293, 502);
+            this.panelAccountProfiles.Size = new System.Drawing.Size(293, 550);
             this.panelAccountProfiles.TabIndex = 18;
             this.panelAccountProfiles.Visible = false;
             // 
@@ -867,7 +868,7 @@
             this.panelAddInstall.Controls.Add(this.btnBrowseForFolder);
             this.panelAddInstall.Location = new System.Drawing.Point(335, 60);
             this.panelAddInstall.Name = "panelAddInstall";
-            this.panelAddInstall.Size = new System.Drawing.Size(608, 535);
+            this.panelAddInstall.Size = new System.Drawing.Size(608, 583);
             this.panelAddInstall.TabIndex = 3;
             // 
             // titleAddInstall
@@ -998,7 +999,7 @@
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Location = new System.Drawing.Point(319, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(1, 595);
+            this.panel1.Size = new System.Drawing.Size(1, 643);
             this.panel1.TabIndex = 1;
             // 
             // btnClearList
@@ -1014,7 +1015,7 @@
             this.btnClearList.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClearList.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
             this.btnClearList.ForeColor = System.Drawing.Color.Red;
-            this.btnClearList.Location = new System.Drawing.Point(14, 555);
+            this.btnClearList.Location = new System.Drawing.Point(14, 603);
             this.btnClearList.Name = "btnClearList";
             this.btnClearList.Size = new System.Drawing.Size(298, 40);
             this.btnClearList.TabIndex = 22;
@@ -1033,7 +1034,7 @@
             this.panelServer.Controls.Add(this.titleAkiServer);
             this.panelServer.Location = new System.Drawing.Point(335, 60);
             this.panelServer.Name = "panelServer";
-            this.panelServer.Size = new System.Drawing.Size(608, 535);
+            this.panelServer.Size = new System.Drawing.Size(608, 583);
             this.panelServer.TabIndex = 0;
             // 
             // chkAutoScroll
@@ -1078,11 +1079,14 @@
             // 
             // panel2
             // 
+            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
             this.panel2.Controls.Add(this.akiOutput);
             this.panel2.Location = new System.Drawing.Point(6, 154);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(595, 378);
+            this.panel2.Size = new System.Drawing.Size(595, 407);
             this.panel2.TabIndex = 12;
             // 
             // akiOutput
@@ -1097,7 +1101,7 @@
             this.akiOutput.Location = new System.Drawing.Point(2, 2);
             this.akiOutput.Name = "akiOutput";
             this.akiOutput.ReadOnly = true;
-            this.akiOutput.Size = new System.Drawing.Size(591, 374);
+            this.akiOutput.Size = new System.Drawing.Size(591, 403);
             this.akiOutput.TabIndex = 11;
             this.akiOutput.Text = "";
             this.akiOutput.WordWrap = false;
@@ -1136,6 +1140,7 @@
             // 
             // panelSPTAKI
             // 
+            this.panelSPTAKI.Controls.Add(this.btnWorkshop);
             this.panelSPTAKI.Controls.Add(this.panelAddonSeparator);
             this.panelSPTAKI.Controls.Add(this.panelAddons);
             this.panelSPTAKI.Controls.Add(this.txtAddons);
@@ -1155,15 +1160,17 @@
             this.panelSPTAKI.Controls.Add(this.btnServerMods);
             this.panelSPTAKI.Location = new System.Drawing.Point(335, 60);
             this.panelSPTAKI.Name = "panelSPTAKI";
-            this.panelSPTAKI.Size = new System.Drawing.Size(608, 535);
+            this.panelSPTAKI.Size = new System.Drawing.Size(608, 583);
             this.panelSPTAKI.TabIndex = 23;
             // 
             // panelAddonSeparator
             // 
+            this.panelAddonSeparator.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.panelAddonSeparator.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelAddonSeparator.Location = new System.Drawing.Point(314, 0);
             this.panelAddonSeparator.Name = "panelAddonSeparator";
-            this.panelAddonSeparator.Size = new System.Drawing.Size(1, 425);
+            this.panelAddonSeparator.Size = new System.Drawing.Size(1, 473);
             this.panelAddonSeparator.TabIndex = 21;
             this.panelAddonSeparator.Visible = false;
             // 
@@ -1176,7 +1183,7 @@
             this.panelAddons.Controls.Add(this.addonPlaceholder);
             this.panelAddons.Location = new System.Drawing.Point(315, 0);
             this.panelAddons.Name = "panelAddons";
-            this.panelAddons.Size = new System.Drawing.Size(293, 419);
+            this.panelAddons.Size = new System.Drawing.Size(293, 467);
             this.panelAddons.TabIndex = 20;
             this.panelAddons.Visible = false;
             // 
@@ -1385,12 +1392,32 @@
             this.trayIcon.Text = "Minimized to Tray";
             this.trayIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.trayIcon_MouseDoubleClick);
             // 
+            // btnWorkshop
+            // 
+            this.btnWorkshop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.btnWorkshop.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnWorkshop.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
+            this.btnWorkshop.FlatAppearance.BorderSize = 2;
+            this.btnWorkshop.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnWorkshop.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnWorkshop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnWorkshop.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.btnWorkshop.ForeColor = System.Drawing.Color.Gray;
+            this.btnWorkshop.Location = new System.Drawing.Point(6, 411);
+            this.btnWorkshop.Name = "btnWorkshop";
+            this.btnWorkshop.Size = new System.Drawing.Size(200, 40);
+            this.btnWorkshop.TabIndex = 22;
+            this.btnWorkshop.Text = "SPT-AKI workshop";
+            this.btnWorkshop.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnWorkshop.UseVisualStyleBackColor = false;
+            this.btnWorkshop.Click += new System.EventHandler(this.btnWorkshop_Click);
+            // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(29)))), ((int)(((byte)(31)))));
-            this.ClientSize = new System.Drawing.Size(965, 607);
+            this.ClientSize = new System.Drawing.Size(965, 655);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.btnAddInstall);
             this.Controls.Add(this.btnServer);
@@ -1526,6 +1553,7 @@
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.NotifyIcon trayIcon;
+        private System.Windows.Forms.Button btnWorkshop;
     }
 }
 
