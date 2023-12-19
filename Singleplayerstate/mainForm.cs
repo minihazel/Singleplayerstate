@@ -1054,8 +1054,22 @@ namespace Singleplayerstate
 
         private void mainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            Properties.Settings.Default.addonPanelVisible = panelAddons.Visible;
-            Properties.Settings.Default.Save();
+            if (string.Equals((sender as Button).Name, @"CloseButton"))
+            {
+            }
+            else
+            {
+                if (serverIsRunning && !hasStopped)
+                {
+                    if (MessageBox.Show("Aki's server is running, are you sure you want to exit?", this.Text, MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        Properties.Settings.Default.addonPanelVisible = panelAddons.Visible;
+                        Properties.Settings.Default.Save();
+
+                        Application.Exit();
+                    }
+                }
+            }
         }
 
         private void txtSetDisplayName_KeyDown(object sender, KeyEventArgs e)
