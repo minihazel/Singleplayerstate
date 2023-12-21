@@ -176,13 +176,18 @@ namespace Singleplayerstate
 
         private void fetchLastServer()
         {
-            foreach (Control c in panelServers.Controls)
+            if (Properties.Settings.Default.lastServer != null)
             {
-                if (c is Label lbl)
+                foreach (Control c in panelServers.Controls)
                 {
-                    if (Properties.Settings.Default.lastServer != null && folderPaths.ContainsKey(lbl.Text.Replace("✔️ ", "")))
+                    if (c is Label lbl)
                     {
-                        clickServer(lbl, true);
+                        string cleanLbl = lbl.Text.Replace("✔️ ", "");
+
+                        if (Properties.Settings.Default.lastServer == cleanLbl)
+                        {
+                            clickServer(lbl, true);
+                        }
                     }
                 }
             }
@@ -190,20 +195,16 @@ namespace Singleplayerstate
 
         private string fetchCurrentServer()
         {
-            foreach (Control c in panelServers.Controls)
+            if (selectedServer != null)
             {
-                if (c is Label lbl)
+                Control selectedLbl = panelServers.Controls.Find(selectedServer, false).FirstOrDefault();
+                if (selectedLbl != null && selectedLbl is Label)
                 {
-                    if (selectedServer != null)
-                    {
-                        if (c.Text == selectedServer)
-                        {
-                            string server = c.Text.Replace("✔️ ", "");
-                            return server;
-                        }
-                    }
+                    string server = selectedLbl.Text.Replace("✔️ ", "");
+                    return server;
                 }
             }
+
             return null;
         }
 
@@ -975,6 +976,9 @@ namespace Singleplayerstate
                                 serverHasBeenSelected = true;
                             }
 
+                            Properties.Settings.Default.lastServer = cleanOutput;
+                            Properties.Settings.Default.Save();
+
                             if (autoClick)
                                 btnSPTAKI.PerformClick();
                         }
@@ -1105,10 +1109,7 @@ namespace Singleplayerstate
                         string findServer = fetchCurrentServer();
                         if (findServer != null)
                         {
-                            if (findServer == selectedServer)
-                            {
-                                Properties.Settings.Default.lastServer = findServer;
-                            }
+                            Properties.Settings.Default.lastServer = findServer;
                         }
 
                         Properties.Settings.Default.addonPanelVisible = panelAddons.Visible;

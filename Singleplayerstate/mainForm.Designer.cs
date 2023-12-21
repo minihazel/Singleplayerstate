@@ -101,6 +101,7 @@
             this.btnCloseAkiServer = new System.Windows.Forms.Button();
             this.titleAkiServer = new System.Windows.Forms.Label();
             this.panelSPTAKI = new System.Windows.Forms.Panel();
+            this.btnWorkshop = new System.Windows.Forms.Button();
             this.panelAddonSeparator = new System.Windows.Forms.Panel();
             this.panelAddons = new System.Windows.Forms.Panel();
             this.addonPlaceholder = new System.Windows.Forms.Label();
@@ -116,7 +117,6 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
             this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
-            this.btnWorkshop = new System.Windows.Forms.Button();
             this.panelServers.SuspendLayout();
             this.panelGameInfo.SuspendLayout();
             this.panelGameOptions.SuspendLayout();
@@ -1163,6 +1163,26 @@
             this.panelSPTAKI.Size = new System.Drawing.Size(608, 583);
             this.panelSPTAKI.TabIndex = 23;
             // 
+            // btnWorkshop
+            // 
+            this.btnWorkshop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.btnWorkshop.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnWorkshop.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
+            this.btnWorkshop.FlatAppearance.BorderSize = 2;
+            this.btnWorkshop.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnWorkshop.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnWorkshop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnWorkshop.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.btnWorkshop.ForeColor = System.Drawing.Color.Gray;
+            this.btnWorkshop.Location = new System.Drawing.Point(6, 411);
+            this.btnWorkshop.Name = "btnWorkshop";
+            this.btnWorkshop.Size = new System.Drawing.Size(200, 40);
+            this.btnWorkshop.TabIndex = 22;
+            this.btnWorkshop.Text = "SPT-AKI workshop";
+            this.btnWorkshop.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnWorkshop.UseVisualStyleBackColor = false;
+            this.btnWorkshop.Click += new System.EventHandler(this.btnWorkshop_Click);
+            // 
             // panelAddonSeparator
             // 
             this.panelAddonSeparator.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -1391,26 +1411,6 @@
             this.trayIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("trayIcon.Icon")));
             this.trayIcon.Text = "Minimized to Tray";
             this.trayIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.trayIcon_MouseDoubleClick);
-            // 
-            // btnWorkshop
-            // 
-            this.btnWorkshop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
-            this.btnWorkshop.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnWorkshop.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
-            this.btnWorkshop.FlatAppearance.BorderSize = 2;
-            this.btnWorkshop.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.btnWorkshop.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.btnWorkshop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnWorkshop.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.btnWorkshop.ForeColor = System.Drawing.Color.Gray;
-            this.btnWorkshop.Location = new System.Drawing.Point(6, 411);
-            this.btnWorkshop.Name = "btnWorkshop";
-            this.btnWorkshop.Size = new System.Drawing.Size(200, 40);
-            this.btnWorkshop.TabIndex = 22;
-            this.btnWorkshop.Text = "SPT-AKI workshop";
-            this.btnWorkshop.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnWorkshop.UseVisualStyleBackColor = false;
-            this.btnWorkshop.Click += new System.EventHandler(this.btnWorkshop_Click);
             // 
             // mainForm
             // 
