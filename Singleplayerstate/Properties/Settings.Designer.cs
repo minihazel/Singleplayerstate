@@ -106,5 +106,17 @@ namespace Singleplayerstate.Properties {
                 this["addonPanelVisible"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string lastServer {
+            get {
+                return ((string)(this["lastServer"]));
+            }
+            set {
+                this["lastServer"] = value;
+            }
+        }
     }
 }

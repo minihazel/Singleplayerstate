@@ -104,6 +104,9 @@ namespace Singleplayerstate
                 btnWhenSPTAKIExits.Text = "Close launcher";
             else
                 btnWhenSPTAKIExits.Text = "Do nothing";
+
+            if (Properties.Settings.Default.lastServer != null)
+                fetchLastServer();
         }
 
         // ASYNC
@@ -169,6 +172,39 @@ namespace Singleplayerstate
                     }
                 }
             }
+        }
+
+        private void fetchLastServer()
+        {
+            foreach (Control c in panelServers.Controls)
+            {
+                if (c is Label lbl)
+                {
+                    if (Properties.Settings.Default.lastServer != null && folderPaths.ContainsKey(lbl.Text.Replace("✔️ ", "")))
+                    {
+                        clickServer(lbl, true);
+                    }
+                }
+            }
+        }
+
+        private string fetchCurrentServer()
+        {
+            foreach (Control c in panelServers.Controls)
+            {
+                if (c is Label lbl)
+                {
+                    if (selectedServer != null)
+                    {
+                        if (c.Text == selectedServer)
+                        {
+                            string server = c.Text.Replace("✔️ ", "");
+                            return server;
+                        }
+                    }
+                }
+            }
+            return null;
         }
 
         private void showMessage(string message)
@@ -1066,6 +1102,15 @@ namespace Singleplayerstate
                     }
                     else
                     {
+                        string findServer = fetchCurrentServer();
+                        if (findServer != null)
+                        {
+                            if (findServer == selectedServer)
+                            {
+                                Properties.Settings.Default.lastServer = findServer;
+                            }
+                        }
+
                         Properties.Settings.Default.addonPanelVisible = panelAddons.Visible;
                         Properties.Settings.Default.Save();
 
