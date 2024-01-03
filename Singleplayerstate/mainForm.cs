@@ -688,6 +688,8 @@ namespace Singleplayerstate
                                 newApp.UseShellExecute = true;
                                 newApp.Verb = "open";
                                 Process.Start(newApp);
+
+                                toggleAddonView(false);
                             }
                         }
                     }

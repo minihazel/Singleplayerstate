@@ -223,7 +223,7 @@
             this.txtServerMods.Cursor = System.Windows.Forms.Cursors.Hand;
             this.txtServerMods.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
             this.txtServerMods.ForeColor = System.Drawing.Color.Gray;
-            this.txtServerMods.Location = new System.Drawing.Point(212, 199);
+            this.txtServerMods.Location = new System.Drawing.Point(212, 311);
             this.txtServerMods.Name = "txtServerMods";
             this.txtServerMods.Size = new System.Drawing.Size(373, 20);
             this.txtServerMods.TabIndex = 13;
@@ -284,7 +284,7 @@
             this.btnServerMods.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnServerMods.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
             this.btnServerMods.ForeColor = System.Drawing.Color.Gray;
-            this.btnServerMods.Location = new System.Drawing.Point(6, 189);
+            this.btnServerMods.Location = new System.Drawing.Point(6, 299);
             this.btnServerMods.Name = "btnServerMods";
             this.btnServerMods.Size = new System.Drawing.Size(200, 40);
             this.btnServerMods.TabIndex = 9;
@@ -1263,7 +1263,7 @@
             this.txtServerFolder.Cursor = System.Windows.Forms.Cursors.Hand;
             this.txtServerFolder.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
             this.txtServerFolder.ForeColor = System.Drawing.Color.Gray;
-            this.txtServerFolder.Location = new System.Drawing.Point(212, 311);
+            this.txtServerFolder.Location = new System.Drawing.Point(212, 199);
             this.txtServerFolder.Name = "txtServerFolder";
             this.txtServerFolder.Size = new System.Drawing.Size(373, 20);
             this.txtServerFolder.TabIndex = 17;
@@ -1281,7 +1281,7 @@
             this.btnServerFolder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnServerFolder.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
             this.btnServerFolder.ForeColor = System.Drawing.Color.Gray;
-            this.btnServerFolder.Location = new System.Drawing.Point(6, 299);
+            this.btnServerFolder.Location = new System.Drawing.Point(6, 189);
             this.btnServerFolder.Name = "btnServerFolder";
             this.btnServerFolder.Size = new System.Drawing.Size(200, 40);
             this.btnServerFolder.TabIndex = 16;
