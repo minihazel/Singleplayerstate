@@ -7,7 +7,7 @@
     <ProjectGuid>{7A1BD842-EFB0-4CA8-84DB-CCE9D551EA3E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Singleplayerstate</RootNamespace>
-    <AssemblyName>Singleplayerstate</AssemblyName>
+    <AssemblyName>MinimalistLauncher</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -24,7 +24,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>false</MapFileExtensions>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>6</ApplicationRevision>
+    <ApplicationRevision>7</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
