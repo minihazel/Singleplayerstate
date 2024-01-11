@@ -55,7 +55,7 @@ namespace Singleplayerstate
         public mainForm()
         {
             InitializeComponent();
-            KeyPress += mainForm_KeyPress;
+            KeyDown += mainForm_KeyDown;
         }
 
         private void mainForm_Load(object sender, EventArgs e)
@@ -2703,10 +2703,6 @@ namespace Singleplayerstate
         private void btnWorkshop_Click(object sender, EventArgs e)
         {
             Process.Start("https://hub.sp-tarkov.com/files/");
-        }
-
-        private void mainForm_KeyPress(object sender, KeyPressEventArgs e)
-        {
         }
 
         private void HandleDelete()

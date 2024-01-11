@@ -1446,7 +1446,6 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.mainForm_FormClosing);
             this.Load += new System.EventHandler(this.mainForm_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.mainForm_KeyDown);
-            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.mainForm_KeyPress);
             this.panelServers.ResumeLayout(false);
             this.panelGameInfo.ResumeLayout(false);
             this.panelGameOptions.ResumeLayout(false);
