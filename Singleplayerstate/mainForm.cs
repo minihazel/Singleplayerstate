@@ -55,6 +55,7 @@ namespace Singleplayerstate
         public mainForm()
         {
             InitializeComponent();
+            KeyPress += mainForm_KeyPress;
         }
 
         private void mainForm_Load(object sender, EventArgs e)
@@ -268,7 +269,6 @@ namespace Singleplayerstate
 
             showMessage($"SPT-AKI installation {displayName} changed to folder {folderPath}!");
             enterInputMode(false, null);
-
             listServers();
         }
 
@@ -540,6 +540,18 @@ namespace Singleplayerstate
 
                 lbl.Text = $"✔️ {servers[i]}";
                 panelServers.Controls.Add(lbl);
+            }
+
+            int servercount = panelServers.Controls.OfType<Label>().Count();
+            if (panelServers.Controls["serverPlaceholder"] != null) servercount -= 1;
+
+            if (servercount == 1)
+            {
+                Control firstServer = panelServers.Controls["listedServer0"];
+                if (firstServer != null)
+                {
+                    clickServer(firstServer, true);
+                }
             }
         }
 
@@ -1142,8 +1154,16 @@ namespace Singleplayerstate
                 {
                     isEditingInstall = false;
 
+
                     string folderPath = btnBrowseForFolder.Text;
                     string displayName = txtSetDisplayName.Text;
+
+                    if (txtSetDisplayName.Text == "")
+                    {
+                        string completed = Path.GetFileName(folderPath);
+                        displayName = completed;
+                    }
+
                     string oldInstall = txtGameInstallFolder.Text;
 
                     saveServer(displayName, folderPath, oldInstall);
@@ -1152,6 +1172,12 @@ namespace Singleplayerstate
                 {
                     string folderPath = btnBrowseForFolder.Text;
                     string displayName = txtSetDisplayName.Text;
+
+                    if (txtSetDisplayName.Text == "")
+                    {
+                        string completed = Path.GetFileName(folderPath);
+                        displayName = completed;
+                    }
 
                     saveServers(displayName, folderPath);
                 }
@@ -2677,6 +2703,30 @@ namespace Singleplayerstate
         private void btnWorkshop_Click(object sender, EventArgs e)
         {
             Process.Start("https://hub.sp-tarkov.com/files/");
+        }
+
+        private void mainForm_KeyPress(object sender, KeyPressEventArgs e)
+        {
+        }
+
+        private void HandleDelete()
+        {
+            foreach (Label label in panelServers.Controls.OfType<Label>())
+            {
+                if (label.Padding == new Padding(10, 0, 0, 0) &&
+                    selectedServer == label.Name)
+                {
+                    btnRemoveInstall.PerformClick();
+                }
+            }
+        }
+
+        private void mainForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete)
+            {
+                HandleDelete();
+            }
         }
     }
 }
