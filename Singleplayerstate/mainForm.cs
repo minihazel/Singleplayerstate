@@ -623,12 +623,8 @@ namespace Singleplayerstate
                     if (firstServer != null)
                     {
                         clickServer(firstServer, true);
-
-                        string serverName = firstServer.Text.Replace("✔️ ", "");
-
                         string content =
-                            $"autostart=false" + Environment.NewLine +
-                            serverName;
+                            $"autostart=false" + Environment.NewLine;
                         
                         try
                         {
