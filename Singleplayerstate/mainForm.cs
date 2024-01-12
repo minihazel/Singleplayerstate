@@ -110,6 +110,26 @@ namespace Singleplayerstate
                 fetchLastServer();
         }
 
+        private void HandleDelete()
+        {
+            foreach (Label label in panelServers.Controls.OfType<Label>())
+            {
+                if (label.Padding == new Padding(10, 0, 0, 0) &&
+                    selectedServer == label.Name)
+                {
+                    btnRemoveInstall.PerformClick();
+                }
+            }
+        }
+
+        private void mainForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete)
+            {
+                HandleDelete();
+            }
+        }
+
         // ASYNC
         private async void enterInputMode(bool enter, string path)
         {
@@ -137,6 +157,7 @@ namespace Singleplayerstate
             }
         }
 
+        // ASYNC
         private async void editGameInstall(string displayName, string oldInstall)
         {
             var browse = new BetterFolderBrowser();
@@ -354,12 +375,14 @@ namespace Singleplayerstate
             }
         }
 
+        // STATIC
         public static void arrInsert(ref string[] array, string item)
         {
             Array.Resize(ref array, array.Length + 1);
             array[array.Length - 1] = item;
         }
 
+        // STATIC
         public static void arrRemove(ref string[] array, string item)
         {
             int index = Array.IndexOf(array, item);
@@ -482,6 +505,7 @@ namespace Singleplayerstate
             return null;
         }
 
+        // STATIC
         public static bool IsAkiServerRunning(string expectedFilePath)
         {
             Process[] processes = Process.GetProcessesByName("Aki.Server");
@@ -2703,26 +2727,6 @@ namespace Singleplayerstate
         private void btnWorkshop_Click(object sender, EventArgs e)
         {
             Process.Start("https://hub.sp-tarkov.com/files/");
-        }
-
-        private void HandleDelete()
-        {
-            foreach (Label label in panelServers.Controls.OfType<Label>())
-            {
-                if (label.Padding == new Padding(10, 0, 0, 0) &&
-                    selectedServer == label.Name)
-                {
-                    btnRemoveInstall.PerformClick();
-                }
-            }
-        }
-
-        private void mainForm_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Delete)
-            {
-                HandleDelete();
-            }
         }
     }
 }
