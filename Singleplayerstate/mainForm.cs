@@ -9,7 +9,6 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
@@ -575,15 +574,74 @@ namespace Singleplayerstate
                 panelServers.Controls.Add(lbl);
             }
 
+            checkAutoStart();
+        }
+
+        private async void checkAutoStart()
+        {
             int servercount = panelServers.Controls.OfType<Label>().Count();
             if (panelServers.Controls["serverPlaceholder"] != null) servercount -= 1;
 
-            if (servercount == 1)
+            string autostartFile = Path.Combine(currentDirectory, "autostart.txt");
+            bool autostartExists = File.Exists(autostartFile);
+            if (autostartExists)
             {
-                Control firstServer = panelServers.Controls["listedServer0"];
-                if (firstServer != null)
+                string[] autocontent = File.ReadAllLines(autostartFile, Encoding.UTF8);
+                string boolValue = autocontent[0].TrimEnd();
+                string serverValue = autocontent[1].TrimEnd();
+
+                if (serverValue != "" || serverValue != null)
                 {
-                    clickServer(firstServer, true);
+                    foreach (Control c in panelServers.Controls)
+                    {
+                        if (c is Label lbl)
+                        {
+                            if (lbl.Text.Replace("✔️ ", "") == serverValue)
+                            {
+                                if (boolValue.ToLower() == "autostart=true")
+                                {
+                                    clickServer(lbl, true);
+                                    await Task.Delay(500);
+                                    ranViaHotkey = true;
+                                    btnPlaySPTAKI.PerformClick();
+                                }
+                                else if (boolValue.ToLower() == "autostart=false")
+                                {
+                                    clickServer(lbl, true);
+                                }
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (servercount == 1)
+                {
+                    Control firstServer = panelServers.Controls["listedServer0"];
+                    if (firstServer != null)
+                    {
+                        clickServer(firstServer, true);
+
+                        string serverName = firstServer.Text.Replace("✔️ ", "");
+
+                        string content =
+                            $"autostart=false" + Environment.NewLine +
+                            serverName;
+                        
+                        try
+                        {
+                            File.WriteAllText(autostartFile, content);
+                        }
+                        catch (Exception ex)
+                        {
+                            showMessage("We appear to have run into a problem. If you\'re unsure what this is about, please contact the developer." +
+                                        Environment.NewLine +
+                                        Environment.NewLine +
+                                        ex.ToString());
+                        }
+                    }
                 }
             }
         }
@@ -1557,8 +1615,8 @@ namespace Singleplayerstate
                 {
                     showMessage("You\'re trying to launch SPT-AKI with an incomplete profile." + Environment.NewLine +
                         "" + Environment.NewLine +
-                        "You can fix this by" + Environment.NewLine + Environment.NewLine +
-                        "a) Running your incomplete profile in Aki.Launcher.exe" + Environment.NewLine +
+                        "You can fix this by doing the following:" + Environment.NewLine + Environment.NewLine +
+                        "a) Running your incomplete profile via the AKI launcher." + Environment.NewLine +
                         "b) Selecting a working profile.");
                     btnAccount.PerformClick();
                 }
