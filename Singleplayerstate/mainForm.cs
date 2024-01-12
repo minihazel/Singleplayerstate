@@ -9,6 +9,7 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
@@ -43,6 +44,7 @@ namespace Singleplayerstate
         bool hasNotifiedUser = false;
         bool serverIsRunning = false;
         bool firstServerNotify = false;
+        bool ranViaHotkey = false;
 
         // Dictionaries for servers and addons
         public Dictionary<string, string> folderPaths = new Dictionary<string, string>();
@@ -127,6 +129,12 @@ namespace Singleplayerstate
             if (e.KeyCode == Keys.Delete)
             {
                 HandleDelete();
+            }
+
+            if (e.KeyCode == Keys.F5)
+            {
+                ranViaHotkey = true;
+                btnPlaySPTAKI.PerformClick();
             }
         }
 
@@ -559,6 +567,7 @@ namespace Singleplayerstate
                 lbl.MouseEnter += new EventHandler(lbl_MouseEnter);
                 lbl.MouseLeave += new EventHandler(lbl_MouseLeave);
                 lbl.MouseDown += new MouseEventHandler(lbl_MouseDown);
+                lbl.MouseDoubleClick += new MouseEventHandler(lbl_MouseDoubleClick);
                 lbl.MouseUp += new MouseEventHandler(lbl_MouseUp);
                 lbl.Paint += new PaintEventHandler(lbl_Paint);
 
@@ -1043,6 +1052,16 @@ namespace Singleplayerstate
             }
         }
 
+        private void lbl_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            System.Windows.Forms.Label label = (System.Windows.Forms.Label)sender;
+            if (label.Text != "")
+            {
+                ranViaHotkey = true;
+                btnPlaySPTAKI.PerformClick();
+            }
+        }
+
         private void lbl_MouseEnter(object sender, EventArgs e)
         {
             System.Windows.Forms.Label label = (System.Windows.Forms.Label)sender;
@@ -1287,7 +1306,7 @@ namespace Singleplayerstate
             {
                 if (folderPaths.ContainsKey(displayName))
                 {
-                    if (MessageBox.Show($"Remove installation {displayName}? This will restart Minimalist Launcher.", this.Text, MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    if (MessageBox.Show($"Remove installation {displayName}?", this.Text, MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
                         folderPaths.Remove(displayName);
                         string serializedPaths = JsonSerializer.Serialize(folderPaths);
@@ -1721,7 +1740,6 @@ namespace Singleplayerstate
             TarkovProcessDetector.RunWorkerAsync();
 
             Task.Delay(500);
-
             launchServer();
 
             if (Properties.Settings.Default.launchParameter == "minimize")
@@ -2113,7 +2131,7 @@ namespace Singleplayerstate
                 else
                     btnCloseAkiServer.Text = "Force-close server";
 
-                if (Properties.Settings.Default.launchParameter == "tray")
+                if (ranViaHotkey || Properties.Settings.Default.launchParameter == "tray")
                 {
                     Hide();
                     trayIcon.Visible = true;
@@ -2270,8 +2288,9 @@ namespace Singleplayerstate
                     killProcesses();
                     trayIcon.Visible = false;
 
-                    if (Properties.Settings.Default.exitParameter == "displaylauncher")
+                    if (Properties.Settings.Default.exitParameter == "displaylauncher" || ranViaHotkey)
                     {
+                        ranViaHotkey = false;
                         if (this.InvokeRequired)
                         {
                             this.BeginInvoke((MethodInvoker)delegate
@@ -2300,6 +2319,7 @@ namespace Singleplayerstate
                             Application.Exit();
                         }
                     }
+
                     break;
                 }
                 Thread.Sleep(1500);
@@ -2727,6 +2747,14 @@ namespace Singleplayerstate
         private void btnWorkshop_Click(object sender, EventArgs e)
         {
             Process.Start("https://hub.sp-tarkov.com/files/");
+        }
+
+        private void txtSetDisplayName_TextChanged(object sender, EventArgs e)
+        {
+            btnSetDisplayName.Text = "Set as folder name";
+
+            if (txtSetDisplayName.Text.Length > 0)
+                btnSetDisplayName.Text = "Set as custom name";
         }
     }
 }

@@ -940,9 +940,9 @@
             this.btnSetDisplayName.ForeColor = System.Drawing.Color.SeaGreen;
             this.btnSetDisplayName.Location = new System.Drawing.Point(315, 154);
             this.btnSetDisplayName.Name = "btnSetDisplayName";
-            this.btnSetDisplayName.Size = new System.Drawing.Size(100, 40);
+            this.btnSetDisplayName.Size = new System.Drawing.Size(200, 40);
             this.btnSetDisplayName.TabIndex = 20;
-            this.btnSetDisplayName.Text = "Set";
+            this.btnSetDisplayName.Text = "Set as folder name";
             this.btnSetDisplayName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnSetDisplayName.UseVisualStyleBackColor = false;
             this.btnSetDisplayName.Visible = false;
@@ -970,6 +970,7 @@
             this.txtSetDisplayName.Size = new System.Drawing.Size(296, 36);
             this.txtSetDisplayName.TabIndex = 0;
             this.txtSetDisplayName.Text = "Placeholder";
+            this.txtSetDisplayName.TextChanged += new System.EventHandler(this.txtSetDisplayName_TextChanged);
             this.txtSetDisplayName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtSetDisplayName_KeyDown);
             // 
             // btnBrowseForFolder
@@ -1429,11 +1430,11 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.lblServers);
             this.Controls.Add(this.panelServers);
+            this.Controls.Add(this.panelSPTAKI);
+            this.Controls.Add(this.panelGameOptions);
             this.Controls.Add(this.panelAddInstall);
             this.Controls.Add(this.panelServer);
             this.Controls.Add(this.panelAccount);
-            this.Controls.Add(this.panelSPTAKI);
-            this.Controls.Add(this.panelGameOptions);
             this.Font = new System.Drawing.Font("Bahnschrift Light", 10F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
