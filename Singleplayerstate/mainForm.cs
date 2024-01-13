@@ -2810,5 +2810,46 @@ namespace Singleplayerstate
             if (txtSetDisplayName.Text.Length > 0)
                 btnSetDisplayName.Text = "Set as custom name";
         }
+
+        private void btnOpenAutostart_Click(object sender, EventArgs e)
+        {
+            string autostartFile = Path.Combine(currentDirectory, "autostart.txt");
+            bool autostartExists = File.Exists(autostartFile);
+            if (autostartExists)
+            {
+                ProcessStartInfo newApp = new ProcessStartInfo();
+                newApp.WorkingDirectory = Path.GetDirectoryName(autostartFile);
+                newApp.FileName = Path.GetFileName(autostartFile);
+                newApp.UseShellExecute = true;
+                newApp.Verb = "open";
+
+                Process.Start(newApp);
+            }
+            else
+            {
+                string content =
+                            $"autostart=false" + Environment.NewLine;
+
+                try
+                {
+                    File.WriteAllText(autostartFile, content);
+
+                    ProcessStartInfo newApp = new ProcessStartInfo();
+                    newApp.WorkingDirectory = Path.GetDirectoryName(autostartFile);
+                    newApp.FileName = Path.GetFileName(autostartFile);
+                    newApp.UseShellExecute = true;
+                    newApp.Verb = "open";
+
+                    Process.Start(newApp);
+                }
+                catch (Exception ex)
+                {
+                    showMessage("We appear to have run into a problem. If you\'re unsure what this is about, please contact the developer." +
+                                Environment.NewLine +
+                                Environment.NewLine +
+                                ex.ToString());
+                }
+            }
+        }
     }
 }

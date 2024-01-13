@@ -117,6 +117,7 @@
             this.panel3 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
             this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.btnOpenAutostart = new System.Windows.Forms.Button();
             this.panelServers.SuspendLayout();
             this.panelGameInfo.SuspendLayout();
             this.panelGameOptions.SuspendLayout();
@@ -1019,7 +1020,7 @@
             this.btnClearList.ForeColor = System.Drawing.Color.Red;
             this.btnClearList.Location = new System.Drawing.Point(14, 603);
             this.btnClearList.Name = "btnClearList";
-            this.btnClearList.Size = new System.Drawing.Size(298, 40);
+            this.btnClearList.Size = new System.Drawing.Size(150, 40);
             this.btnClearList.TabIndex = 22;
             this.btnClearList.Text = "Clear list";
             this.btnClearList.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1414,12 +1415,34 @@
             this.trayIcon.Text = "Minimized to Tray";
             this.trayIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.trayIcon_MouseDoubleClick);
             // 
+            // btnOpenAutostart
+            // 
+            this.btnOpenAutostart.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnOpenAutostart.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.btnOpenAutostart.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnOpenAutostart.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
+            this.btnOpenAutostart.FlatAppearance.BorderSize = 2;
+            this.btnOpenAutostart.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnOpenAutostart.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnOpenAutostart.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnOpenAutostart.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.btnOpenAutostart.ForeColor = System.Drawing.Color.LightGray;
+            this.btnOpenAutostart.Location = new System.Drawing.Point(167, 603);
+            this.btnOpenAutostart.Name = "btnOpenAutostart";
+            this.btnOpenAutostart.Size = new System.Drawing.Size(150, 40);
+            this.btnOpenAutostart.TabIndex = 30;
+            this.btnOpenAutostart.Text = "Open autostart";
+            this.btnOpenAutostart.UseVisualStyleBackColor = false;
+            this.btnOpenAutostart.Click += new System.EventHandler(this.btnOpenAutostart_Click);
+            // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(29)))), ((int)(((byte)(31)))));
             this.ClientSize = new System.Drawing.Size(965, 655);
+            this.Controls.Add(this.btnOpenAutostart);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.btnAddInstall);
             this.Controls.Add(this.btnServer);
@@ -1558,6 +1581,7 @@
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.NotifyIcon trayIcon;
         private System.Windows.Forms.Button btnWorkshop;
+        private System.Windows.Forms.Button btnOpenAutostart;
     }
 }
 
