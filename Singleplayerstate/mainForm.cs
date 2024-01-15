@@ -244,6 +244,78 @@ namespace Singleplayerstate
             return null;
         }
 
+        private void selectProfile(string displayName)
+        {
+            string aidFound = findAID(displayName.TrimEnd());
+            if (aidFound.ToLower().Contains("incomplete profile"))
+            {
+                btnSelectAccount.Text = "Incomplete profile";
+                txtUsername.Text = "Incomplete profile";
+                txtAccountAID.Text = aidFound;
+                btnSetUsername.Enabled = false;
+            }
+            else
+            {
+                btnSelectAccount.Text = displayName;
+                txtUsername.Text = displayName;
+                txtAccountAID.Text = aidFound;
+                btnSetUsername.Enabled = true;
+            }
+
+            panelAccountProfiles.Visible = false;
+            panelAccountSeparator.Visible = false;
+        }
+
+        private void deleteProfile(string displayName)
+        {
+            string aidFound = findAID(displayName.TrimEnd());
+
+            string path = txtGameInstallFolder.Text;
+            bool pathExists = Directory.Exists(path);
+            if (pathExists)
+            {
+                string userFolder = Path.Combine(path, "user");
+                bool userFolderExists = Directory.Exists(userFolder);
+                if (userFolderExists)
+                {
+                    string profilesFolder = Path.Combine(userFolder, "profiles");
+                    bool profilesFolderExists = Directory.Exists(userFolder);
+                    if (profilesFolderExists)
+                    {
+                        if (aidFound != null)
+                        {
+                            string fullProfile = $"{aidFound}.json";
+                            string profilePath = Path.Combine(profilesFolder, fullProfile);
+
+                            bool profilePathExists = File.Exists(profilePath);
+                            if (profilePathExists)
+                            {
+                                try
+                                {
+                                    File.Delete(profilePath);
+                                    listProfiles();
+
+                                    Control firstProfile = panelAccountProfiles.Controls.Find("accountProfile0", false).FirstOrDefault();
+                                    if (firstProfile != null)
+                                    {
+                                        string cleanProfile = fetchName(firstProfile.Text);
+                                        selectProfile(cleanProfile);
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    showMessage("We appear to have run into a problem. If you\'re unsure what this is about, please contact the developer." +
+                                                        Environment.NewLine +
+                                                        Environment.NewLine +
+                                                        ex.ToString());
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         private void showMessage(string message)
         {
             MessageBox.Show(message, this.Text, MessageBoxButtons.OK);
@@ -872,26 +944,7 @@ namespace Singleplayerstate
             if (label.Text != "")
             {
                 string cleanProfile = fetchName(label.Text);
-
-                string aidFound = findAID(cleanProfile.TrimEnd());
-
-                if (aidFound.ToLower().Contains("incomplete profile"))
-                {
-                    btnSelectAccount.Text = "Incomplete profile";
-                    txtUsername.Text = "Incomplete profile";
-                    txtAccountAID.Text = aidFound;
-                    btnSetUsername.Enabled = false;
-                }
-                else
-                {
-                    btnSelectAccount.Text = cleanProfile;
-                    txtUsername.Text = cleanProfile;
-                    txtAccountAID.Text = aidFound;
-                    btnSetUsername.Enabled = true;
-                }
-
-                panelAccountProfiles.Visible = false;
-                panelAccountSeparator.Visible = false;
+                selectProfile(cleanProfile);
             }
         }
 
@@ -1618,6 +1671,18 @@ namespace Singleplayerstate
 
         private void btnDeleteAccount_Click(object sender, EventArgs e)
         {
+            if (txtUsername.Text != "" || txtUsername.Text.ToLower() != "incomplete profile")
+            {
+                string profileName = txtUsername.Text;
+                string content = $"Delete {profileName}?" + Environment.NewLine + Environment.NewLine +
+                                 $"This action is irreversible.";
+                MessageBoxButtons btns = MessageBoxButtons.YesNo;
+
+                if (MessageBox.Show(content, this.Text, btns) == DialogResult.Yes)
+                {
+                    deleteProfile(profileName);
+                }
+            }
 
             lblServers.Select();
         }
