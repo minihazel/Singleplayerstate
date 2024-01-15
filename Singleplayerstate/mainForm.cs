@@ -15,6 +15,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Schema;
 using WK.Libraries.BetterFolderBrowserNS;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
@@ -203,6 +204,12 @@ namespace Singleplayerstate
             }
         }
 
+        private string fetchName(string name)
+        {
+            string newName = name.Replace("✔️ ", "");
+            return newName;
+        }
+
         private void fetchLastServer()
         {
             if (Properties.Settings.Default.lastServer != null)
@@ -211,7 +218,7 @@ namespace Singleplayerstate
                 {
                     if (c is Label lbl)
                     {
-                        string cleanLbl = lbl.Text.Replace("✔️ ", "");
+                        string cleanLbl = fetchName(lbl.Text);
 
                         if (Properties.Settings.Default.lastServer == cleanLbl)
                         {
@@ -229,7 +236,7 @@ namespace Singleplayerstate
                 Control selectedLbl = panelServers.Controls.Find(selectedServer, false).FirstOrDefault();
                 if (selectedLbl != null && selectedLbl is Label)
                 {
-                    string server = selectedLbl.Text.Replace("✔️ ", "");
+                    string server = fetchName(selectedLbl.Text);
                     return server;
                 }
             }
@@ -587,29 +594,38 @@ namespace Singleplayerstate
             if (autostartExists)
             {
                 string[] autocontent = File.ReadAllLines(autostartFile, Encoding.UTF8);
-                string boolValue = autocontent[0].TrimEnd();
-                string serverValue = autocontent[1].TrimEnd();
+                string boolValue = null;
+                string serverValue = null;
 
-                if (serverValue != "" || serverValue != null)
+                if (autocontent.Length > 0 && autocontent[0] != null)
+                    boolValue = autocontent[0].TrimEnd();
+
+                if (autocontent.Length > 1 && autocontent[1] != null)
+                    serverValue = autocontent[1].TrimEnd();
+
+                if (serverValue != null && serverValue != "")
                 {
-                    foreach (Control c in panelServers.Controls)
+                    if (folderPaths.ContainsKey(serverValue))
                     {
-                        if (c is Label lbl)
+                        foreach (Control c in panelServers.Controls)
                         {
-                            if (lbl.Text.Replace("✔️ ", "") == serverValue)
+                            if (c is Label lbl)
                             {
-                                if (boolValue.ToLower() == "autostart=true")
+                                if (fetchName(lbl.Text) == serverValue)
                                 {
-                                    clickServer(lbl, true);
-                                    await Task.Delay(500);
-                                    ranViaHotkey = true;
-                                    btnPlaySPTAKI.PerformClick();
+                                    if (boolValue.ToLower() == "autostart=true")
+                                    {
+                                        clickServer(lbl, true);
+                                        await Task.Delay(500);
+                                        ranViaHotkey = true;
+                                        btnPlaySPTAKI.PerformClick();
+                                    }
+                                    else if (boolValue.ToLower() == "autostart=false")
+                                    {
+                                        clickServer(lbl, true);
+                                    }
+                                    break;
                                 }
-                                else if (boolValue.ToLower() == "autostart=false")
-                                {
-                                    clickServer(lbl, true);
-                                }
-                                break;
                             }
                         }
                     }
@@ -770,7 +786,7 @@ namespace Singleplayerstate
                 }
                 else
                 {
-                    string cleanItem = label.Text.Replace("✔️ ", "");
+                    string cleanItem = fetchName(label.Text);
                     if ((Control.MouseButtons & MouseButtons.Right) != 0)
                     {
                         if (MessageBox.Show($"Would you like to remove addon {cleanItem}? This will not delete the path.", this.Text, MessageBoxButtons.YesNo) == DialogResult.Yes)
@@ -855,7 +871,7 @@ namespace Singleplayerstate
             System.Windows.Forms.Label label = (System.Windows.Forms.Label)sender;
             if (label.Text != "")
             {
-                string cleanProfile = label.Text.Replace("✔️ ", "");
+                string cleanProfile = fetchName(label.Text);
 
                 string aidFound = findAID(cleanProfile.TrimEnd());
 
@@ -1077,7 +1093,7 @@ namespace Singleplayerstate
         private void selectServer(string displayName, Control c, bool autoClick)
         {
             deselectAllServers();
-            string cleanOutput = c.Text.Replace("✔️ ", "");
+            string cleanOutput = fetchName(c.Text);
 
             if (folderPaths != null)
             {
@@ -1376,7 +1392,7 @@ namespace Singleplayerstate
             {
                 if (c is Label && c.BackColor == serverPlaceholder.BackColor)
                 {
-                    displayName = c.Text.Replace("✔️ ", "");
+                    displayName = fetchName(c.Text);
                     break;
                 }
             }
@@ -1387,7 +1403,7 @@ namespace Singleplayerstate
         private void btnRemoveInstall_Click(object sender, EventArgs e)
         {
             Control selectedControl = panelServers.Controls.Find(selectedServer, false).FirstOrDefault();
-            string displayName = selectedControl.Text.Replace("✔️ ", "").TrimEnd();
+            string displayName = fetchName(selectedControl.Text);
 
             if (folderPaths != null)
             {
