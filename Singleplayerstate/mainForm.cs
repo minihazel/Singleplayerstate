@@ -727,6 +727,31 @@ namespace Singleplayerstate
             }
         }
 
+        public void removeInstall(string displayName)
+        {
+            folderPaths.Remove(displayName);
+            string serializedPaths = JsonSerializer.Serialize(folderPaths);
+            Properties.Settings.Default.availableServers = serializedPaths;
+            Properties.Settings.Default.Save();
+
+            if (folderPaths.Count < 1)
+            {
+                listServers();
+                btnAddInstall.PerformClick();
+                serverHasBeenSelected = false;
+            }
+            else
+            {
+                listServers();
+
+                Control lbl = panelServers.Controls.Find("listedServer0", false).FirstOrDefault();
+                if (lbl != null)
+                {
+                    clickServer(lbl, true);
+                }
+            }
+        }
+
         private void addon_MouseDown(object sender, MouseEventArgs e)
         {
             System.Windows.Forms.Label label = (System.Windows.Forms.Label)sender;
@@ -1085,9 +1110,17 @@ namespace Singleplayerstate
                         }
                         else
                         {
-                            showMessage("Unfortunately, it appears that this folder does not exist. Please restart the launcher and try again.");
-                        }
+                            string message_content = $"It appears that" + Environment.NewLine + Environment.NewLine +
+                                                     $"Name: {cleanOutput}" + Environment.NewLine +
+                                                     $"Path: {serverPath}" + Environment.NewLine + Environment.NewLine +
+                                                     $"does not exist. Would you like to clear it from the list and refresh?";
+                            MessageBoxButtons btns = MessageBoxButtons.YesNo;
 
+                            if (MessageBox.Show(message_content, this.Text, btns) == DialogResult.Yes)
+                            {
+                                removeInstall(cleanOutput);
+                            }
+                        }
                         break;
                     }
                 }
@@ -1362,27 +1395,7 @@ namespace Singleplayerstate
                 {
                     if (MessageBox.Show($"Remove installation {displayName}?", this.Text, MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
-                        folderPaths.Remove(displayName);
-                        string serializedPaths = JsonSerializer.Serialize(folderPaths);
-                        Properties.Settings.Default.availableServers = serializedPaths;
-                        Properties.Settings.Default.Save();
-
-                        if (folderPaths.Count < 1)
-                        {
-                            listServers();
-                            btnAddInstall.PerformClick();
-                            serverHasBeenSelected = false;
-                        }
-                        else
-                        {
-                            listServers();
-
-                            Control lbl = panelServers.Controls.Find("listedServer0", false).FirstOrDefault();
-                            if (lbl != null)
-                            {
-                                clickServer(lbl, true);
-                            }
-                        }
+                        removeInstall(displayName);
                     }
                 }
             }
