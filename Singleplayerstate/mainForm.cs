@@ -112,6 +112,22 @@ namespace Singleplayerstate
                 fetchLastServer();
         }
 
+        private void performClosing()
+        {
+            string findServer = fetchCurrentServer();
+            if (findServer != null)
+            {
+                Properties.Settings.Default.lastServer = findServer;
+            }
+
+            Properties.Settings.Default.addonPanelVisible = panelAddons.Visible;
+            Properties.Settings.Default.Save();
+
+            saveAutostart(findServer);
+            killProcesses();
+            Application.Exit();
+        }
+
         private void HandleDelete()
         {
             foreach (Label label in panelServers.Controls.OfType<Label>())
@@ -730,6 +746,35 @@ namespace Singleplayerstate
             }
         }
 
+        private void saveAutostart(string serverName)
+        {
+            string autostart = null;
+
+            string autostartFile = Path.Combine(currentDirectory, "autostart.txt");
+            bool autostartExists = File.Exists(autostartFile);
+            if (autostartExists)
+            {
+                string[] lines = File.ReadAllLines(autostartFile);
+                if (lines.Length > -1 && lines[0] != null)
+                {
+                    autostart = lines[0].TrimEnd();
+                }
+
+                try
+                {
+                    string[] updatedLines = { autostart, serverName };
+                    File.WriteAllLines(autostartFile, updatedLines);
+                }
+                catch (Exception ex)
+                {
+                    showMessage("We appear to have run into a problem. If you\'re unsure what this is about, please contact the developer." +
+                                Environment.NewLine +
+                                Environment.NewLine +
+                                ex.ToString());
+                }
+            }
+        }
+
         private void listProfiles()
         {
             panelAccountProfiles.Controls.Clear();
@@ -1307,6 +1352,8 @@ namespace Singleplayerstate
 
         private void mainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            bool accepted = false;
+
             if (e.CloseReason == CloseReason.UserClosing)
             {
                 if (serverIsRunning && !hasStopped)
@@ -1314,24 +1361,15 @@ namespace Singleplayerstate
                     DialogResult result = MessageBox.Show("Aki's server is running, this will close the server and game. Are you sure you want to proceed?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                     if (result == DialogResult.No)
-                    {
                         e.Cancel = true;
-                    }
                     else
-                    {
-                        string findServer = fetchCurrentServer();
-                        if (findServer != null)
-                        {
-                            Properties.Settings.Default.lastServer = findServer;
-                        }
+                        accepted = true;
 
-                        Properties.Settings.Default.addonPanelVisible = panelAddons.Visible;
-                        Properties.Settings.Default.Save();
-
-                        killProcesses();
-                        Application.Exit();
-                    }
+                    if (accepted)
+                        performClosing();
                 }
+                else
+                    performClosing();
             }
         }
 
