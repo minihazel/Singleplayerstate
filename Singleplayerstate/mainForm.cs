@@ -1311,7 +1311,7 @@ namespace Singleplayerstate
             {
                 if (serverIsRunning && !hasStopped)
                 {
-                    DialogResult result = MessageBox.Show("Aki's server is running, are you sure you want to exit?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    DialogResult result = MessageBox.Show("Aki's server is running, this will close the server and game. Are you sure you want to proceed?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                     if (result == DialogResult.No)
                     {
@@ -1328,6 +1328,7 @@ namespace Singleplayerstate
                         Properties.Settings.Default.addonPanelVisible = panelAddons.Visible;
                         Properties.Settings.Default.Save();
 
+                        killProcesses();
                         Application.Exit();
                     }
                 }
