@@ -108,23 +108,35 @@ namespace Singleplayerstate
             else
                 btnWhenSPTAKIExits.Text = "Do nothing";
 
-            if (Properties.Settings.Default.lastServer != null)
-                fetchLastServer();
+            checkAutoStart();
         }
 
         private void performClosing()
         {
-            string findServer = fetchCurrentServer();
-            if (findServer != null)
+            int serverCount = panelServers.Controls.Count - 1;
+            if (serverCount > -1)
             {
-                Properties.Settings.Default.lastServer = findServer;
+                string findServer = fetchCurrentServer();
+                if (findServer != null)
+                {
+                    Properties.Settings.Default.lastServer = findServer;
+                }
+
+                Properties.Settings.Default.addonPanelVisible = panelAddons.Visible;
+                Properties.Settings.Default.Save();
+
+                saveAutostart(findServer);
+                killProcesses();
+            }
+            else
+            {
+                Properties.Settings.Default.lastServer = null;
+                saveAutostart(null);
+                Properties.Settings.Default.addonPanelVisible = panelAddons.Visible;
+                Properties.Settings.Default.Save();
+                killProcesses();
             }
 
-            Properties.Settings.Default.addonPanelVisible = panelAddons.Visible;
-            Properties.Settings.Default.Save();
-
-            saveAutostart(findServer);
-            killProcesses();
             Application.Exit();
         }
 
@@ -500,6 +512,7 @@ namespace Singleplayerstate
             }
         }
 
+        // RETURN STRINGS
         private string convertProfile(string AID)
         {
             string cleanAID = Path.GetFileNameWithoutExtension(AID);
@@ -607,6 +620,34 @@ namespace Singleplayerstate
             return null;
         }
 
+        private int returnClientModsList()
+        {
+            int num = 0;
+
+            string gamePath = txtGameInstallFolder.Text;
+            string BepInEx = Path.Combine(gamePath, "BepInEx");
+            string LogOutput = Path.Combine(BepInEx, "LogOutput.log");
+
+            bool BepInExExists = Directory.Exists(BepInEx);
+            bool LogOutputExists = File.Exists(LogOutput);
+
+            if (BepInExExists && LogOutputExists)
+            {
+                string loadString = File.ReadAllLines(LogOutput)[14];
+                if (loadString.Contains("plugins to load"))
+                {
+                    Match numberSuccess = Regex.Match(loadString, @"\d+");
+                    if (numberSuccess.Success)
+                    {
+                        num = int.Parse(numberSuccess.Value);
+                        return num;
+                    }
+                }
+            }
+
+            return 0;
+        }
+
         // STATIC
         public static bool IsAkiServerRunning(string expectedFilePath)
         {
@@ -668,8 +709,6 @@ namespace Singleplayerstate
                 lbl.Text = $"✔️ {servers[i]}";
                 panelServers.Controls.Add(lbl);
             }
-
-            checkAutoStart();
         }
 
         private async void checkAutoStart()
@@ -1043,6 +1082,7 @@ namespace Singleplayerstate
             btnSelectAccount.Text = "None selected";
             txtUsername.Clear();
             btnPlaySPTAKI.Enabled = false;
+            btnClientMods.Text = "Client mods";
 
             string mainDir = path;
 
@@ -1168,6 +1208,19 @@ namespace Singleplayerstate
             }
         }
 
+        private void displayClientMods()
+        {
+            string path = txtGameInstallFolder.Text;
+            string BepInFolder = Path.Combine(path, "BepInEx");
+            string pluginsFolder = Path.Combine(BepInFolder, "plugins");
+            string sptFolder = Path.Combine(pluginsFolder, "spt");
+
+            int externalModCount = returnClientModsList();
+            int sptDefaultCount = Directory.GetFiles(sptFolder, "*.dll").Count();
+            string clientModsCount = $"Client mods - {externalModCount - sptDefaultCount}";
+            btnClientMods.Text = clientModsCount;
+        }
+
         private void clickServer(Control label, bool autoClick)
         {
             foreach (Control c in panelServers.Controls)
@@ -1209,8 +1262,6 @@ namespace Singleplayerstate
                             panelAccountSeparator.Visible = false;
                             btnSetUsername.Enabled = true;
 
-                            displayInfo(serverPath);
-
                             if (!serverHasBeenSelected)
                             {
                                 serverHasBeenSelected = true;
@@ -1218,6 +1269,9 @@ namespace Singleplayerstate
 
                             Properties.Settings.Default.lastServer = cleanOutput;
                             Properties.Settings.Default.Save();
+
+                            displayInfo(serverPath);
+                            displayClientMods();
 
                             if (autoClick)
                                 btnSPTAKI.PerformClick();
