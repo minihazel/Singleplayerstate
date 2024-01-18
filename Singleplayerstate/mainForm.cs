@@ -1317,8 +1317,11 @@ namespace Singleplayerstate
             System.Windows.Forms.Label label = (System.Windows.Forms.Label)sender;
             if (label.Text != "")
             {
-                ranViaHotkey = true;
-                btnPlaySPTAKI.PerformClick();
+                if (Properties.Settings.Default.onServerDoubleClick)
+                {
+                    ranViaHotkey = true;
+                    btnPlaySPTAKI.PerformClick();
+                }
             }
         }
 
