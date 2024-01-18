@@ -108,6 +108,11 @@ namespace Singleplayerstate
             else
                 btnWhenSPTAKIExits.Text = "Do nothing";
 
+            if (Properties.Settings.Default.onServerDoubleClick)
+                btnOnServerDoubleClick.Text = "Play SPT-AKI";
+            else
+                btnOnServerDoubleClick.Text = "Do nothing";
+
             checkAutoStart();
         }
 
@@ -3037,6 +3042,24 @@ namespace Singleplayerstate
                                 ex.ToString());
                 }
             }
+        }
+
+        private void btnOnServerDoubleClick_MouseDown(object sender, MouseEventArgs e)
+        {
+            switch (btnOnServerDoubleClick.Text.ToLower())
+            {
+                case "do nothing":
+                    Properties.Settings.Default.onServerDoubleClick = true;
+                    btnOnServerDoubleClick.Text = "Play SPT-AKI";
+                    break;
+                case "play spt-aki":
+                    Properties.Settings.Default.onServerDoubleClick = false;
+                    btnOnServerDoubleClick.Text = "Do nothing";
+                    break;
+            }
+
+            Properties.Settings.Default.Save();
+            lblServers.Select();
         }
     }
 }

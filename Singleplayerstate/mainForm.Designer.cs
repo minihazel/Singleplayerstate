@@ -118,6 +118,8 @@
             this.panel4 = new System.Windows.Forms.Panel();
             this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.btnOpenAutostart = new System.Windows.Forms.Button();
+            this.titleOnServerDoubleClick = new System.Windows.Forms.Label();
+            this.btnOnServerDoubleClick = new System.Windows.Forms.Button();
             this.panelServers.SuspendLayout();
             this.panelGameInfo.SuspendLayout();
             this.panelGameOptions.SuspendLayout();
@@ -432,6 +434,8 @@
             // panelGameOptions
             // 
             this.panelGameOptions.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(29)))), ((int)(((byte)(31)))));
+            this.panelGameOptions.Controls.Add(this.titleOnServerDoubleClick);
+            this.panelGameOptions.Controls.Add(this.btnOnServerDoubleClick);
             this.panelGameOptions.Controls.Add(this.titleWhenSPTAKIExits);
             this.panelGameOptions.Controls.Add(this.btnWhenSPTAKIExits);
             this.panelGameOptions.Controls.Add(this.btnRemoveInstall);
@@ -537,7 +541,7 @@
             this.titleExtensions.ForeColor = System.Drawing.Color.LightGray;
             this.titleExtensions.Location = new System.Drawing.Point(3, 273);
             this.titleExtensions.Name = "titleExtensions";
-            this.titleExtensions.Size = new System.Drawing.Size(582, 20);
+            this.titleExtensions.Size = new System.Drawing.Size(243, 20);
             this.titleExtensions.TabIndex = 13;
             this.titleExtensions.Text = "Extensions:";
             this.titleExtensions.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -600,7 +604,7 @@
             this.titleGameInstallFolder.ForeColor = System.Drawing.Color.LightGray;
             this.titleGameInstallFolder.Location = new System.Drawing.Point(3, 131);
             this.titleGameInstallFolder.Name = "titleGameInstallFolder";
-            this.titleGameInstallFolder.Size = new System.Drawing.Size(582, 20);
+            this.titleGameInstallFolder.Size = new System.Drawing.Size(243, 20);
             this.titleGameInstallFolder.TabIndex = 8;
             this.titleGameInstallFolder.Text = "Game install folder:";
             this.titleGameInstallFolder.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1436,6 +1440,37 @@
             this.btnOpenAutostart.UseVisualStyleBackColor = false;
             this.btnOpenAutostart.Click += new System.EventHandler(this.btnOpenAutostart_Click);
             // 
+            // titleOnServerDoubleClick
+            // 
+            this.titleOnServerDoubleClick.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.titleOnServerDoubleClick.ForeColor = System.Drawing.Color.LightGray;
+            this.titleOnServerDoubleClick.Location = new System.Drawing.Point(249, 131);
+            this.titleOnServerDoubleClick.Name = "titleOnServerDoubleClick";
+            this.titleOnServerDoubleClick.Size = new System.Drawing.Size(356, 20);
+            this.titleOnServerDoubleClick.TabIndex = 20;
+            this.titleOnServerDoubleClick.Text = "On server double-click:";
+            this.titleOnServerDoubleClick.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // btnOnServerDoubleClick
+            // 
+            this.btnOnServerDoubleClick.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.btnOnServerDoubleClick.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnOnServerDoubleClick.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
+            this.btnOnServerDoubleClick.FlatAppearance.BorderSize = 2;
+            this.btnOnServerDoubleClick.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnOnServerDoubleClick.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnOnServerDoubleClick.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnOnServerDoubleClick.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.btnOnServerDoubleClick.ForeColor = System.Drawing.Color.Gray;
+            this.btnOnServerDoubleClick.Location = new System.Drawing.Point(252, 154);
+            this.btnOnServerDoubleClick.Name = "btnOnServerDoubleClick";
+            this.btnOnServerDoubleClick.Size = new System.Drawing.Size(200, 40);
+            this.btnOnServerDoubleClick.TabIndex = 19;
+            this.btnOnServerDoubleClick.Text = "Do nothing";
+            this.btnOnServerDoubleClick.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnOnServerDoubleClick.UseVisualStyleBackColor = false;
+            this.btnOnServerDoubleClick.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnOnServerDoubleClick_MouseDown);
+            // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -1453,11 +1488,11 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.lblServers);
             this.Controls.Add(this.panelServers);
-            this.Controls.Add(this.panelSPTAKI);
             this.Controls.Add(this.panelGameOptions);
             this.Controls.Add(this.panelAddInstall);
             this.Controls.Add(this.panelServer);
             this.Controls.Add(this.panelAccount);
+            this.Controls.Add(this.panelSPTAKI);
             this.Font = new System.Drawing.Font("Bahnschrift Light", 10F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -1582,6 +1617,8 @@
         private System.Windows.Forms.NotifyIcon trayIcon;
         private System.Windows.Forms.Button btnWorkshop;
         private System.Windows.Forms.Button btnOpenAutostart;
+        private System.Windows.Forms.Label titleOnServerDoubleClick;
+        private System.Windows.Forms.Button btnOnServerDoubleClick;
     }
 }
 
