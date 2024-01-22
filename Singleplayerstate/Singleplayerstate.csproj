@@ -133,6 +133,12 @@
     <Compile Include="AddonCreate.Designer.cs">
       <DependentUpon>AddonCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="DevTools.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DevTools.Designer.cs">
+      <DependentUpon>DevTools.cs</DependentUpon>
+    </Compile>
     <Compile Include="mainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -143,6 +149,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="AddonCreate.resx">
       <DependentUpon>AddonCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DevTools.resx">
+      <DependentUpon>DevTools.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="mainForm.resx">
       <DependentUpon>mainForm.cs</DependentUpon>

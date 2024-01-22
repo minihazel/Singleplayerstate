@@ -52,6 +52,8 @@
             this.infoGameEditionTitle = new System.Windows.Forms.Label();
             this.infoGameVersionTitle = new System.Windows.Forms.Label();
             this.panelGameOptions = new System.Windows.Forms.Panel();
+            this.titleOnServerDoubleClick = new System.Windows.Forms.Label();
+            this.btnOnServerDoubleClick = new System.Windows.Forms.Button();
             this.titleWhenSPTAKIExits = new System.Windows.Forms.Label();
             this.btnWhenSPTAKIExits = new System.Windows.Forms.Button();
             this.btnRemoveInstall = new System.Windows.Forms.Button();
@@ -118,8 +120,7 @@
             this.panel4 = new System.Windows.Forms.Panel();
             this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.btnOpenAutostart = new System.Windows.Forms.Button();
-            this.titleOnServerDoubleClick = new System.Windows.Forms.Label();
-            this.btnOnServerDoubleClick = new System.Windows.Forms.Button();
+            this.btnDeveloperExtras = new System.Windows.Forms.Button();
             this.panelServers.SuspendLayout();
             this.panelGameInfo.SuspendLayout();
             this.panelGameOptions.SuspendLayout();
@@ -434,6 +435,7 @@
             // panelGameOptions
             // 
             this.panelGameOptions.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(29)))), ((int)(((byte)(31)))));
+            this.panelGameOptions.Controls.Add(this.btnDeveloperExtras);
             this.panelGameOptions.Controls.Add(this.titleOnServerDoubleClick);
             this.panelGameOptions.Controls.Add(this.btnOnServerDoubleClick);
             this.panelGameOptions.Controls.Add(this.titleWhenSPTAKIExits);
@@ -454,6 +456,37 @@
             this.panelGameOptions.Name = "panelGameOptions";
             this.panelGameOptions.Size = new System.Drawing.Size(608, 583);
             this.panelGameOptions.TabIndex = 1;
+            // 
+            // titleOnServerDoubleClick
+            // 
+            this.titleOnServerDoubleClick.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.titleOnServerDoubleClick.ForeColor = System.Drawing.Color.LightGray;
+            this.titleOnServerDoubleClick.Location = new System.Drawing.Point(249, 131);
+            this.titleOnServerDoubleClick.Name = "titleOnServerDoubleClick";
+            this.titleOnServerDoubleClick.Size = new System.Drawing.Size(356, 20);
+            this.titleOnServerDoubleClick.TabIndex = 20;
+            this.titleOnServerDoubleClick.Text = "On server double-click:";
+            this.titleOnServerDoubleClick.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // btnOnServerDoubleClick
+            // 
+            this.btnOnServerDoubleClick.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.btnOnServerDoubleClick.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnOnServerDoubleClick.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
+            this.btnOnServerDoubleClick.FlatAppearance.BorderSize = 2;
+            this.btnOnServerDoubleClick.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnOnServerDoubleClick.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnOnServerDoubleClick.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnOnServerDoubleClick.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.btnOnServerDoubleClick.ForeColor = System.Drawing.Color.Gray;
+            this.btnOnServerDoubleClick.Location = new System.Drawing.Point(252, 154);
+            this.btnOnServerDoubleClick.Name = "btnOnServerDoubleClick";
+            this.btnOnServerDoubleClick.Size = new System.Drawing.Size(200, 40);
+            this.btnOnServerDoubleClick.TabIndex = 19;
+            this.btnOnServerDoubleClick.Text = "Do nothing";
+            this.btnOnServerDoubleClick.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnOnServerDoubleClick.UseVisualStyleBackColor = false;
+            this.btnOnServerDoubleClick.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnOnServerDoubleClick_MouseDown);
             // 
             // titleWhenSPTAKIExits
             // 
@@ -1440,36 +1473,24 @@
             this.btnOpenAutostart.UseVisualStyleBackColor = false;
             this.btnOpenAutostart.Click += new System.EventHandler(this.btnOpenAutostart_Click);
             // 
-            // titleOnServerDoubleClick
+            // btnDeveloperExtras
             // 
-            this.titleOnServerDoubleClick.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.titleOnServerDoubleClick.ForeColor = System.Drawing.Color.LightGray;
-            this.titleOnServerDoubleClick.Location = new System.Drawing.Point(249, 131);
-            this.titleOnServerDoubleClick.Name = "titleOnServerDoubleClick";
-            this.titleOnServerDoubleClick.Size = new System.Drawing.Size(356, 20);
-            this.titleOnServerDoubleClick.TabIndex = 20;
-            this.titleOnServerDoubleClick.Text = "On server double-click:";
-            this.titleOnServerDoubleClick.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // btnOnServerDoubleClick
-            // 
-            this.btnOnServerDoubleClick.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
-            this.btnOnServerDoubleClick.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnOnServerDoubleClick.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
-            this.btnOnServerDoubleClick.FlatAppearance.BorderSize = 2;
-            this.btnOnServerDoubleClick.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.btnOnServerDoubleClick.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.btnOnServerDoubleClick.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnOnServerDoubleClick.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.btnOnServerDoubleClick.ForeColor = System.Drawing.Color.Gray;
-            this.btnOnServerDoubleClick.Location = new System.Drawing.Point(252, 154);
-            this.btnOnServerDoubleClick.Name = "btnOnServerDoubleClick";
-            this.btnOnServerDoubleClick.Size = new System.Drawing.Size(200, 40);
-            this.btnOnServerDoubleClick.TabIndex = 19;
-            this.btnOnServerDoubleClick.Text = "Do nothing";
-            this.btnOnServerDoubleClick.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnOnServerDoubleClick.UseVisualStyleBackColor = false;
-            this.btnOnServerDoubleClick.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnOnServerDoubleClick_MouseDown);
+            this.btnDeveloperExtras.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.btnDeveloperExtras.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnDeveloperExtras.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
+            this.btnDeveloperExtras.FlatAppearance.BorderSize = 2;
+            this.btnDeveloperExtras.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnDeveloperExtras.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnDeveloperExtras.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDeveloperExtras.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.btnDeveloperExtras.ForeColor = System.Drawing.Color.MediumSlateBlue;
+            this.btnDeveloperExtras.Location = new System.Drawing.Point(6, 497);
+            this.btnDeveloperExtras.Name = "btnDeveloperExtras";
+            this.btnDeveloperExtras.Size = new System.Drawing.Size(300, 40);
+            this.btnDeveloperExtras.TabIndex = 21;
+            this.btnDeveloperExtras.Text = "Developer extras";
+            this.btnDeveloperExtras.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnDeveloperExtras.UseVisualStyleBackColor = false;
             // 
             // mainForm
             // 
@@ -1619,6 +1640,7 @@
         private System.Windows.Forms.Button btnOpenAutostart;
         private System.Windows.Forms.Label titleOnServerDoubleClick;
         private System.Windows.Forms.Button btnOnServerDoubleClick;
+        private System.Windows.Forms.Button btnDeveloperExtras;
     }
 }
 
