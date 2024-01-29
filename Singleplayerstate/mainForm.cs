@@ -24,6 +24,7 @@ namespace Singleplayerstate
     public partial class mainForm : Form
     {
         string currentDirectory = Environment.CurrentDirectory;
+        string logsFolder = "";
         public StringBuilder akiServerOutput;
         public string availableServers;
         public string availableAddons;
@@ -62,6 +63,13 @@ namespace Singleplayerstate
 
         private void mainForm_Load(object sender, EventArgs e)
         {
+            logsFolder = Path.Combine(currentDirectory, "logs");
+            bool logsFolderExists = Directory.Exists(logsFolder);
+            if (!logsFolderExists)
+            {
+                Directory.CreateDirectory(logsFolder);
+            }
+
             folderPaths.Add("Placeholder", "Placeholder");
             addonPaths.Add("Placeholder", "Placeholder");
 
@@ -91,6 +99,7 @@ namespace Singleplayerstate
             txtSetDisplayName.Clear();
             btnAddInstall.PerformClick();
             chkAutoScroll.Checked = Properties.Settings.Default.autoScrollOption;
+            chkLogOnExit.Checked = Properties.Settings.Default.logOnExit;
 
             if (Properties.Settings.Default.launchParameter == "donothing")
                 btnWhenSPTAKILauncher.Text = "Do nothing";
@@ -1927,11 +1936,6 @@ namespace Singleplayerstate
                     BeginInvoke((MethodInvoker)delegate { btnClearList.Enabled = false; });
                 else
                     btnClearList.Enabled = false;
-
-                if (btnCloseAkiServer.InvokeRequired)
-                    BeginInvoke((MethodInvoker)delegate { btnCloseAkiServer.Text = "Force-close server"; });
-                else
-                    btnCloseAkiServer.Text = "Force-close server";
             }
         }
         
@@ -2039,9 +2043,19 @@ namespace Singleplayerstate
                     AkiServerDetector = null;
                 }
 
-                btnCloseAkiServer.Text = "Run server";
-                txtServerIsRunning.Text = "❌ Server is closed";
-                txtServerIsRunning.ForeColor = Color.Red;
+                if (btnCloseAkiServer.InvokeRequired)
+                    BeginInvoke((MethodInvoker)delegate {
+                        btnCloseAkiServer.Text = "Run server";
+                        txtServerIsRunning.Text = "❌ Server is closed";
+                        txtServerIsRunning.ForeColor = Color.Red;
+                    });
+                else
+                {
+                    btnCloseAkiServer.Text = "Run server";
+                    txtServerIsRunning.Text = "❌ Server is closed";
+                    txtServerIsRunning.ForeColor = Color.Red;
+                }
+
                 firstServerNotify = true;
             }
             catch (Exception err)
@@ -2163,30 +2177,45 @@ namespace Singleplayerstate
             else
                 btnClearList.Enabled = true;
 
+            killAkiServer();
+
+            if (btnCloseAkiServer.InvokeRequired)
+                BeginInvoke((MethodInvoker)delegate {btnCloseAkiServer.Enabled = false;});
+            else
+                btnCloseAkiServer.Enabled = false;
+
             hasStopped = true;
             serverIsRunning = false;
 
-            /*
-            if (btnCloseAkiServer.InvokeRequired)
-                BeginInvoke((MethodInvoker)delegate { btnCloseAkiServer.Text = "Run server"; });
-            else
-                btnCloseAkiServer.Enabled = true;
+            if (chkLogOnExit.Checked)
+            {
+                try
+                {
+                    string fullServerOutput = akiOutput.Text;
+                    DateTime now = DateTime.Now;
+                    string formattedTime = now.ToString("yyyy-MM-dd HH-mm-ss");
+                    string filename = $"{formattedTime} server.log";
 
-            if (txtServerIsRunning.InvokeRequired)
-                BeginInvoke((MethodInvoker)delegate {
-                    txtServerIsRunning.Text = "❌ Server is closed";
-                    txtServerIsRunning.ForeColor = Color.Red;
-                });
-            else
-                txtServerIsRunning.Enabled = true;
-
-            firstServerNotify = true;
-            */
+                    string path = Path.Combine(logsFolder, filename);
+                    File.WriteAllText(fullServerOutput, formattedTime);
+                }
+                catch (Exception ex)
+                {
+                    showMessage("We appear to have run into a problem. If you\'re unsure what this is about, please contact the developer." +
+                                        Environment.NewLine +
+                                        Environment.NewLine +
+                                        ex.ToString());
+                }
+            }
 
             if (akiOutput.InvokeRequired)
+            {
                 BeginInvoke((MethodInvoker)delegate { akiOutput.Clear(); });
+            }
             else
+            {
                 akiOutput.Clear();
+            }
 
             if (TarkovProcessDetector != null)
             {
@@ -2267,6 +2296,7 @@ namespace Singleplayerstate
                 hasStopped = false;
                 serverIsRunning = true;
 
+                /*
                 if (panelServers.InvokeRequired)
                     BeginInvoke((MethodInvoker)delegate { panelServers.Enabled = false; });
                 else
@@ -2296,6 +2326,19 @@ namespace Singleplayerstate
                     BeginInvoke((MethodInvoker)delegate { btnClearList.Enabled = false; });
                 else
                     btnClearList.Enabled = false;
+                
+                */
+
+                if (txtServerIsRunning.InvokeRequired)
+                    BeginInvoke((MethodInvoker)delegate {
+                        txtServerIsRunning.Text = "✔️ Server is launching...";
+                        txtServerIsRunning.ForeColor = Color.SeaGreen;
+                    });
+                else
+                {
+                    txtServerIsRunning.Text = "✔️ Server is launching...";
+                    txtServerIsRunning.ForeColor = Color.SeaGreen;
+                }
 
                 AkiServerDetector = new BackgroundWorker();
                 AkiServerDetector.DoWork += AkiServerDetector_DoWork;
@@ -2364,7 +2407,6 @@ namespace Singleplayerstate
 
             try
             {
-
                 akiServer.Start();
                 akiServer.BeginOutputReadLine();
 
@@ -2376,9 +2418,19 @@ namespace Singleplayerstate
                 toggleUI(false);
 
                 if (btnCloseAkiServer.InvokeRequired)
-                    BeginInvoke((MethodInvoker)delegate { btnCloseAkiServer.Text = "Force-close server"; });
+                    BeginInvoke((MethodInvoker)delegate {
+                        // btnCloseAkiServer.Enabled = true;
+                        btnCloseAkiServer.Text = "Close server";
+                        txtServerIsRunning.Text = "✔️ Server is launching...";
+                        txtServerIsRunning.ForeColor = Color.SeaGreen;
+                    });
                 else
-                    btnCloseAkiServer.Text = "Force-close server";
+                {
+                    // btnCloseAkiServer.Enabled = true;
+                    btnCloseAkiServer.Text = "Close server";
+                    txtServerIsRunning.Text = "✔️ Server is launching...";
+                    txtServerIsRunning.ForeColor = Color.SeaGreen;
+                }
 
                 if (ranViaHotkey || Properties.Settings.Default.launchParameter == "tray")
                 {
@@ -2608,19 +2660,18 @@ namespace Singleplayerstate
                 }
                 else 
                 {
-                    txtServerIsRunning.Text = "✔️ Server is running";
-                    txtServerIsRunning.ForeColor = Color.SeaGreen;
-
-                    /*
-                    if (!firstServerNotify)
+                    if (btnCloseAkiServer.InvokeRequired)
+                        BeginInvoke((MethodInvoker)delegate {
+                            btnCloseAkiServer.Text = "Force-close server";
+                            txtServerIsRunning.Text = "✔️ Server is running";
+                            txtServerIsRunning.ForeColor = Color.SeaGreen;
+                        });
+                    else
                     {
-                        btnCloseAkiServer.Enabled = true;
                         btnCloseAkiServer.Text = "Force-close server";
                         txtServerIsRunning.Text = "✔️ Server is running";
                         txtServerIsRunning.ForeColor = Color.SeaGreen;
-                        firstServerNotify = true;
                     }
-                    */
                 }
             }
         }
@@ -2727,9 +2778,18 @@ namespace Singleplayerstate
                         Console.WriteLine("Port connection success. This is a debug message so ignore");
                         serverIsRunning = true;
 
-                        // btnCloseAkiServer.Text = "Force-close server";
-                        txtServerIsRunning.Text = "✔️ Server is running";
-                        txtServerIsRunning.ForeColor = Color.SeaGreen;
+                        if (btnCloseAkiServer.InvokeRequired)
+                            BeginInvoke((MethodInvoker)delegate {
+                                btnCloseAkiServer.Text = "Force-close server";
+                                txtServerIsRunning.Text = "✔️ Server is running";
+                                txtServerIsRunning.ForeColor = Color.SeaGreen;
+                            });
+                        else
+                        {
+                            btnCloseAkiServer.Text = "Force-close server";
+                            txtServerIsRunning.Text = "✔️ Server is running";
+                            txtServerIsRunning.ForeColor = Color.SeaGreen;
+                        }
 
                         launchTarkov(port);
                         return true;
@@ -2751,8 +2811,7 @@ namespace Singleplayerstate
         {
             if (btnCloseAkiServer.Text.ToLower() == "run server")
             {
-                // runServerOnly();
-                // btnCloseAkiServer.Enabled = false;
+                runServerOnly();
             }
             else if (btnCloseAkiServer.Text.ToLower() == "force-close server")
             {
@@ -2767,17 +2826,27 @@ namespace Singleplayerstate
                 }
                 else
                 {
-                    // btnCloseAkiServer.Text = "Run server";
-                    // txtServerIsRunning.Text = "✔️ Server is starting up...";
-                    // txtServerIsRunning.ForeColor = Color.DodgerBlue;
-
-                    txtServerIsRunning.Text = "❌ Server is closed";
-                    txtServerIsRunning.ForeColor = Color.DodgerBlue;
+                    if (btnCloseAkiServer.InvokeRequired)
+                        BeginInvoke((MethodInvoker)delegate {
+                            btnCloseAkiServer.Text = "Run server";
+                            txtServerIsRunning.Text = "❌ Server is closed";
+                            txtServerIsRunning.ForeColor = Color.Red;
+                        });
+                    else
+                    {
+                        btnCloseAkiServer.Text = "Run server";
+                        txtServerIsRunning.Text = "❌ Server is closed";
+                        txtServerIsRunning.ForeColor = Color.Red;
+                    }
 
                     killAkiServer();
-                    showMessage("Force-closed Aki.Server. Make sure to quit Escape From Tarkov!");
                 }
                 lblServers.Select();
+            }
+            else if (btnCloseAkiServer.Text.ToLower() == "restart server")
+            {
+                killAkiServer();
+                runServerOnly();
             }
         }
 
@@ -3063,6 +3132,66 @@ namespace Singleplayerstate
 
             Properties.Settings.Default.Save();
             lblServers.Select();
+        }
+
+        private void btnCloseAkiServer_MouseDown(object sender, MouseEventArgs e)
+        {
+            if ((Control.MouseButtons & MouseButtons.Right) != 0)
+            {
+                switch (btnCloseAkiServer.Text.ToLower())
+                {
+                    case "run server":
+                        btnCloseAkiServer.Text = "Close server";
+                        break;
+                    case "close server":
+                        btnCloseAkiServer.Text = "Restart server";
+                        break;
+                    case "restart server":
+                        btnCloseAkiServer.Text = "Run server";
+                        break;
+                }
+            }
+            else
+            {
+
+            }
+        }
+
+        private void btnDeveloperExtras_Click(object sender, EventArgs e)
+        {
+            DevTools frm = new DevTools();
+            frm.ShowDialog();
+        }
+
+        private void chkLogOnExit_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.logOnExit = chkLogOnExit.Checked;
+            Properties.Settings.Default.Save();
+        }
+
+        private void btnOpenLatestServerLog_Click(object sender, EventArgs e)
+        {
+            bool logsFolderExists = Directory.Exists(logsFolder);
+            if (logsFolderExists)
+            {
+                DirectoryInfo directoryInfo = new DirectoryInfo(logsFolder);
+                FileInfo[] files = directoryInfo.GetFiles().OrderByDescending(f => f.LastWriteTime).ToArray();
+
+                if (files.Length > 0)
+                {
+                    // Get the information about the last modified file
+                    FileInfo lastModifiedFile = files[0];
+
+                    string fullName = lastModifiedFile.FullName;
+
+                    ProcessStartInfo logFile = new ProcessStartInfo();
+                    logFile.WorkingDirectory = logsFolder;
+                    logFile.FileName = Path.GetFileName(fullName);
+                    logFile.UseShellExecute = true;
+                    logFile.Verb = "open";
+                    Process.Start(logFile);
+                }
+            }
         }
     }
 }

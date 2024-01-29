@@ -130,5 +130,17 @@ namespace Singleplayerstate.Properties {
                 this["onServerDoubleClick"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool logOnExit {
+            get {
+                return ((bool)(this["logOnExit"]));
+            }
+            set {
+                this["logOnExit"] = value;
+            }
+        }
     }
 }

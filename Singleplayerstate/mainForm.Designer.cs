@@ -52,6 +52,7 @@
             this.infoGameEditionTitle = new System.Windows.Forms.Label();
             this.infoGameVersionTitle = new System.Windows.Forms.Label();
             this.panelGameOptions = new System.Windows.Forms.Panel();
+            this.btnDeveloperExtras = new System.Windows.Forms.Button();
             this.titleOnServerDoubleClick = new System.Windows.Forms.Label();
             this.btnOnServerDoubleClick = new System.Windows.Forms.Button();
             this.titleWhenSPTAKIExits = new System.Windows.Forms.Label();
@@ -120,7 +121,8 @@
             this.panel4 = new System.Windows.Forms.Panel();
             this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.btnOpenAutostart = new System.Windows.Forms.Button();
-            this.btnDeveloperExtras = new System.Windows.Forms.Button();
+            this.chkLogOnExit = new System.Windows.Forms.CheckBox();
+            this.btnOpenLatestServerLog = new System.Windows.Forms.Button();
             this.panelServers.SuspendLayout();
             this.panelGameInfo.SuspendLayout();
             this.panelGameOptions.SuspendLayout();
@@ -435,6 +437,7 @@
             // panelGameOptions
             // 
             this.panelGameOptions.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(29)))), ((int)(((byte)(31)))));
+            this.panelGameOptions.Controls.Add(this.btnOpenLatestServerLog);
             this.panelGameOptions.Controls.Add(this.btnDeveloperExtras);
             this.panelGameOptions.Controls.Add(this.titleOnServerDoubleClick);
             this.panelGameOptions.Controls.Add(this.btnOnServerDoubleClick);
@@ -457,13 +460,33 @@
             this.panelGameOptions.Size = new System.Drawing.Size(608, 583);
             this.panelGameOptions.TabIndex = 1;
             // 
+            // btnDeveloperExtras
+            // 
+            this.btnDeveloperExtras.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.btnDeveloperExtras.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnDeveloperExtras.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
+            this.btnDeveloperExtras.FlatAppearance.BorderSize = 2;
+            this.btnDeveloperExtras.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnDeveloperExtras.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnDeveloperExtras.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDeveloperExtras.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.btnDeveloperExtras.ForeColor = System.Drawing.Color.MediumSlateBlue;
+            this.btnDeveloperExtras.Location = new System.Drawing.Point(6, 497);
+            this.btnDeveloperExtras.Name = "btnDeveloperExtras";
+            this.btnDeveloperExtras.Size = new System.Drawing.Size(240, 40);
+            this.btnDeveloperExtras.TabIndex = 21;
+            this.btnDeveloperExtras.Text = "Developer extras";
+            this.btnDeveloperExtras.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnDeveloperExtras.UseVisualStyleBackColor = false;
+            this.btnDeveloperExtras.Click += new System.EventHandler(this.btnDeveloperExtras_Click);
+            // 
             // titleOnServerDoubleClick
             // 
             this.titleOnServerDoubleClick.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
             this.titleOnServerDoubleClick.ForeColor = System.Drawing.Color.LightGray;
-            this.titleOnServerDoubleClick.Location = new System.Drawing.Point(249, 131);
+            this.titleOnServerDoubleClick.Location = new System.Drawing.Point(391, 38);
             this.titleOnServerDoubleClick.Name = "titleOnServerDoubleClick";
-            this.titleOnServerDoubleClick.Size = new System.Drawing.Size(356, 20);
+            this.titleOnServerDoubleClick.Size = new System.Drawing.Size(183, 20);
             this.titleOnServerDoubleClick.TabIndex = 20;
             this.titleOnServerDoubleClick.Text = "On server double-click:";
             this.titleOnServerDoubleClick.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -479,9 +502,9 @@
             this.btnOnServerDoubleClick.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnOnServerDoubleClick.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
             this.btnOnServerDoubleClick.ForeColor = System.Drawing.Color.Gray;
-            this.btnOnServerDoubleClick.Location = new System.Drawing.Point(252, 154);
+            this.btnOnServerDoubleClick.Location = new System.Drawing.Point(394, 61);
             this.btnOnServerDoubleClick.Name = "btnOnServerDoubleClick";
-            this.btnOnServerDoubleClick.Size = new System.Drawing.Size(200, 40);
+            this.btnOnServerDoubleClick.Size = new System.Drawing.Size(180, 40);
             this.btnOnServerDoubleClick.TabIndex = 19;
             this.btnOnServerDoubleClick.Text = "Do nothing";
             this.btnOnServerDoubleClick.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -492,9 +515,9 @@
             // 
             this.titleWhenSPTAKIExits.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
             this.titleWhenSPTAKIExits.ForeColor = System.Drawing.Color.LightGray;
-            this.titleWhenSPTAKIExits.Location = new System.Drawing.Point(249, 38);
+            this.titleWhenSPTAKIExits.Location = new System.Drawing.Point(197, 38);
             this.titleWhenSPTAKIExits.Name = "titleWhenSPTAKIExits";
-            this.titleWhenSPTAKIExits.Size = new System.Drawing.Size(356, 20);
+            this.titleWhenSPTAKIExits.Size = new System.Drawing.Size(183, 20);
             this.titleWhenSPTAKIExits.TabIndex = 18;
             this.titleWhenSPTAKIExits.Text = "When SPT-AKI exits:";
             this.titleWhenSPTAKIExits.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -510,9 +533,9 @@
             this.btnWhenSPTAKIExits.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnWhenSPTAKIExits.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
             this.btnWhenSPTAKIExits.ForeColor = System.Drawing.Color.Gray;
-            this.btnWhenSPTAKIExits.Location = new System.Drawing.Point(252, 61);
+            this.btnWhenSPTAKIExits.Location = new System.Drawing.Point(200, 61);
             this.btnWhenSPTAKIExits.Name = "btnWhenSPTAKIExits";
-            this.btnWhenSPTAKIExits.Size = new System.Drawing.Size(200, 40);
+            this.btnWhenSPTAKIExits.Size = new System.Drawing.Size(180, 40);
             this.btnWhenSPTAKIExits.TabIndex = 17;
             this.btnWhenSPTAKIExits.Text = "Display launcher";
             this.btnWhenSPTAKIExits.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -533,7 +556,7 @@
             this.btnRemoveInstall.ForeColor = System.Drawing.Color.Red;
             this.btnRemoveInstall.Location = new System.Drawing.Point(6, 379);
             this.btnRemoveInstall.Name = "btnRemoveInstall";
-            this.btnRemoveInstall.Size = new System.Drawing.Size(300, 40);
+            this.btnRemoveInstall.Size = new System.Drawing.Size(240, 40);
             this.btnRemoveInstall.TabIndex = 16;
             this.btnRemoveInstall.Text = "Remove install";
             this.btnRemoveInstall.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -648,7 +671,7 @@
             this.titleWhenSPTAKILauncher.ForeColor = System.Drawing.Color.LightGray;
             this.titleWhenSPTAKILauncher.Location = new System.Drawing.Point(3, 38);
             this.titleWhenSPTAKILauncher.Name = "titleWhenSPTAKILauncher";
-            this.titleWhenSPTAKILauncher.Size = new System.Drawing.Size(240, 20);
+            this.titleWhenSPTAKILauncher.Size = new System.Drawing.Size(183, 20);
             this.titleWhenSPTAKILauncher.TabIndex = 7;
             this.titleWhenSPTAKILauncher.Text = "When SPT-AKI launches:";
             this.titleWhenSPTAKILauncher.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -677,7 +700,7 @@
             this.btnWhenSPTAKILauncher.ForeColor = System.Drawing.Color.Gray;
             this.btnWhenSPTAKILauncher.Location = new System.Drawing.Point(6, 61);
             this.btnWhenSPTAKILauncher.Name = "btnWhenSPTAKILauncher";
-            this.btnWhenSPTAKILauncher.Size = new System.Drawing.Size(200, 40);
+            this.btnWhenSPTAKILauncher.Size = new System.Drawing.Size(180, 40);
             this.btnWhenSPTAKILauncher.TabIndex = 4;
             this.btnWhenSPTAKILauncher.Text = "Minimize launcher";
             this.btnWhenSPTAKILauncher.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -1066,6 +1089,7 @@
             // 
             // panelServer
             // 
+            this.panelServer.Controls.Add(this.chkLogOnExit);
             this.panelServer.Controls.Add(this.chkAutoScroll);
             this.panelServer.Controls.Add(this.txtServerIsRunning);
             this.panelServer.Controls.Add(this.titleServer);
@@ -1162,10 +1186,11 @@
             this.btnCloseAkiServer.Name = "btnCloseAkiServer";
             this.btnCloseAkiServer.Size = new System.Drawing.Size(300, 40);
             this.btnCloseAkiServer.TabIndex = 8;
-            this.btnCloseAkiServer.Text = "Force-close server";
+            this.btnCloseAkiServer.Text = "Restart server";
             this.btnCloseAkiServer.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnCloseAkiServer.UseVisualStyleBackColor = false;
             this.btnCloseAkiServer.Click += new System.EventHandler(this.btnCloseAkiServer_Click);
+            this.btnCloseAkiServer.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnCloseAkiServer_MouseDown);
             // 
             // titleAkiServer
             // 
@@ -1473,24 +1498,41 @@
             this.btnOpenAutostart.UseVisualStyleBackColor = false;
             this.btnOpenAutostart.Click += new System.EventHandler(this.btnOpenAutostart_Click);
             // 
-            // btnDeveloperExtras
+            // chkLogOnExit
             // 
-            this.btnDeveloperExtras.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
-            this.btnDeveloperExtras.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnDeveloperExtras.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
-            this.btnDeveloperExtras.FlatAppearance.BorderSize = 2;
-            this.btnDeveloperExtras.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.btnDeveloperExtras.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.btnDeveloperExtras.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDeveloperExtras.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.btnDeveloperExtras.ForeColor = System.Drawing.Color.MediumSlateBlue;
-            this.btnDeveloperExtras.Location = new System.Drawing.Point(6, 497);
-            this.btnDeveloperExtras.Name = "btnDeveloperExtras";
-            this.btnDeveloperExtras.Size = new System.Drawing.Size(300, 40);
-            this.btnDeveloperExtras.TabIndex = 21;
-            this.btnDeveloperExtras.Text = "Developer extras";
-            this.btnDeveloperExtras.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnDeveloperExtras.UseVisualStyleBackColor = false;
+            this.chkLogOnExit.AutoSize = true;
+            this.chkLogOnExit.Checked = true;
+            this.chkLogOnExit.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkLogOnExit.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.chkLogOnExit.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.chkLogOnExit.ForeColor = System.Drawing.Color.LightGray;
+            this.chkLogOnExit.Location = new System.Drawing.Point(117, 127);
+            this.chkLogOnExit.Name = "chkLogOnExit";
+            this.chkLogOnExit.Size = new System.Drawing.Size(208, 21);
+            this.chkLogOnExit.TabIndex = 15;
+            this.chkLogOnExit.Text = "Log server output on exit";
+            this.chkLogOnExit.UseVisualStyleBackColor = true;
+            this.chkLogOnExit.CheckedChanged += new System.EventHandler(this.chkLogOnExit_CheckedChanged);
+            // 
+            // btnOpenLatestServerLog
+            // 
+            this.btnOpenLatestServerLog.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.btnOpenLatestServerLog.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnOpenLatestServerLog.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
+            this.btnOpenLatestServerLog.FlatAppearance.BorderSize = 2;
+            this.btnOpenLatestServerLog.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnOpenLatestServerLog.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnOpenLatestServerLog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnOpenLatestServerLog.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.btnOpenLatestServerLog.ForeColor = System.Drawing.Color.MediumSlateBlue;
+            this.btnOpenLatestServerLog.Location = new System.Drawing.Point(6, 543);
+            this.btnOpenLatestServerLog.Name = "btnOpenLatestServerLog";
+            this.btnOpenLatestServerLog.Size = new System.Drawing.Size(240, 40);
+            this.btnOpenLatestServerLog.TabIndex = 22;
+            this.btnOpenLatestServerLog.Text = "Open latest server log";
+            this.btnOpenLatestServerLog.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnOpenLatestServerLog.UseVisualStyleBackColor = false;
+            this.btnOpenLatestServerLog.Click += new System.EventHandler(this.btnOpenLatestServerLog_Click);
             // 
             // mainForm
             // 
@@ -1519,6 +1561,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(4);
+            this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(981, 646);
             this.Name = "mainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -1641,6 +1684,8 @@
         private System.Windows.Forms.Label titleOnServerDoubleClick;
         private System.Windows.Forms.Button btnOnServerDoubleClick;
         private System.Windows.Forms.Button btnDeveloperExtras;
+        private System.Windows.Forms.CheckBox chkLogOnExit;
+        private System.Windows.Forms.Button btnOpenLatestServerLog;
     }
 }
 
