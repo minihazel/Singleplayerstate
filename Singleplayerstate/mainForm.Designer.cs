@@ -52,6 +52,7 @@
             this.infoGameEditionTitle = new System.Windows.Forms.Label();
             this.infoGameVersionTitle = new System.Windows.Forms.Label();
             this.panelGameOptions = new System.Windows.Forms.Panel();
+            this.btnOpenLatestServerLog = new System.Windows.Forms.Button();
             this.btnDeveloperExtras = new System.Windows.Forms.Button();
             this.titleOnServerDoubleClick = new System.Windows.Forms.Label();
             this.btnOnServerDoubleClick = new System.Windows.Forms.Button();
@@ -96,6 +97,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnClearList = new System.Windows.Forms.Button();
             this.panelServer = new System.Windows.Forms.Panel();
+            this.chkLogOnExit = new System.Windows.Forms.CheckBox();
             this.chkAutoScroll = new System.Windows.Forms.CheckBox();
             this.txtServerIsRunning = new System.Windows.Forms.Label();
             this.titleServer = new System.Windows.Forms.Label();
@@ -121,8 +123,6 @@
             this.panel4 = new System.Windows.Forms.Panel();
             this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.btnOpenAutostart = new System.Windows.Forms.Button();
-            this.chkLogOnExit = new System.Windows.Forms.CheckBox();
-            this.btnOpenLatestServerLog = new System.Windows.Forms.Button();
             this.panelServers.SuspendLayout();
             this.panelGameInfo.SuspendLayout();
             this.panelGameOptions.SuspendLayout();
@@ -459,6 +459,26 @@
             this.panelGameOptions.Name = "panelGameOptions";
             this.panelGameOptions.Size = new System.Drawing.Size(608, 583);
             this.panelGameOptions.TabIndex = 1;
+            // 
+            // btnOpenLatestServerLog
+            // 
+            this.btnOpenLatestServerLog.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.btnOpenLatestServerLog.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnOpenLatestServerLog.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
+            this.btnOpenLatestServerLog.FlatAppearance.BorderSize = 2;
+            this.btnOpenLatestServerLog.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnOpenLatestServerLog.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnOpenLatestServerLog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnOpenLatestServerLog.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.btnOpenLatestServerLog.ForeColor = System.Drawing.Color.MediumSlateBlue;
+            this.btnOpenLatestServerLog.Location = new System.Drawing.Point(6, 543);
+            this.btnOpenLatestServerLog.Name = "btnOpenLatestServerLog";
+            this.btnOpenLatestServerLog.Size = new System.Drawing.Size(240, 40);
+            this.btnOpenLatestServerLog.TabIndex = 22;
+            this.btnOpenLatestServerLog.Text = "Open latest server log";
+            this.btnOpenLatestServerLog.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnOpenLatestServerLog.UseVisualStyleBackColor = false;
+            this.btnOpenLatestServerLog.Click += new System.EventHandler(this.btnOpenLatestServerLog_Click);
             // 
             // btnDeveloperExtras
             // 
@@ -1101,6 +1121,22 @@
             this.panelServer.Size = new System.Drawing.Size(608, 583);
             this.panelServer.TabIndex = 0;
             // 
+            // chkLogOnExit
+            // 
+            this.chkLogOnExit.AutoSize = true;
+            this.chkLogOnExit.Checked = true;
+            this.chkLogOnExit.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkLogOnExit.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.chkLogOnExit.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.chkLogOnExit.ForeColor = System.Drawing.Color.LightGray;
+            this.chkLogOnExit.Location = new System.Drawing.Point(117, 127);
+            this.chkLogOnExit.Name = "chkLogOnExit";
+            this.chkLogOnExit.Size = new System.Drawing.Size(208, 21);
+            this.chkLogOnExit.TabIndex = 15;
+            this.chkLogOnExit.Text = "Log server output on exit";
+            this.chkLogOnExit.UseVisualStyleBackColor = true;
+            this.chkLogOnExit.CheckedChanged += new System.EventHandler(this.chkLogOnExit_CheckedChanged);
+            // 
             // chkAutoScroll
             // 
             this.chkAutoScroll.AutoSize = true;
@@ -1497,42 +1533,6 @@
             this.btnOpenAutostart.Text = "Open autostart";
             this.btnOpenAutostart.UseVisualStyleBackColor = false;
             this.btnOpenAutostart.Click += new System.EventHandler(this.btnOpenAutostart_Click);
-            // 
-            // chkLogOnExit
-            // 
-            this.chkLogOnExit.AutoSize = true;
-            this.chkLogOnExit.Checked = true;
-            this.chkLogOnExit.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkLogOnExit.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.chkLogOnExit.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.chkLogOnExit.ForeColor = System.Drawing.Color.LightGray;
-            this.chkLogOnExit.Location = new System.Drawing.Point(117, 127);
-            this.chkLogOnExit.Name = "chkLogOnExit";
-            this.chkLogOnExit.Size = new System.Drawing.Size(208, 21);
-            this.chkLogOnExit.TabIndex = 15;
-            this.chkLogOnExit.Text = "Log server output on exit";
-            this.chkLogOnExit.UseVisualStyleBackColor = true;
-            this.chkLogOnExit.CheckedChanged += new System.EventHandler(this.chkLogOnExit_CheckedChanged);
-            // 
-            // btnOpenLatestServerLog
-            // 
-            this.btnOpenLatestServerLog.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
-            this.btnOpenLatestServerLog.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnOpenLatestServerLog.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
-            this.btnOpenLatestServerLog.FlatAppearance.BorderSize = 2;
-            this.btnOpenLatestServerLog.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.btnOpenLatestServerLog.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.btnOpenLatestServerLog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnOpenLatestServerLog.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.btnOpenLatestServerLog.ForeColor = System.Drawing.Color.MediumSlateBlue;
-            this.btnOpenLatestServerLog.Location = new System.Drawing.Point(6, 543);
-            this.btnOpenLatestServerLog.Name = "btnOpenLatestServerLog";
-            this.btnOpenLatestServerLog.Size = new System.Drawing.Size(240, 40);
-            this.btnOpenLatestServerLog.TabIndex = 22;
-            this.btnOpenLatestServerLog.Text = "Open latest server log";
-            this.btnOpenLatestServerLog.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnOpenLatestServerLog.UseVisualStyleBackColor = false;
-            this.btnOpenLatestServerLog.Click += new System.EventHandler(this.btnOpenLatestServerLog_Click);
             // 
             // mainForm
             // 

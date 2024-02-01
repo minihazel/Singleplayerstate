@@ -208,7 +208,7 @@ namespace Singleplayerstate
         }
 
         // ASYNC
-        private async void editGameInstall(string displayName, string oldInstall)
+        private void editGameInstall(string displayName, string oldInstall)
         {
             var browse = new BetterFolderBrowser();
             browse.Title = "Select folder that contains SPT-AKI";
