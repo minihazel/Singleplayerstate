@@ -2197,7 +2197,7 @@ namespace Singleplayerstate
                     string filename = $"{formattedTime} server.log";
 
                     string path = Path.Combine(logsFolder, filename);
-                    File.WriteAllText(fullServerOutput, formattedTime);
+                    File.WriteAllText(path, fullServerOutput);
                 }
                 catch (Exception ex)
                 {
