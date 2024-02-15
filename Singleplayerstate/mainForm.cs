@@ -18,6 +18,7 @@ using System.Windows.Forms;
 using System.Xml.Schema;
 using WK.Libraries.BetterFolderBrowserNS;
 using JsonSerializer = System.Text.Json.JsonSerializer;
+using Timer = System.Windows.Forms.Timer;
 
 namespace Singleplayerstate
 {
@@ -1999,6 +2000,19 @@ namespace Singleplayerstate
                 this.WindowState = FormWindowState.Minimized;
             else if (Properties.Settings.Default.launchParameter == "viewserver")
                 btnServer.PerformClick();
+
+            btnPlaySPTAKI.Text = "Quit SPT-AKI";
+            btnPlaySPTAKI.Enabled = false;
+
+            Timer tmr = new Timer();
+            tmr.Interval = 750;
+            tmr.Tick += (sender, e) =>
+            {
+                btnPlaySPTAKI.Enabled = true;
+                tmr.Stop();
+                tmr.Dispose();
+            };
+            tmr.Start();
         }
 
         private void killAkiServer()
@@ -2237,6 +2251,18 @@ namespace Singleplayerstate
             }
 
             toggleUI(true);
+            btnPlaySPTAKI.Text = "Play SPT-AKI";
+            btnPlaySPTAKI.Enabled = false;
+
+            Timer tmr = new Timer();
+            tmr.Interval = 750;
+            tmr.Tick += (sender, e) =>
+            {
+                btnPlaySPTAKI.Enabled = true;
+                tmr.Stop();
+                tmr.Dispose();
+            };
+            tmr.Start();
         }
 
         private void runServerOnly()
