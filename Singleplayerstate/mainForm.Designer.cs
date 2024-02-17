@@ -53,7 +53,7 @@
             this.infoGameVersionTitle = new System.Windows.Forms.Label();
             this.panelGameOptions = new System.Windows.Forms.Panel();
             this.btnOpenLatestServerLog = new System.Windows.Forms.Button();
-            this.btnDeveloperExtras = new System.Windows.Forms.Button();
+            this.btnAutostartConfig = new System.Windows.Forms.Button();
             this.titleOnServerDoubleClick = new System.Windows.Forms.Label();
             this.btnOnServerDoubleClick = new System.Windows.Forms.Button();
             this.titleWhenSPTAKIExits = new System.Windows.Forms.Label();
@@ -438,7 +438,7 @@
             // 
             this.panelGameOptions.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(29)))), ((int)(((byte)(31)))));
             this.panelGameOptions.Controls.Add(this.btnOpenLatestServerLog);
-            this.panelGameOptions.Controls.Add(this.btnDeveloperExtras);
+            this.panelGameOptions.Controls.Add(this.btnAutostartConfig);
             this.panelGameOptions.Controls.Add(this.titleOnServerDoubleClick);
             this.panelGameOptions.Controls.Add(this.btnOnServerDoubleClick);
             this.panelGameOptions.Controls.Add(this.titleWhenSPTAKIExits);
@@ -480,25 +480,25 @@
             this.btnOpenLatestServerLog.UseVisualStyleBackColor = false;
             this.btnOpenLatestServerLog.Click += new System.EventHandler(this.btnOpenLatestServerLog_Click);
             // 
-            // btnDeveloperExtras
+            // btnAutostartConfig
             // 
-            this.btnDeveloperExtras.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
-            this.btnDeveloperExtras.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnDeveloperExtras.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
-            this.btnDeveloperExtras.FlatAppearance.BorderSize = 2;
-            this.btnDeveloperExtras.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.btnDeveloperExtras.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.btnDeveloperExtras.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDeveloperExtras.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.btnDeveloperExtras.ForeColor = System.Drawing.Color.MediumSlateBlue;
-            this.btnDeveloperExtras.Location = new System.Drawing.Point(6, 497);
-            this.btnDeveloperExtras.Name = "btnDeveloperExtras";
-            this.btnDeveloperExtras.Size = new System.Drawing.Size(240, 40);
-            this.btnDeveloperExtras.TabIndex = 21;
-            this.btnDeveloperExtras.Text = "Developer extras";
-            this.btnDeveloperExtras.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnDeveloperExtras.UseVisualStyleBackColor = false;
-            this.btnDeveloperExtras.Click += new System.EventHandler(this.btnDeveloperExtras_Click);
+            this.btnAutostartConfig.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.btnAutostartConfig.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnAutostartConfig.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
+            this.btnAutostartConfig.FlatAppearance.BorderSize = 2;
+            this.btnAutostartConfig.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnAutostartConfig.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnAutostartConfig.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAutostartConfig.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.btnAutostartConfig.ForeColor = System.Drawing.Color.MediumSlateBlue;
+            this.btnAutostartConfig.Location = new System.Drawing.Point(6, 497);
+            this.btnAutostartConfig.Name = "btnAutostartConfig";
+            this.btnAutostartConfig.Size = new System.Drawing.Size(240, 40);
+            this.btnAutostartConfig.TabIndex = 21;
+            this.btnAutostartConfig.Text = "Autostart configurator";
+            this.btnAutostartConfig.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnAutostartConfig.UseVisualStyleBackColor = false;
+            this.btnAutostartConfig.Click += new System.EventHandler(this.btnAutostartConfig_Click);
             // 
             // titleOnServerDoubleClick
             // 
@@ -1551,11 +1551,11 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.lblServers);
             this.Controls.Add(this.panelServers);
-            this.Controls.Add(this.panelSPTAKI);
             this.Controls.Add(this.panelGameOptions);
             this.Controls.Add(this.panelAddInstall);
             this.Controls.Add(this.panelServer);
             this.Controls.Add(this.panelAccount);
+            this.Controls.Add(this.panelSPTAKI);
             this.Font = new System.Drawing.Font("Bahnschrift Light", 10F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -1683,7 +1683,7 @@
         private System.Windows.Forms.Button btnOpenAutostart;
         private System.Windows.Forms.Label titleOnServerDoubleClick;
         private System.Windows.Forms.Button btnOnServerDoubleClick;
-        private System.Windows.Forms.Button btnDeveloperExtras;
+        private System.Windows.Forms.Button btnAutostartConfig;
         private System.Windows.Forms.CheckBox chkLogOnExit;
         private System.Windows.Forms.Button btnOpenLatestServerLog;
     }

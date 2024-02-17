@@ -112,7 +112,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(29)))), ((int)(((byte)(31)))));
-            this.ClientSize = new System.Drawing.Size(965, 561);
+            this.ClientSize = new System.Drawing.Size(619, 344);
             this.Controls.Add(this.btnSetAsAutostartOption);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.label2);
@@ -127,7 +127,7 @@
             this.MinimizeBox = false;
             this.Name = "DevTools";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Developer tools";
+            this.Text = "Autostart Configurator";
             this.Load += new System.EventHandler(this.DevTools_Load);
             this.ResumeLayout(false);
 

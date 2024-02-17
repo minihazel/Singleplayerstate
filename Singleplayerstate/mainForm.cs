@@ -3183,7 +3183,7 @@ namespace Singleplayerstate
             }
         }
 
-        private void btnDeveloperExtras_Click(object sender, EventArgs e)
+        private void btnAutostartConfig_Click(object sender, EventArgs e)
         {
             DevTools frm = new DevTools();
             frm.ShowDialog();
