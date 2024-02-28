@@ -1096,7 +1096,7 @@ namespace Singleplayerstate
 
             btnSelectAccount.Text = "None selected";
             txtUsername.Clear();
-            btnPlaySPTAKI.Enabled = false;
+            btnPlaySPTAKI.Enabled = true;
             btnClientMods.Text = "Client mods";
 
             string mainDir = path;
@@ -1202,9 +1202,7 @@ namespace Singleplayerstate
                 gameRequirementEFT.ForeColor = Color.SeaGreen;
             }
 
-            if (File.Exists(akiServerFile) && File.Exists(akiLauncherFile) && File.Exists(EFTFile))
-                btnPlaySPTAKI.Enabled = true;
-            else
+            if (!File.Exists(akiServerFile) && !File.Exists(akiLauncherFile) || !File.Exists(EFTFile))
                 btnPlaySPTAKI.Enabled = false;
 
             // Checking local server status
