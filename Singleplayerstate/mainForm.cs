@@ -1102,8 +1102,6 @@ namespace Singleplayerstate
             string mainDir = path;
 
             string userFolder = Path.Combine(mainDir, "user");
-            string profilesFolder = Path.Combine(userFolder, "profiles");
-            string[] profiles = Directory.GetFiles(profilesFolder, "*.json");
             string akiServerFile = Path.Combine(mainDir, "Aki.Server.exe");
             string akiLauncherFile = Path.Combine(mainDir, "Aki.Launcher.exe");
             string EFTFile = Path.Combine(mainDir, "EscapeFromTarkov.exe");
@@ -1204,12 +1202,6 @@ namespace Singleplayerstate
                 gameRequirementEFT.ForeColor = Color.SeaGreen;
             }
 
-            // Account Tab
-            string firstProfile = convertProfile(profiles[0]);
-            btnSelectAccount.Text = firstProfile;
-            txtUsername.Text = firstProfile;
-            txtAccountAID.Text = findAID(btnSelectAccount.Text);
-
             if (File.Exists(akiServerFile) && File.Exists(akiLauncherFile) && File.Exists(EFTFile))
                 btnPlaySPTAKI.Enabled = true;
             else
@@ -1220,6 +1212,30 @@ namespace Singleplayerstate
             if (serverOn)
             {
                 showMessage("The server for this installation seems to be running already. Go ahead and hit Play!");
+            }
+
+            // Account Tab
+            bool userFolderExists = Directory.Exists(userFolder);
+            if (userFolderExists)
+            {
+                string profilesFolder = Path.Combine(userFolder, "profiles");
+                bool profilesFolderExists = Directory.Exists(profilesFolder);
+                if (profilesFolderExists)
+                {
+                    string[] profiles = Directory.GetFiles(profilesFolder, "*.json");
+                    string firstProfile = convertProfile(profiles[0]);
+                    btnSelectAccount.Text = firstProfile;
+                    txtUsername.Text = firstProfile;
+                    txtAccountAID.Text = findAID(btnSelectAccount.Text);
+                }
+                else
+                {
+                    showMessage("Could not detect a profiles folder. Install SPT-AKI and create a profile, then try again.");
+                }
+            }
+            else
+            {
+                showMessage("Could not detect a user folder. Install SPT-AKI and try again.");
             }
         }
 
@@ -3185,8 +3201,9 @@ namespace Singleplayerstate
 
         private void btnAutostartConfig_Click(object sender, EventArgs e)
         {
-            DevTools frm = new DevTools();
-            frm.ShowDialog();
+            // DevTools frm = new DevTools();
+            // frm.ShowDialog();
+            showMessage("This feature is currently a work-in-progress, we apologize for the inconvenience!");
         }
 
         private void chkLogOnExit_CheckedChanged(object sender, EventArgs e)
