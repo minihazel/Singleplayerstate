@@ -2268,7 +2268,7 @@ namespace Singleplayerstate
 
             toggleUI(true);
             btnPlaySPTAKI.Text = "Play SPT-AKI";
-            btnPlaySPTAKI.Enabled = false;
+            btnPlaySPTAKI.Enabled = true;
 
             Timer tmr = new Timer();
             tmr.Interval = 750;
