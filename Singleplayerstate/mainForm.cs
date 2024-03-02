@@ -1611,6 +1611,19 @@ namespace Singleplayerstate
                         Directory.Delete(cacheFolder, true);
                         txtLocalCache.Text = "❌ user\\cache";
                         showMessage("Cache deleted!");
+
+                        string findServer = fetchCurrentServer();
+                        if (findServer != null)
+                        {
+                            foreach (Control c in panelServers.Controls)
+                            {
+                                if (c is Label lbl)
+                                {
+                                    string cleanLbl = fetchName(findServer);
+                                    clickServer(lbl, true);
+                                }
+                            }
+                        }
                     }
                     catch (Exception ex)
                     {
