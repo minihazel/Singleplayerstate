@@ -30,7 +30,6 @@ namespace Singleplayerstate
         public string availableServers;
         public string availableAddons;
         string selectedServer = "";
-
         string temporaryAID;
 
         // BackgroundWorkers
@@ -181,7 +180,6 @@ namespace Singleplayerstate
             }
         }
 
-        // ASYNC
         private async void enterInputMode(bool enter, string path)
         {
             if (enter)
@@ -208,7 +206,6 @@ namespace Singleplayerstate
             }
         }
 
-        // ASYNC
         private void editGameInstall(string displayName, string oldInstall)
         {
             var browse = new BetterFolderBrowser();
@@ -504,14 +501,12 @@ namespace Singleplayerstate
             }
         }
 
-        // STATIC
         public static void arrInsert(ref string[] array, string item)
         {
             Array.Resize(ref array, array.Length + 1);
             array[array.Length - 1] = item;
         }
 
-        // STATIC
         public static void arrRemove(ref string[] array, string item)
         {
             int index = Array.IndexOf(array, item);
@@ -527,7 +522,10 @@ namespace Singleplayerstate
             }
         }
 
-        // RETURN STRINGS
+        //
+        // STRINGS
+        //
+
         private string convertProfile(string AID)
         {
             string cleanAID = Path.GetFileNameWithoutExtension(AID);
@@ -635,6 +633,10 @@ namespace Singleplayerstate
             return null;
         }
 
+        //
+        // STRINGS
+        //
+
         private int returnClientModsList()
         {
             int num = 0;
@@ -663,7 +665,6 @@ namespace Singleplayerstate
             return 0;
         }
 
-        // STATIC
         public static bool IsAkiServerRunning(string expectedFilePath)
         {
             Process[] processes = Process.GetProcessesByName("Aki.Server");
