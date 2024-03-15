@@ -1542,7 +1542,7 @@
             this.clientModTip.InitialDelay = 1;
             this.clientModTip.ReshowDelay = 0;
             this.clientModTip.ShowAlways = true;
-            this.clientModTip.ToolTipTitle = "LogOutput.txt not detected!";
+            this.clientModTip.ToolTipTitle = "LogOutput.log not detected!";
             this.clientModTip.UseAnimation = false;
             this.clientModTip.UseFading = false;
             // 
