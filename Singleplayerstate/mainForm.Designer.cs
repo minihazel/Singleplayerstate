@@ -123,6 +123,7 @@
             this.panel4 = new System.Windows.Forms.Panel();
             this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.btnOpenAutostart = new System.Windows.Forms.Button();
+            this.clientModTip = new System.Windows.Forms.ToolTip(this.components);
             this.panelServers.SuspendLayout();
             this.panelGameInfo.SuspendLayout();
             this.panelGameOptions.SuspendLayout();
@@ -1534,6 +1535,17 @@
             this.btnOpenAutostart.UseVisualStyleBackColor = false;
             this.btnOpenAutostart.Click += new System.EventHandler(this.btnOpenAutostart_Click);
             // 
+            // clientModTip
+            // 
+            this.clientModTip.AutomaticDelay = 1;
+            this.clientModTip.AutoPopDelay = 60000;
+            this.clientModTip.InitialDelay = 1;
+            this.clientModTip.ReshowDelay = 0;
+            this.clientModTip.ShowAlways = true;
+            this.clientModTip.ToolTipTitle = "LogOutput.txt not detected!";
+            this.clientModTip.UseAnimation = false;
+            this.clientModTip.UseFading = false;
+            // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -1686,6 +1698,7 @@
         private System.Windows.Forms.Button btnAutostartConfig;
         private System.Windows.Forms.CheckBox chkLogOnExit;
         private System.Windows.Forms.Button btnOpenLatestServerLog;
+        private System.Windows.Forms.ToolTip clientModTip;
     }
 }
 

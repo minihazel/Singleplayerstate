@@ -662,7 +662,7 @@ namespace Singleplayerstate
                 }
             }
 
-            return 0;
+            return -1;
         }
 
         public static bool IsAkiServerRunning(string expectedFilePath)
@@ -1098,7 +1098,7 @@ namespace Singleplayerstate
             btnSelectAccount.Text = "None selected";
             txtUsername.Clear();
             btnPlaySPTAKI.Enabled = true;
-            btnClientMods.Text = "Client mods";
+            btnClientMods.Text = "Client mods - N/A";
 
             string mainDir = path;
 
@@ -1246,9 +1246,20 @@ namespace Singleplayerstate
             string sptFolder = Path.Combine(pluginsFolder, "spt");
 
             int externalModCount = returnClientModsList();
-            int sptDefaultCount = Directory.GetFiles(sptFolder, "*.dll").Count();
-            string clientModsCount = $"Client mods - {externalModCount - sptDefaultCount}";
-            btnClientMods.Text = clientModsCount;
+
+            if (externalModCount > -1)
+            {
+                int sptDefaultCount = Directory.GetFiles(sptFolder, "*.dll").Count();
+                string clientModsCount = $"Client mods - {externalModCount - sptDefaultCount}";
+                btnClientMods.Text = clientModsCount;
+                clientModTip.Active = false;
+            }
+            else
+            {
+                btnClientMods.Text = "Client mods - N/A";
+                clientModTip.Active = true;
+                clientModTip.SetToolTip(btnClientMods, "Please start SPT-AKI once to generate LogOutput.txt to ensure correct readings.");
+            }
         }
 
         private void clickServer(Control label, bool autoClick)
