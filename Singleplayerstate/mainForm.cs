@@ -1259,6 +1259,7 @@ namespace Singleplayerstate
                 btnClientMods.Text = "Client mods - N/A";
                 clientModTip.Active = true;
                 clientModTip.SetToolTip(btnClientMods, "Please start SPT-AKI once to generate LogOutput.log to ensure correct readings.");
+                txtClientMods.Text = $"✔️ BepInEx\\plugins (no LogOutput.log)";
             }
         }
 
