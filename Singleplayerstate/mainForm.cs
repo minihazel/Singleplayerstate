@@ -9,12 +9,15 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Net.Sockets;
+using System.Security.Cryptography.X509Certificates;
+using System.Security.Permissions;
 using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 using System.Xml.Schema;
 using WK.Libraries.BetterFolderBrowserNS;
 using JsonSerializer = System.Text.Json.JsonSerializer;
@@ -26,11 +29,13 @@ namespace Singleplayerstate
     {
         string currentDirectory = Environment.CurrentDirectory;
         string logsFolder = "";
+        public string profiles_dict = null;
         public StringBuilder akiServerOutput;
         public string availableServers;
         public string availableAddons;
         string selectedServer = "";
-        string temporaryAID;
+        public string mainDir = null;
+        string temporaryAID = null;
 
         // BackgroundWorkers
         public BackgroundWorker CheckServerStatus;
@@ -50,6 +55,7 @@ namespace Singleplayerstate
         // Dictionaries for servers and addons
         public Dictionary<string, string> folderPaths = new Dictionary<string, string>();
         public Dictionary<string, string> addonPaths = new Dictionary<string, string>();
+        public Dictionary<string, string> profilesDict = new Dictionary<string, string>();
 
         // Default colors
         public Color hoverColor = Color.FromArgb(39, 44, 47);
@@ -62,6 +68,11 @@ namespace Singleplayerstate
         }
 
         private void mainForm_Load(object sender, EventArgs e)
+        {
+            initiateLauncher();
+        }
+
+        private void initiateLauncher()
         {
             logsFolder = Path.Combine(currentDirectory, "logs");
             bool logsFolderExists = Directory.Exists(logsFolder);
@@ -93,6 +104,25 @@ namespace Singleplayerstate
 
             availableAddons = Properties.Settings.Default.availableAddons;
             addonPaths = JsonSerializer.Deserialize<Dictionary<string, string>>(availableAddons);
+
+            profiles_dict = Path.Combine(currentDirectory, "profiles_dictionary.json");
+            bool profilesDictExists = File.Exists(profiles_dict);
+            if (!profilesDictExists)
+            {
+                JObject profiles = new JObject();
+                foreach (var kvp in folderPaths)
+                {
+                    profiles[kvp.Value] = insertFirstProfile(kvp.Value);
+                }
+
+                string content = profiles.ToString();
+                File.WriteAllText(profiles_dict, content);
+            }
+
+            foreach (var kvp in folderPaths)
+            {
+                updateProfiles(kvp.Value);
+            }
 
             listServers();
 
@@ -284,15 +314,80 @@ namespace Singleplayerstate
             return null;
         }
 
+        private void updateProfiles(string mainDir)
+        {
+            string profiles = Path.Combine(mainDir, "user", "profiles");
+            bool profilesExists = Directory.Exists(profiles);
+            if (profilesExists)
+            {
+                string content = File.ReadAllText(profiles_dict);
+                JObject objectContent = JObject.Parse(content);
+                if (objectContent[mainDir] != null &&
+                    string.IsNullOrEmpty((string)objectContent[mainDir]))
+                {
+                    return;
+                }
+                else
+                    objectContent[mainDir] = insertFirstProfile(mainDir);
+            }
+        }
+
+        private void fetchProfile(string mainDir)
+        {
+            string content = File.ReadAllText(profiles_dict);
+            JObject objectContent = JObject.Parse(content);
+            if (objectContent[mainDir] != null &&
+                !string.IsNullOrEmpty((string)objectContent[mainDir]))
+            {
+                string aid = (string)objectContent[mainDir];
+                btnSelectAccount.Text = convertProfile(aid);
+                txtUsername.Text = convertProfile(aid);
+                txtAccountAID.Text = aid;
+            }
+        }
+
+        private string insertFirstProfile(string mainDir)
+        {
+            string profilesFolder = Path.Combine(mainDir, "user", "profiles");
+            bool profilesFolderExists = Directory.Exists(profilesFolder);
+            if (profilesFolderExists)
+            {
+                string[] profiles = Directory.GetFiles(profilesFolder, "*.json");
+                string firstProfile = Path.GetFileNameWithoutExtension(profiles[0]);
+
+                return firstProfile;
+            }
+            return null;
+        }
+
+        private void selectFirstProfile(string mainDir)
+        {
+            string profilesFolder = Path.Combine(mainDir, "user", "profiles");
+            bool profilesFolderExists = Directory.Exists(profilesFolder);
+            if (profilesFolderExists)
+            {
+                string[] profiles = Directory.GetFiles(profilesFolder, "*.json");
+                string firstProfile = Path.GetFileNameWithoutExtension(profiles[0]);
+
+                btnSelectAccount.Text = convertProfile(firstProfile);
+                txtUsername.Text = convertProfile(firstProfile);
+                txtAccountAID.Text = firstProfile;
+                btnSetUsername.Enabled = true;
+                temporaryAID = firstProfile;
+
+                setServerProfile(mainDir, firstProfile);
+            }
+        }
+
         private void selectProfile(string displayName)
         {
             string aidFound = findAID(displayName.TrimEnd());
             if (aidFound.ToLower().Contains("incomplete profile"))
             {
-                btnSelectAccount.Text = "Incomplete profile";
-                txtUsername.Text = "Incomplete profile";
-                txtAccountAID.Text = aidFound;
-                btnSetUsername.Enabled = false;
+                if (MessageBox.Show("Incomplete profile detected. Selecting the first profile available." + Environment.NewLine +
+                                    "" + Environment.NewLine +
+                                    "Press OK to continue.", this.Text, MessageBoxButtons.OK) == DialogResult.OK)
+                    selectFirstProfile(mainDir);
             }
             else
             {
@@ -300,10 +395,26 @@ namespace Singleplayerstate
                 txtUsername.Text = displayName;
                 txtAccountAID.Text = aidFound;
                 btnSetUsername.Enabled = true;
+                temporaryAID = aidFound;
+
+                mainDir = txtGameInstallFolder.Text;
+                setServerProfile(mainDir, aidFound);
             }
 
             panelAccountProfiles.Visible = false;
             panelAccountSeparator.Visible = false;
+        }
+
+        private void setServerProfile(string mainDir, string aid)
+        {
+            string content = File.ReadAllText(profiles_dict);
+            JObject objectContent = JObject.Parse(content);
+            if (objectContent != null &&
+                !string.IsNullOrEmpty((string)objectContent[mainDir]))
+                objectContent[mainDir] = aid;
+
+            string updated = objectContent.ToString();
+            File.WriteAllText(profiles_dict, updated);
         }
 
         private void deleteProfile(string displayName)
@@ -522,15 +633,11 @@ namespace Singleplayerstate
             }
         }
 
-        //
-        // STRINGS
-        //
-
         private string convertProfile(string AID)
         {
             string cleanAID = Path.GetFileNameWithoutExtension(AID);
 
-            string mainDir = txtGameInstallFolder.Text;
+            mainDir = txtGameInstallFolder.Text;
             string userFolder = Path.Combine(mainDir, "user");
             string profilesFolder = Path.Combine(userFolder, "profiles");
             bool profilesFolderExists = Directory.Exists(profilesFolder);
@@ -578,7 +685,7 @@ namespace Singleplayerstate
             }
             else
             {
-                string mainDir = txtGameInstallFolder.Text;
+                mainDir = txtGameInstallFolder.Text;
                 string userFolder = Path.Combine(mainDir, "user");
                 string profilesFolder = Path.Combine(userFolder, "profiles");
                 bool profilesFolderExists = Directory.Exists(profilesFolder);
@@ -632,10 +739,6 @@ namespace Singleplayerstate
 
             return null;
         }
-
-        //
-        // STRINGS
-        //
 
         private int returnClientModsList()
         {
@@ -836,7 +939,7 @@ namespace Singleplayerstate
             panelAccountProfiles.Visible = true;
             panelAccountSeparator.Visible = true;
 
-            string mainDir = txtGameInstallFolder.Text;
+            mainDir = txtGameInstallFolder.Text;
             string userFolder = Path.Combine(mainDir, "user");
             string profilesFolder = Path.Combine(userFolder, "profiles");
 
@@ -1221,11 +1324,7 @@ namespace Singleplayerstate
                 bool profilesFolderExists = Directory.Exists(profilesFolder);
                 if (profilesFolderExists)
                 {
-                    string[] profiles = Directory.GetFiles(profilesFolder, "*.json");
-                    string firstProfile = convertProfile(profiles[0]);
-                    btnSelectAccount.Text = firstProfile;
-                    txtUsername.Text = firstProfile;
-                    txtAccountAID.Text = findAID(btnSelectAccount.Text);
+                    fetchProfile(mainDir);
                 }
                 else
                 {
@@ -1613,7 +1712,7 @@ namespace Singleplayerstate
         {
             if (txtLocalCache.Text.StartsWith("✔️"))
             {
-                string mainDir = txtGameInstallFolder.Text;
+                mainDir = txtGameInstallFolder.Text;
                 string userFolder = Path.Combine(mainDir, "user");
                 string cacheFolder = Path.Combine(userFolder, "cache");
 
@@ -1654,7 +1753,7 @@ namespace Singleplayerstate
         {
             if (txtLoadOrderEditor.Text.StartsWith("✔️"))
             {
-                string mainDir = txtGameInstallFolder.Text;
+                mainDir = txtGameInstallFolder.Text;
                 string userFolder = Path.Combine(mainDir, "user");
                 string modsFolder = Path.Combine(userFolder, "mods");
                 string LOEFile = Path.Combine(modsFolder, "Load Order Editor.exe");
@@ -1708,7 +1807,7 @@ namespace Singleplayerstate
 
             if (txtServerMods.Text.StartsWith("✔️"))
             {
-                string mainDir = txtGameInstallFolder.Text;
+                mainDir = txtGameInstallFolder.Text;
                 string userFolder = Path.Combine(mainDir, "user");
                 string modsFolder = Path.Combine(userFolder, "mods");
 
@@ -1740,7 +1839,7 @@ namespace Singleplayerstate
         {
             if (txtClientMods.Text.StartsWith("✔️"))
             {
-                string mainDir = txtGameInstallFolder.Text;
+                mainDir = txtGameInstallFolder.Text;
                 string BepInFolder = Path.Combine(mainDir, "BepInEx");
                 string pluginsFolder = Path.Combine(BepInFolder, "plugins");
 
@@ -1875,7 +1974,7 @@ namespace Singleplayerstate
                 }
                 else
                 {
-                    string mainDir = txtGameInstallFolder.Text;
+                    mainDir = txtGameInstallFolder.Text;
                     string serverFolder = Path.Combine(mainDir, "Aki.Server.exe");
 
                     bool serverOn = IsAkiServerRunning(serverFolder);
@@ -2524,8 +2623,8 @@ namespace Singleplayerstate
         private void launchTarkov(int akiPort)
         {
             ProcessStartInfo _tarkov = new ProcessStartInfo();
-            string aid = txtAccountAID.Text;
             string serverFolder = txtGameInstallFolder.Text;
+            string aid = profilesDict[serverFolder];
 
             _tarkov.FileName = Path.Combine(serverFolder, "EscapeFromTarkov.exe");
             if (akiPort != 0)
@@ -2993,7 +3092,7 @@ namespace Singleplayerstate
         {
             if (txtServerFolder.Text.StartsWith("✔️"))
             {
-                string mainDir = txtGameInstallFolder.Text;
+                mainDir = txtGameInstallFolder.Text;
 
                 if (Directory.Exists(mainDir))
                 {
@@ -3258,6 +3357,16 @@ namespace Singleplayerstate
                     logFile.Verb = "open";
                     Process.Start(logFile);
                 }
+            }
+        }
+
+        private void btnMinimizeToTray_Click(object sender, EventArgs e)
+        {
+            if (trayIcon != null)
+            {
+                Hide();
+                trayIcon.Visible = true;
+                trayIcon.ShowBalloonTip(2000);
             }
         }
     }

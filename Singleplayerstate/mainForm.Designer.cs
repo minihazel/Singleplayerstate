@@ -124,6 +124,7 @@
             this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.btnOpenAutostart = new System.Windows.Forms.Button();
             this.clientModTip = new System.Windows.Forms.ToolTip(this.components);
+            this.btnMinimizeToTray = new System.Windows.Forms.Button();
             this.panelServers.SuspendLayout();
             this.panelGameInfo.SuspendLayout();
             this.panelGameOptions.SuspendLayout();
@@ -1110,6 +1111,7 @@
             // 
             // panelServer
             // 
+            this.panelServer.Controls.Add(this.btnMinimizeToTray);
             this.panelServer.Controls.Add(this.chkLogOnExit);
             this.panelServer.Controls.Add(this.chkAutoScroll);
             this.panelServer.Controls.Add(this.txtServerIsRunning);
@@ -1546,6 +1548,27 @@
             this.clientModTip.UseAnimation = false;
             this.clientModTip.UseFading = false;
             // 
+            // btnMinimizeToTray
+            // 
+            this.btnMinimizeToTray.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnMinimizeToTray.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.btnMinimizeToTray.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnMinimizeToTray.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
+            this.btnMinimizeToTray.FlatAppearance.BorderSize = 2;
+            this.btnMinimizeToTray.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnMinimizeToTray.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnMinimizeToTray.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnMinimizeToTray.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.btnMinimizeToTray.ForeColor = System.Drawing.Color.LightGray;
+            this.btnMinimizeToTray.Location = new System.Drawing.Point(426, 61);
+            this.btnMinimizeToTray.Name = "btnMinimizeToTray";
+            this.btnMinimizeToTray.Size = new System.Drawing.Size(175, 40);
+            this.btnMinimizeToTray.TabIndex = 31;
+            this.btnMinimizeToTray.Text = "↘️  Minimize to tray";
+            this.btnMinimizeToTray.UseVisualStyleBackColor = false;
+            this.btnMinimizeToTray.Click += new System.EventHandler(this.btnMinimizeToTray_Click);
+            // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -1563,11 +1586,11 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.lblServers);
             this.Controls.Add(this.panelServers);
+            this.Controls.Add(this.panelServer);
+            this.Controls.Add(this.panelAccount);
             this.Controls.Add(this.panelSPTAKI);
             this.Controls.Add(this.panelGameOptions);
             this.Controls.Add(this.panelAddInstall);
-            this.Controls.Add(this.panelServer);
-            this.Controls.Add(this.panelAccount);
             this.Font = new System.Drawing.Font("Bahnschrift Light", 10F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -1699,6 +1722,7 @@
         private System.Windows.Forms.CheckBox chkLogOnExit;
         private System.Windows.Forms.Button btnOpenLatestServerLog;
         private System.Windows.Forms.ToolTip clientModTip;
+        private System.Windows.Forms.Button btnMinimizeToTray;
     }
 }
 
