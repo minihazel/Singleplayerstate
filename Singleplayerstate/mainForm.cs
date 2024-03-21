@@ -3416,5 +3416,20 @@ namespace Singleplayerstate
                 trayIcon.ShowBalloonTip(2000);
             }
         }
+
+        private void btnRegenerateProfileDict_Click(object sender, EventArgs e)
+        {
+            bool doesProfileDictExist = File.Exists(profiles_dict);
+            if (doesProfileDictExist)
+            {
+                File.Delete(profiles_dict);
+                generateProfileDictionary();
+            }
+            else
+            {
+                showMessage("Couldn\'t detect the profile dictionary, regenerating...");
+                generateProfileDictionary();
+            }
+        }
     }
 }

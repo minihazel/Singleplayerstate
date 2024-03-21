@@ -125,6 +125,7 @@
             this.btnOpenAutostart = new System.Windows.Forms.Button();
             this.clientModTip = new System.Windows.Forms.ToolTip(this.components);
             this.btnMinimizeToTray = new System.Windows.Forms.Button();
+            this.btnRegenerateProfileDict = new System.Windows.Forms.Button();
             this.panelServers.SuspendLayout();
             this.panelGameInfo.SuspendLayout();
             this.panelGameOptions.SuspendLayout();
@@ -733,6 +734,7 @@
             // panelAccount
             // 
             this.panelAccount.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(29)))), ((int)(((byte)(31)))));
+            this.panelAccount.Controls.Add(this.btnRegenerateProfileDict);
             this.panelAccount.Controls.Add(this.panelAccountSeparator);
             this.panelAccount.Controls.Add(this.panelAccountProfiles);
             this.panelAccount.Controls.Add(this.panelAID);
@@ -1569,6 +1571,26 @@
             this.btnMinimizeToTray.UseVisualStyleBackColor = false;
             this.btnMinimizeToTray.Click += new System.EventHandler(this.btnMinimizeToTray_Click);
             // 
+            // btnRegenerateProfileDict
+            // 
+            this.btnRegenerateProfileDict.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.btnRegenerateProfileDict.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnRegenerateProfileDict.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
+            this.btnRegenerateProfileDict.FlatAppearance.BorderSize = 2;
+            this.btnRegenerateProfileDict.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnRegenerateProfileDict.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnRegenerateProfileDict.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRegenerateProfileDict.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.btnRegenerateProfileDict.ForeColor = System.Drawing.Color.LightGray;
+            this.btnRegenerateProfileDict.Location = new System.Drawing.Point(6, 402);
+            this.btnRegenerateProfileDict.Name = "btnRegenerateProfileDict";
+            this.btnRegenerateProfileDict.Size = new System.Drawing.Size(300, 40);
+            this.btnRegenerateProfileDict.TabIndex = 22;
+            this.btnRegenerateProfileDict.Text = "Regenerate profile dictionary";
+            this.btnRegenerateProfileDict.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnRegenerateProfileDict.UseVisualStyleBackColor = false;
+            this.btnRegenerateProfileDict.Click += new System.EventHandler(this.btnRegenerateProfileDict_Click);
+            // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -1586,11 +1608,11 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.lblServers);
             this.Controls.Add(this.panelServers);
-            this.Controls.Add(this.panelAddInstall);
-            this.Controls.Add(this.panelServer);
             this.Controls.Add(this.panelAccount);
             this.Controls.Add(this.panelSPTAKI);
             this.Controls.Add(this.panelGameOptions);
+            this.Controls.Add(this.panelAddInstall);
+            this.Controls.Add(this.panelServer);
             this.Font = new System.Drawing.Font("Bahnschrift Light", 10F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -1723,6 +1745,7 @@
         private System.Windows.Forms.Button btnOpenLatestServerLog;
         private System.Windows.Forms.ToolTip clientModTip;
         private System.Windows.Forms.Button btnMinimizeToTray;
+        private System.Windows.Forms.Button btnRegenerateProfileDict;
     }
 }
 
