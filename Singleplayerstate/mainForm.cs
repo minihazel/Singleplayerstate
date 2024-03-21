@@ -109,14 +109,7 @@ namespace Singleplayerstate
             bool profilesDictExists = File.Exists(profiles_dict);
             if (!profilesDictExists)
             {
-                JObject profiles = new JObject();
-                foreach (var kvp in folderPaths)
-                {
-                    profiles[kvp.Value] = insertFirstProfile(kvp.Value);
-                }
-
-                string content = profiles.ToString();
-                File.WriteAllText(profiles_dict, content);
+                generateProfileDictionary();
             }
 
             foreach (var kvp in folderPaths)
@@ -314,12 +307,34 @@ namespace Singleplayerstate
             return null;
         }
 
+        private void generateProfileDictionary()
+        {
+            bool doesProfileDictExist = File.Exists(profiles_dict);
+            if (!doesProfileDictExist)
+            {
+                JObject profiles = new JObject();
+                foreach (var kvp in folderPaths)
+                {
+                    profiles[kvp.Value] = insertFirstProfile(kvp.Value);
+                }
+
+                string content = profiles.ToString();
+                File.WriteAllText(profiles_dict, content);
+            }
+        }
+
         private void updateProfiles(string mainDir)
         {
             string profiles = Path.Combine(mainDir, "user", "profiles");
             bool profilesExists = Directory.Exists(profiles);
             if (profilesExists)
             {
+                bool doesProfileDictExist = File.Exists(profiles_dict);
+                if (!doesProfileDictExist)
+                {
+                    generateProfileDictionary();
+                }
+
                 string content = File.ReadAllText(profiles_dict);
                 JObject objectContent = JObject.Parse(content);
                 if (objectContent[mainDir] != null &&
@@ -334,6 +349,12 @@ namespace Singleplayerstate
 
         private void fetchProfile(string mainDir)
         {
+            bool doesProfileDictExist = File.Exists(profiles_dict);
+            if (!doesProfileDictExist)
+            {
+                generateProfileDictionary();
+            }
+
             string content = File.ReadAllText(profiles_dict);
             JObject objectContent = JObject.Parse(content);
             if (objectContent[mainDir] != null &&
@@ -346,6 +367,24 @@ namespace Singleplayerstate
             }
         }
 
+        private void insertNewServerProfile(string mainDir)
+        {
+            bool doesProfileDictExist = File.Exists(profiles_dict);
+            if (!doesProfileDictExist)
+            {
+                generateProfileDictionary();
+            }
+
+            string content = File.ReadAllText(profiles_dict);
+            JObject objectContent = JObject.Parse(content);
+            if (objectContent != null)
+            {
+                objectContent[mainDir] = insertFirstProfile(mainDir);
+            }
+            string updated = objectContent.ToString();
+            File.WriteAllText(profiles_dict, updated);
+        }
+
         private string insertFirstProfile(string mainDir)
         {
             string profilesFolder = Path.Combine(mainDir, "user", "profiles");
@@ -354,7 +393,6 @@ namespace Singleplayerstate
             {
                 string[] profiles = Directory.GetFiles(profilesFolder, "*.json");
                 string firstProfile = Path.GetFileNameWithoutExtension(profiles[0]);
-
                 return firstProfile;
             }
             return null;
@@ -407,6 +445,12 @@ namespace Singleplayerstate
 
         private void setServerProfile(string mainDir, string aid)
         {
+            bool doesProfileDictExist = File.Exists(profiles_dict);
+            if (!doesProfileDictExist)
+            {
+                generateProfileDictionary();
+            }
+
             string content = File.ReadAllText(profiles_dict);
             JObject objectContent = JObject.Parse(content);
             if (objectContent != null &&
@@ -496,6 +540,10 @@ namespace Singleplayerstate
             string serializedPaths = JsonSerializer.Serialize(folderPaths);
             Properties.Settings.Default.availableServers = serializedPaths;
             Properties.Settings.Default.Save();
+
+            string fullPath = Path.GetFullPath(folderPath);
+            insertNewServerProfile(fullPath);
+
             enterInputMode(false, null);
             listServers();
         }
@@ -1589,7 +1637,6 @@ namespace Singleplayerstate
                 if (isEditingInstall)
                 {
                     isEditingInstall = false;
-
 
                     string folderPath = btnBrowseForFolder.Text;
                     string displayName = txtSetDisplayName.Text;
