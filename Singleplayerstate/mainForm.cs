@@ -250,7 +250,7 @@ namespace Singleplayerstate
                         if (fullPath == mainDir)
                         {
                             string content = "This path has already been selected. Press OK to continue";
-                            showMessage(content);
+                            showMessage(content, this.Text);
                         }
                         else
                         {
@@ -259,7 +259,7 @@ namespace Singleplayerstate
                             Properties.Settings.Default.availableServers = serializedPaths;
                             Properties.Settings.Default.Save();
 
-                            showMessage($"Updated folder:\n{oldInstall}\n\nto:\n{selectedFolder}");
+                            showMessage($"Updated folder:\n{oldInstall}\n\nto:\n{selectedFolder}", this.Text);
                             listServers();
 
                             foreach (Control c in panelServers.Controls)
@@ -513,7 +513,7 @@ namespace Singleplayerstate
                                     showMessage("We appear to have run into a problem. If you\'re unsure what this is about, please contact the developer." +
                                                         Environment.NewLine +
                                                         Environment.NewLine +
-                                                        ex.ToString());
+                                                        ex.ToString(), this.Text);
                                 }
                             }
                         }
@@ -522,7 +522,7 @@ namespace Singleplayerstate
             }
         }
 
-        private void showMessage(string content)
+        private void showMessage(string content, string title)
         {
             if (messageWindow != null)
             {
@@ -533,6 +533,7 @@ namespace Singleplayerstate
             messageWindow = new msgBoard();
             messageWindow.TopMost = true;
             messageWindow.messageContent.Text = content;
+            messageWindow.messageTitle.Text = title;
 
             messageWindow.ShowDialog();
         }
@@ -555,7 +556,7 @@ namespace Singleplayerstate
                 showMessage("We appear to have run into a problem. If you\'re unsure what this is about, please contact the developer." +
                                     Environment.NewLine +
                                     Environment.NewLine +
-                                    ex.ToString());
+                                    ex.ToString(), this.Text);
             }
 
             string serializedPaths = JsonSerializer.Serialize(folderPaths);
@@ -587,14 +588,14 @@ namespace Singleplayerstate
                 showMessage("We appear to have run into a problem. If you\'re unsure what this is about, please contact the developer." +
                                     Environment.NewLine +
                                     Environment.NewLine +
-                                    ex.ToString());
+                                    ex.ToString(), this.Text);
             }
 
             string serializedPaths = JsonSerializer.Serialize(folderPaths);
             Properties.Settings.Default.availableServers = serializedPaths;
             Properties.Settings.Default.Save();
 
-            showMessage($"SPT-AKI installation {displayName} changed to folder {folderPath}!");
+            showMessage($"SPT-AKI installation {displayName} changed to folder {folderPath}!", this.Text);
             enterInputMode(false, null);
             listServers();
         }
@@ -615,7 +616,7 @@ namespace Singleplayerstate
                 showMessage("We appear to have run into a problem. If you\'re unsure what this is about, please contact the developer." +
                                     Environment.NewLine +
                                     Environment.NewLine +
-                                    ex.ToString());
+                                    ex.ToString(), this.Text);
             }
 
             string serializedPaths = JsonSerializer.Serialize(addonPaths);
@@ -670,13 +671,13 @@ namespace Singleplayerstate
                         showMessage("We appear to have run into a problem. If you\'re unsure what this is about, please contact the developer." +
                                 Environment.NewLine +
                                 Environment.NewLine +
-                                ex.ToString());
+                                ex.ToString(), this.Text);
                     }
 
                     btnSelectAccount.Text = txtUsername.Text;
                     panelAccountProfiles.Visible = false;
                     panelAccountSeparator.Visible = false;
-                    showMessage($"Old username {oldUser} changed to {txtUsername.Text}!");
+                    showMessage($"Old username {oldUser} changed to {txtUsername.Text}!", this.Text);
                 }
             }
         }
@@ -966,7 +967,7 @@ namespace Singleplayerstate
                             showMessage("We appear to have run into a problem. If you\'re unsure what this is about, please contact the developer." +
                                         Environment.NewLine +
                                         Environment.NewLine +
-                                        ex.ToString());
+                                        ex.ToString(), this.Text);
                         }
                     }
                 }
@@ -997,7 +998,7 @@ namespace Singleplayerstate
                     showMessage("We appear to have run into a problem. If you\'re unsure what this is about, please contact the developer." +
                                 Environment.NewLine +
                                 Environment.NewLine +
-                                ex.ToString());
+                                ex.ToString(), this.Text);
                 }
             }
         }
@@ -1382,7 +1383,7 @@ namespace Singleplayerstate
             bool serverOn = IsAkiServerRunning(akiServerFile);
             if (serverOn)
             {
-                showMessage("The server for this installation seems to be running already. Go ahead and hit Play!");
+                showMessage("The server for this installation seems to be running already. Go ahead and hit Play!", this.Text);
             }
 
             // Account Tab
@@ -1397,12 +1398,12 @@ namespace Singleplayerstate
                 }
                 else
                 {
-                    showMessage("Could not detect a profiles folder. Install SPT-AKI and create a profile, then try again.");
+                    showMessage("Could not detect a profiles folder. Install SPT-AKI and create a profile, then try again.", this.Text);
                 }
             }
             else
             {
-                showMessage("Could not detect a user folder. Install SPT-AKI and try again.");
+                showMessage("Could not detect a user folder. Install SPT-AKI and try again.", this.Text);
             }
         }
 
@@ -1697,7 +1698,7 @@ namespace Singleplayerstate
 
             if (serverCount == 0)
             {
-                showMessage("There are no AKI folders available, please browse for one.");
+                showMessage("There are no AKI folders available, please browse for one.", this.Text);
             }
             else if (serverCount == 1)
             {
@@ -1790,7 +1791,7 @@ namespace Singleplayerstate
                     {
                         Directory.Delete(cacheFolder, true);
                         txtLocalCache.Text = "❌ user\\cache";
-                        showMessage("Cache deleted!");
+                        showMessage("Cache deleted!", this.Text);
 
                         string findServer = fetchCurrentServer();
                         if (findServer != null)
@@ -1810,7 +1811,7 @@ namespace Singleplayerstate
                         showMessage("We appear to have run into a problem. If you\'re unsure what this is about, please contact the developer." +
                                     Environment.NewLine +
                                     Environment.NewLine+
-                                    ex.ToString());
+                                    ex.ToString(), this.Text);
                     }
                 }
             }
@@ -1846,7 +1847,7 @@ namespace Singleplayerstate
                             showMessage("We appear to have run into a problem. If you\'re unsure what this is about, please contact the developer." +
                                         Environment.NewLine +
                                         Environment.NewLine +
-                                        ex.ToString());
+                                        ex.ToString(), this.Text);
                         }
                     }
                 }
@@ -1896,7 +1897,7 @@ namespace Singleplayerstate
                         showMessage("We appear to have run into a problem. If you\'re unsure what this is about, please contact the developer." +
                                     Environment.NewLine +
                                     Environment.NewLine +
-                                    ex.ToString());
+                                    ex.ToString(), this.Text);
                     }
                 }
             }
@@ -1928,7 +1929,7 @@ namespace Singleplayerstate
                         showMessage("We appear to have run into a problem. If you\'re unsure what this is about, please contact the developer." +
                                     Environment.NewLine +
                                     Environment.NewLine +
-                                    ex.ToString());
+                                    ex.ToString(), this.Text);
                     }
                 }
             }
@@ -2025,7 +2026,7 @@ namespace Singleplayerstate
                         "" + Environment.NewLine +
                         "You can fix this by doing the following:" + Environment.NewLine + Environment.NewLine +
                         "a) Running your incomplete profile via the AKI launcher." + Environment.NewLine +
-                        "b) Selecting a working profile.");
+                        "b) Selecting a working profile.", this.Text);
                     btnAccount.PerformClick();
                 }
                 else
@@ -2038,7 +2039,7 @@ namespace Singleplayerstate
                 Process[] launchers = Process.GetProcessesByName(launcherProcess);
                 if (launchers != null && launchers.Length > 0)
                 {
-                    showMessage("Escape From Tarkov is already running. Please close it and try again.");
+                    showMessage("Escape From Tarkov is already running. Please close it and try again.", this.Text);
                 }
                 else
                 {
@@ -2425,7 +2426,7 @@ namespace Singleplayerstate
                     showMessage("We appear to have run into a problem. If you\'re unsure what this is about, please contact the developer." +
                                         Environment.NewLine +
                                         Environment.NewLine +
-                                        ex.ToString());
+                                        ex.ToString(), this.Text);
                 }
             }
 
@@ -2584,7 +2585,7 @@ namespace Singleplayerstate
                 showMessage("We appear to have run into a problem. If you\'re unsure what this is about, please contact the developer." +
                                     Environment.NewLine +
                                     Environment.NewLine +
-                                    ex.ToString());
+                                    ex.ToString(), this.Text);
             }
             Directory.SetCurrentDirectory(currentDirectory);
         }
@@ -2683,7 +2684,7 @@ namespace Singleplayerstate
                 showMessage("We appear to have run into a problem. If you\'re unsure what this is about, please contact the developer." +
                                     Environment.NewLine +
                                     Environment.NewLine +
-                                    ex.ToString());
+                                    ex.ToString(), this.Text);
             }
             Directory.SetCurrentDirectory(currentDirectory);
         }
@@ -2737,7 +2738,7 @@ namespace Singleplayerstate
                 showMessage("We appear to have run into a problem. If you\'re unsure what this is about, please contact the developer." +
                                     Environment.NewLine +
                                     Environment.NewLine +
-                                    ex.ToString());
+                                    ex.ToString(), this.Text);
             }
         }
 
@@ -2895,7 +2896,8 @@ namespace Singleplayerstate
                 {
                     if (!hasNotifiedUser)
                     {
-                        showMessage("It appears that the server has closed. This message will only show once." + Environment.NewLine + "Escape From Tarkov will not be closed.");
+                        showMessage("It appears that the server has closed. This message will only show once." + Environment.NewLine +
+                            "Escape From Tarkov will not be closed.", this.Text);
                         hasNotifiedUser = true;
                     }
                 }
@@ -2963,7 +2965,7 @@ namespace Singleplayerstate
 
                     showMessage("We could not detect a heartbeat from the Aki Server after 10 minutes.\n" +
                                 "\n" +
-                                "Max duration reached, falling back. Please diagnose your server and try again.");
+                                "Max duration reached, falling back. Please diagnose your server and try again.", this.Text);
 
                     killProcesses();
 
@@ -2990,7 +2992,7 @@ namespace Singleplayerstate
             }
             else if (e.Error != null)
             {
-                showMessage("An error occurred: " + e.Error.Message);
+                showMessage("An error occurred: " + e.Error.Message, this.Text);
             }
             else
             {
@@ -3063,7 +3065,7 @@ namespace Singleplayerstate
 
                 if (!isServerRunning && !isEFTRunning)
                 {
-                    showMessage("SPT-AKI is not running!");
+                    showMessage("SPT-AKI is not running!", this.Text);
                 }
                 else
                 {
@@ -3187,7 +3189,7 @@ namespace Singleplayerstate
                         showMessage("We appear to have run into a problem. If you\'re unsure what this is about, please contact the developer." +
                                     Environment.NewLine +
                                     Environment.NewLine +
-                                    ex.ToString());
+                                    ex.ToString(), this.Text);
                     }
                 }
             }
@@ -3352,7 +3354,7 @@ namespace Singleplayerstate
                     showMessage("We appear to have run into a problem. If you\'re unsure what this is about, please contact the developer." +
                                 Environment.NewLine +
                                 Environment.NewLine +
-                                ex.ToString());
+                                ex.ToString(), this.Text);
                 }
             }
         }
@@ -3402,7 +3404,7 @@ namespace Singleplayerstate
         {
             // DevTools frm = new DevTools();
             // frm.ShowDialog();
-            showMessage("This feature is currently a work-in-progress, we apologize for the inconvenience!");
+            showMessage("This feature is currently a work-in-progress, we apologize for the inconvenience!", this.Text);
         }
 
         private void chkLogOnExit_CheckedChanged(object sender, EventArgs e)
@@ -3456,7 +3458,7 @@ namespace Singleplayerstate
             }
             else
             {
-                showMessage("Couldn\'t detect the profile dictionary, regenerating...");
+                showMessage("Couldn\'t detect the profile dictionary, regenerating...", this.Text);
                 generateProfileDictionary();
             }
         }

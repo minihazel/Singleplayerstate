@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
+using System.Reflection.Emit;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,7 +37,21 @@ namespace Singleplayerstate
 
         private void msgBoard_Load(object sender, EventArgs e)
         {
+            using (Graphics g = messageContent.CreateGraphics())
+            {
+                SizeF textSize = g.MeasureString(messageContent.Text, messageContent.Font);
 
+                if (textSize.Width > messageContent.Width || textSize.Height > messageContent.Height)
+                {
+                    int newWidth = (int)Math.Ceiling(textSize.Width) + messageContent.Margin.Left + messageContent.Margin.Right + SystemInformation.VerticalScrollBarWidth;
+                    int newHeight = (int)Math.Ceiling(textSize.Height) + messageContent.Margin.Top + messageContent.Margin.Bottom + SystemInformation.HorizontalScrollBarHeight;
+
+                    this.ClientSize = new Size(newWidth, newHeight);
+                }
+            }
+
+            Bitmap temp = this.Icon.ToBitmap();
+            appImage.Image = temp;
         }
 
         private void msgBoard_Paint(object sender, PaintEventArgs e)
@@ -93,6 +109,18 @@ namespace Singleplayerstate
 
         private void btnCopyMessage_Click(object sender, EventArgs e)
         {
+            Clipboard.SetText(messageContent.Text);
+            statusCopy.Visible = true;
+
+            Timer tmr = new Timer();
+            tmr.Interval = 1000;
+            tmr.Tick += (_sender, _e) =>
+            {
+                statusCopy.Visible = false;
+                tmr.Stop();
+                tmr.Dispose();
+            };
+            tmr.Start();
         }
 
         private void btnCopyMessage_MouseEnter(object sender, EventArgs e)
