@@ -2413,7 +2413,13 @@ namespace Singleplayerstate
             {
                 try
                 {
-                    string fullServerOutput = akiOutput.Text;
+                    string fullServerOutput = "";
+
+                    if (akiOutput.InvokeRequired)
+                        BeginInvoke((MethodInvoker)delegate { fullServerOutput = akiOutput.Text; });
+                    else
+                        fullServerOutput = akiOutput.Text;
+
                     DateTime now = DateTime.Now;
                     string formattedTime = now.ToString("yyyy-MM-dd HH-mm-ss");
                     string filename = $"{formattedTime} server.log";
@@ -2459,14 +2465,25 @@ namespace Singleplayerstate
             }
 
             toggleUI(true);
-            btnPlaySPTAKI.Text = "Play SPT-AKI";
-            btnPlaySPTAKI.Enabled = true;
 
             Timer tmr = new Timer();
             tmr.Interval = 750;
             tmr.Tick += (sender, e) =>
             {
-                btnPlaySPTAKI.Enabled = true;
+                if (btnPlaySPTAKI.InvokeRequired)
+                {
+                    BeginInvoke((MethodInvoker)delegate
+                    {
+                        btnPlaySPTAKI.Text = "Play SPT-AKI";
+                        btnPlaySPTAKI.Enabled = true;
+                    });
+                }
+                else
+                {
+                    btnPlaySPTAKI.Text = "Play SPT-AKI";
+                    btnPlaySPTAKI.Enabled = true;
+                }
+                this.TopMost = false;
                 tmr.Stop();
                 tmr.Dispose();
             };
@@ -2840,12 +2857,16 @@ namespace Singleplayerstate
                             {
                                 Show();
                                 this.WindowState = FormWindowState.Normal;
+                                this.TopMost = true;
+                                btnSPTAKI.PerformClick();
                             });
                         }
                         else
                         {
                             Show();
                             this.WindowState = FormWindowState.Normal;
+                            this.TopMost = true;
+                            btnSPTAKI.PerformClick();
                         }
                     }
                     else if (Properties.Settings.Default.exitParameter == "closelauncher")

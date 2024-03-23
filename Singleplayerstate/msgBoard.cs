@@ -4,12 +4,14 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net.Http;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace Singleplayerstate
 {
@@ -17,14 +19,25 @@ namespace Singleplayerstate
     {
         private const int HTBOTTOMRIGHT = 17;
         private const int WMNCHITTEST = 0x84;
-
         private const int WM_NCLBUTTONDOWN = 0xA1;
-        private const int HT_CAPTION = 0x2;
+        private const int HT_CAPTION = 0x2
+            ;
+        private const int WM_NCHITTEST = 0x0084;
+        private const int HTCLIENT = 0x01;
+        private const int HTCAPTION = 0x02;
 
         [DllImportAttribute("user32.dll")]
         private static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
         [DllImportAttribute("user32.dll")]
         private static extern bool ReleaseCapture();
+
+        [DllImport("user32.dll")]
+        private static extern IntPtr sendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+
+        [DllImport("user32.dll")]
+        private static extern bool releaseCapture();
+
+        private const int _WM_NCLBUTTONDOWN = 0xA1;
 
         private bool isResizing = false;
         private Point lastMousePosition;
@@ -35,21 +48,17 @@ namespace Singleplayerstate
             InitializeComponent();
         }
 
+        protected override void WndProc(ref Message m)
+        {
+            base.WndProc(ref m);
+            if (m.Msg == WMNCHITTEST && (int)m.Result == HTCLIENT)
+            {
+                m.Result = (IntPtr)HTCAPTION;
+            }
+        }
+
         private void msgBoard_Load(object sender, EventArgs e)
         {
-            using (Graphics g = messageContent.CreateGraphics())
-            {
-                SizeF textSize = g.MeasureString(messageContent.Text, messageContent.Font);
-
-                if (textSize.Width > messageContent.Width || textSize.Height > messageContent.Height)
-                {
-                    int newWidth = (int)Math.Ceiling(textSize.Width) + messageContent.Margin.Left + messageContent.Margin.Right + SystemInformation.VerticalScrollBarWidth;
-                    int newHeight = (int)Math.Ceiling(textSize.Height) + messageContent.Margin.Top + messageContent.Margin.Bottom + SystemInformation.HorizontalScrollBarHeight;
-
-                    this.ClientSize = new Size(newWidth, newHeight);
-                }
-            }
-
             Bitmap temp = this.Icon.ToBitmap();
             appImage.Image = temp;
         }
@@ -109,9 +118,17 @@ namespace Singleplayerstate
 
         private void btnCopyMessage_Click(object sender, EventArgs e)
         {
-            Clipboard.SetText(messageContent.Text);
-            statusCopy.Visible = true;
+            if (messageContent.InvokeRequired)
+            {
+                messageContent.BeginInvoke((MethodInvoker)delegate
+                {
+                    Clipboard.SetText(messageContent.Text);
+                });
+            }
+            else
+                Clipboard.SetText(messageContent.Text);
 
+            statusCopy.Visible = true;
             Timer tmr = new Timer();
             tmr.Interval = 1000;
             tmr.Tick += (_sender, _e) =>
@@ -131,6 +148,24 @@ namespace Singleplayerstate
         private void btnCopyMessage_MouseLeave(object sender, EventArgs e)
         {
             btnCopyMessage.BackgroundImage = Properties.Resources.layers;
+        }
+
+        private void btnLevelOne_Click(object sender, EventArgs e)
+        {
+            this.Size = new Size(700, 400);
+            statusCopy.Select();
+        }
+
+        private void btnLevelTwo_Click(object sender, EventArgs e)
+        {
+            this.Size = new Size(900, 600);
+            statusCopy.Select();
+        }
+
+        private void btnLevelThree_Click(object sender, EventArgs e)
+        {
+            this.Size = new Size(1100, 800);
+            statusCopy.Select();
         }
     }
 }
