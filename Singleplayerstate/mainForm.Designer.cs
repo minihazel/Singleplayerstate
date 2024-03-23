@@ -71,6 +71,7 @@
             this.titleGameOptions = new System.Windows.Forms.Label();
             this.btnWhenSPTAKILauncher = new System.Windows.Forms.Button();
             this.panelAccount = new System.Windows.Forms.Panel();
+            this.btnRegenerateProfileDict = new System.Windows.Forms.Button();
             this.panelAccountSeparator = new System.Windows.Forms.Panel();
             this.panelAccountProfiles = new System.Windows.Forms.Panel();
             this.profilesPlaceholder = new System.Windows.Forms.Label();
@@ -97,6 +98,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnClearList = new System.Windows.Forms.Button();
             this.panelServer = new System.Windows.Forms.Panel();
+            this.btnMinimizeToTray = new System.Windows.Forms.Button();
             this.chkLogOnExit = new System.Windows.Forms.CheckBox();
             this.chkAutoScroll = new System.Windows.Forms.CheckBox();
             this.txtServerIsRunning = new System.Windows.Forms.Label();
@@ -124,8 +126,6 @@
             this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.btnOpenAutostart = new System.Windows.Forms.Button();
             this.clientModTip = new System.Windows.Forms.ToolTip(this.components);
-            this.btnMinimizeToTray = new System.Windows.Forms.Button();
-            this.btnRegenerateProfileDict = new System.Windows.Forms.Button();
             this.panelServers.SuspendLayout();
             this.panelGameInfo.SuspendLayout();
             this.panelGameOptions.SuspendLayout();
@@ -751,6 +751,26 @@
             this.panelAccount.Size = new System.Drawing.Size(608, 583);
             this.panelAccount.TabIndex = 2;
             // 
+            // btnRegenerateProfileDict
+            // 
+            this.btnRegenerateProfileDict.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.btnRegenerateProfileDict.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnRegenerateProfileDict.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
+            this.btnRegenerateProfileDict.FlatAppearance.BorderSize = 2;
+            this.btnRegenerateProfileDict.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnRegenerateProfileDict.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnRegenerateProfileDict.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRegenerateProfileDict.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.btnRegenerateProfileDict.ForeColor = System.Drawing.Color.LightGray;
+            this.btnRegenerateProfileDict.Location = new System.Drawing.Point(6, 402);
+            this.btnRegenerateProfileDict.Name = "btnRegenerateProfileDict";
+            this.btnRegenerateProfileDict.Size = new System.Drawing.Size(300, 40);
+            this.btnRegenerateProfileDict.TabIndex = 22;
+            this.btnRegenerateProfileDict.Text = "Regenerate profile dictionary";
+            this.btnRegenerateProfileDict.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnRegenerateProfileDict.UseVisualStyleBackColor = false;
+            this.btnRegenerateProfileDict.Click += new System.EventHandler(this.btnRegenerateProfileDict_Click);
+            // 
             // panelAccountSeparator
             // 
             this.panelAccountSeparator.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -1125,6 +1145,27 @@
             this.panelServer.Name = "panelServer";
             this.panelServer.Size = new System.Drawing.Size(608, 583);
             this.panelServer.TabIndex = 0;
+            // 
+            // btnMinimizeToTray
+            // 
+            this.btnMinimizeToTray.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnMinimizeToTray.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.btnMinimizeToTray.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnMinimizeToTray.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
+            this.btnMinimizeToTray.FlatAppearance.BorderSize = 2;
+            this.btnMinimizeToTray.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnMinimizeToTray.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnMinimizeToTray.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnMinimizeToTray.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.btnMinimizeToTray.ForeColor = System.Drawing.Color.LightGray;
+            this.btnMinimizeToTray.Location = new System.Drawing.Point(426, 61);
+            this.btnMinimizeToTray.Name = "btnMinimizeToTray";
+            this.btnMinimizeToTray.Size = new System.Drawing.Size(175, 40);
+            this.btnMinimizeToTray.TabIndex = 31;
+            this.btnMinimizeToTray.Text = "↘️  Minimize to tray";
+            this.btnMinimizeToTray.UseVisualStyleBackColor = false;
+            this.btnMinimizeToTray.Click += new System.EventHandler(this.btnMinimizeToTray_Click);
             // 
             // chkLogOnExit
             // 
@@ -1550,47 +1591,6 @@
             this.clientModTip.UseAnimation = false;
             this.clientModTip.UseFading = false;
             // 
-            // btnMinimizeToTray
-            // 
-            this.btnMinimizeToTray.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnMinimizeToTray.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
-            this.btnMinimizeToTray.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnMinimizeToTray.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
-            this.btnMinimizeToTray.FlatAppearance.BorderSize = 2;
-            this.btnMinimizeToTray.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.btnMinimizeToTray.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.btnMinimizeToTray.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnMinimizeToTray.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.btnMinimizeToTray.ForeColor = System.Drawing.Color.LightGray;
-            this.btnMinimizeToTray.Location = new System.Drawing.Point(426, 61);
-            this.btnMinimizeToTray.Name = "btnMinimizeToTray";
-            this.btnMinimizeToTray.Size = new System.Drawing.Size(175, 40);
-            this.btnMinimizeToTray.TabIndex = 31;
-            this.btnMinimizeToTray.Text = "↘️  Minimize to tray";
-            this.btnMinimizeToTray.UseVisualStyleBackColor = false;
-            this.btnMinimizeToTray.Click += new System.EventHandler(this.btnMinimizeToTray_Click);
-            // 
-            // btnRegenerateProfileDict
-            // 
-            this.btnRegenerateProfileDict.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
-            this.btnRegenerateProfileDict.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnRegenerateProfileDict.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
-            this.btnRegenerateProfileDict.FlatAppearance.BorderSize = 2;
-            this.btnRegenerateProfileDict.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.btnRegenerateProfileDict.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.btnRegenerateProfileDict.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRegenerateProfileDict.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.btnRegenerateProfileDict.ForeColor = System.Drawing.Color.LightGray;
-            this.btnRegenerateProfileDict.Location = new System.Drawing.Point(6, 402);
-            this.btnRegenerateProfileDict.Name = "btnRegenerateProfileDict";
-            this.btnRegenerateProfileDict.Size = new System.Drawing.Size(300, 40);
-            this.btnRegenerateProfileDict.TabIndex = 22;
-            this.btnRegenerateProfileDict.Text = "Regenerate profile dictionary";
-            this.btnRegenerateProfileDict.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnRegenerateProfileDict.UseVisualStyleBackColor = false;
-            this.btnRegenerateProfileDict.Click += new System.EventHandler(this.btnRegenerateProfileDict_Click);
-            // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -1608,11 +1608,11 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.lblServers);
             this.Controls.Add(this.panelServers);
-            this.Controls.Add(this.panelAccount);
-            this.Controls.Add(this.panelSPTAKI);
             this.Controls.Add(this.panelGameOptions);
             this.Controls.Add(this.panelAddInstall);
             this.Controls.Add(this.panelServer);
+            this.Controls.Add(this.panelAccount);
+            this.Controls.Add(this.panelSPTAKI);
             this.Font = new System.Drawing.Font("Bahnschrift Light", 10F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

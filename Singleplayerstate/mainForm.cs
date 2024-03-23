@@ -55,11 +55,12 @@ namespace Singleplayerstate
         // Dictionaries for servers and addons
         public Dictionary<string, string> folderPaths = new Dictionary<string, string>();
         public Dictionary<string, string> addonPaths = new Dictionary<string, string>();
-        public Dictionary<string, string> profilesDict = new Dictionary<string, string>();
 
         // Default colors
         public Color hoverColor = Color.FromArgb(39, 44, 47);
         public Color holdColor = Color.FromArgb(39, 44, 47);
+
+        private msgBoard messageWindow;
 
         public mainForm()
         {
@@ -238,27 +239,47 @@ namespace Singleplayerstate
 
             if (browse.ShowDialog(this) == DialogResult.OK)
             {
+                string mainDir = txtGameInstallFolder.Text;
                 string selectedFolder = browse.SelectedFolder;
+                string fullPath = Path.GetFullPath(selectedFolder);
                 bool folderExists = Directory.Exists(selectedFolder);
                 if (folderExists)
                 {
                     if (folderPaths != null)
                     {
-                        folderPaths[displayName] = selectedFolder;
-                        string serializedPaths = JsonSerializer.Serialize(folderPaths);
-                        Properties.Settings.Default.availableServers = serializedPaths;
-                        Properties.Settings.Default.Save();
-
-                        showMessage($"Updated folder:\n{oldInstall}\n\nto:\n{selectedFolder}");
-                        listServers();
-
-                        foreach (Control c in panelServers.Controls)
+                        if (fullPath == mainDir)
                         {
-                            if (c is Label lbl)
+                            if (messageWindow != null)
                             {
-                                if (lbl.Text.Contains(displayName))
+                                messageWindow.Close();
+                                messageWindow.Dispose();
+                            }
+
+                            string content = "This path has already been selected. Press OK to continue";
+                            messageWindow = new msgBoard();
+                            messageWindow.TopMost = true;
+                            messageWindow.messageContent.Text = content;
+
+                            messageWindow.ShowDialog();
+                        }
+                        else
+                        {
+                            folderPaths[displayName] = selectedFolder;
+                            string serializedPaths = JsonSerializer.Serialize(folderPaths);
+                            Properties.Settings.Default.availableServers = serializedPaths;
+                            Properties.Settings.Default.Save();
+
+                            showMessage($"Updated folder:\n{oldInstall}\n\nto:\n{selectedFolder}");
+                            listServers();
+
+                            foreach (Control c in panelServers.Controls)
+                            {
+                                if (c is Label lbl)
                                 {
-                                    selectServer(lbl.Text, lbl, false);
+                                    if (lbl.Text.Contains(displayName))
+                                    {
+                                        selectServer(lbl.Text, lbl, false);
+                                    }
                                 }
                             }
                         }
@@ -2671,17 +2692,25 @@ namespace Singleplayerstate
         {
             ProcessStartInfo _tarkov = new ProcessStartInfo();
             string serverFolder = txtGameInstallFolder.Text;
-            string aid = profilesDict[serverFolder];
 
-            _tarkov.FileName = Path.Combine(serverFolder, "EscapeFromTarkov.exe");
-            if (akiPort != 0)
-                _tarkov.Arguments = $"-token={aid} -config={{\"BackendUrl\":\"http://127.0.0.1:{akiPort}\",\"Version\":\"live\"}}";
-            else
-                _tarkov.Arguments = $"-token={aid} -config={{\"BackendUrl\":\"http://127.0.0.1:6969\",\"Version\":\"live\"}}";
+            string content = File.ReadAllText(profiles_dict);
+            JObject objectContent = JObject.Parse(content);
+            string profile = (string)objectContent[serverFolder];
+            
+            if (profile != null && !string.IsNullOrEmpty(profile))
+            {
+                string aid = profile;
 
-            Process tarkovGame = new Process();
-            tarkovGame.StartInfo = _tarkov;
-            tarkovGame.Start();
+                _tarkov.FileName = Path.Combine(serverFolder, "EscapeFromTarkov.exe");
+                if (akiPort != 0)
+                    _tarkov.Arguments = $"-token={aid} -config={{\"BackendUrl\":\"http://127.0.0.1:{akiPort}\",\"Version\":\"live\"}}";
+                else
+                    _tarkov.Arguments = $"-token={aid} -config={{\"BackendUrl\":\"http://127.0.0.1:6969\",\"Version\":\"live\"}}";
+
+                Process tarkovGame = new Process();
+                tarkovGame.StartInfo = _tarkov;
+                tarkovGame.Start();
+            }
         }
 
         private void checkServerUptime()
