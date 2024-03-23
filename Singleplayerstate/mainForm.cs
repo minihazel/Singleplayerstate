@@ -249,18 +249,8 @@ namespace Singleplayerstate
                     {
                         if (fullPath == mainDir)
                         {
-                            if (messageWindow != null)
-                            {
-                                messageWindow.Close();
-                                messageWindow.Dispose();
-                            }
-
                             string content = "This path has already been selected. Press OK to continue";
-                            messageWindow = new msgBoard();
-                            messageWindow.TopMost = true;
-                            messageWindow.messageContent.Text = content;
-
-                            messageWindow.ShowDialog();
+                            showMessage(content);
                         }
                         else
                         {
@@ -532,9 +522,19 @@ namespace Singleplayerstate
             }
         }
 
-        private void showMessage(string message)
+        private void showMessage(string content)
         {
-            MessageBox.Show(message, this.Text, MessageBoxButtons.OK);
+            if (messageWindow != null)
+            {
+                messageWindow.Close();
+                messageWindow.Dispose();
+            }
+
+            messageWindow = new msgBoard();
+            messageWindow.TopMost = true;
+            messageWindow.messageContent.Text = content;
+
+            messageWindow.ShowDialog();
         }
 
         public void saveServers(string displayName, string folderPath)
