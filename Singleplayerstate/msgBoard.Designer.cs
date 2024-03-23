@@ -120,9 +120,9 @@
             this.btnCopyMessage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCopyMessage.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
             this.btnCopyMessage.ForeColor = System.Drawing.Color.Gray;
-            this.btnCopyMessage.Location = new System.Drawing.Point(187, 209);
+            this.btnCopyMessage.Location = new System.Drawing.Point(190, 212);
             this.btnCopyMessage.Name = "btnCopyMessage";
-            this.btnCopyMessage.Size = new System.Drawing.Size(30, 30);
+            this.btnCopyMessage.Size = new System.Drawing.Size(25, 25);
             this.btnCopyMessage.TabIndex = 9;
             this.btnCopyMessage.UseVisualStyleBackColor = false;
             this.btnCopyMessage.Click += new System.EventHandler(this.btnCopyMessage_Click);
