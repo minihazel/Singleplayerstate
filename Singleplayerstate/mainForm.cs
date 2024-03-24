@@ -2483,7 +2483,7 @@ namespace Singleplayerstate
                     btnPlaySPTAKI.Text = "Play SPT-AKI";
                     btnPlaySPTAKI.Enabled = true;
                 }
-                this.TopMost = false;
+
                 tmr.Stop();
                 tmr.Dispose();
             };
@@ -2857,7 +2857,6 @@ namespace Singleplayerstate
                             {
                                 Show();
                                 this.WindowState = FormWindowState.Normal;
-                                this.TopMost = true;
                                 btnSPTAKI.PerformClick();
                             });
                         }
@@ -2865,7 +2864,6 @@ namespace Singleplayerstate
                         {
                             Show();
                             this.WindowState = FormWindowState.Normal;
-                            this.TopMost = true;
                             btnSPTAKI.PerformClick();
                         }
                     }
