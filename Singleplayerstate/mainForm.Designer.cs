@@ -98,6 +98,8 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnClearList = new System.Windows.Forms.Button();
             this.panelServer = new System.Windows.Forms.Panel();
+            this.chkMinimizeOnGameLaunch = new System.Windows.Forms.CheckBox();
+            this.btnSaveOutputToFile = new System.Windows.Forms.Button();
             this.btnMinimizeToTray = new System.Windows.Forms.Button();
             this.chkLogOnExit = new System.Windows.Forms.CheckBox();
             this.chkAutoScroll = new System.Windows.Forms.CheckBox();
@@ -126,8 +128,6 @@
             this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.btnOpenAutostart = new System.Windows.Forms.Button();
             this.clientModTip = new System.Windows.Forms.ToolTip(this.components);
-            this.btnSaveOutputToFile = new System.Windows.Forms.Button();
-            this.chkMinimizeOnGameLaunch = new System.Windows.Forms.CheckBox();
             this.panelServers.SuspendLayout();
             this.panelGameInfo.SuspendLayout();
             this.panelGameOptions.SuspendLayout();
@@ -1150,6 +1150,43 @@
             this.panelServer.Size = new System.Drawing.Size(608, 583);
             this.panelServer.TabIndex = 0;
             // 
+            // chkMinimizeOnGameLaunch
+            // 
+            this.chkMinimizeOnGameLaunch.AutoSize = true;
+            this.chkMinimizeOnGameLaunch.Checked = true;
+            this.chkMinimizeOnGameLaunch.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkMinimizeOnGameLaunch.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.chkMinimizeOnGameLaunch.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.chkMinimizeOnGameLaunch.ForeColor = System.Drawing.Color.LightGray;
+            this.chkMinimizeOnGameLaunch.Location = new System.Drawing.Point(331, 127);
+            this.chkMinimizeOnGameLaunch.Name = "chkMinimizeOnGameLaunch";
+            this.chkMinimizeOnGameLaunch.Size = new System.Drawing.Size(206, 21);
+            this.chkMinimizeOnGameLaunch.TabIndex = 33;
+            this.chkMinimizeOnGameLaunch.Text = "Minimize on game-launch";
+            this.chkMinimizeOnGameLaunch.UseVisualStyleBackColor = true;
+            this.chkMinimizeOnGameLaunch.CheckedChanged += new System.EventHandler(this.chkMinimizeOnGameLaunch_CheckedChanged);
+            // 
+            // btnSaveOutputToFile
+            // 
+            this.btnSaveOutputToFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSaveOutputToFile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.btnSaveOutputToFile.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnSaveOutputToFile.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
+            this.btnSaveOutputToFile.FlatAppearance.BorderSize = 2;
+            this.btnSaveOutputToFile.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnSaveOutputToFile.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnSaveOutputToFile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSaveOutputToFile.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.btnSaveOutputToFile.ForeColor = System.Drawing.Color.LightGray;
+            this.btnSaveOutputToFile.Location = new System.Drawing.Point(341, 61);
+            this.btnSaveOutputToFile.Name = "btnSaveOutputToFile";
+            this.btnSaveOutputToFile.Size = new System.Drawing.Size(260, 40);
+            this.btnSaveOutputToFile.TabIndex = 32;
+            this.btnSaveOutputToFile.Text = "✔️  Save current output to file";
+            this.btnSaveOutputToFile.UseVisualStyleBackColor = false;
+            this.btnSaveOutputToFile.Click += new System.EventHandler(this.btnSaveOutputToFile_Click);
+            // 
             // btnMinimizeToTray
             // 
             this.btnMinimizeToTray.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -1596,43 +1633,6 @@
             this.clientModTip.UseAnimation = false;
             this.clientModTip.UseFading = false;
             // 
-            // btnSaveOutputToFile
-            // 
-            this.btnSaveOutputToFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSaveOutputToFile.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
-            this.btnSaveOutputToFile.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnSaveOutputToFile.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
-            this.btnSaveOutputToFile.FlatAppearance.BorderSize = 2;
-            this.btnSaveOutputToFile.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.btnSaveOutputToFile.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.btnSaveOutputToFile.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSaveOutputToFile.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.btnSaveOutputToFile.ForeColor = System.Drawing.Color.LightGray;
-            this.btnSaveOutputToFile.Location = new System.Drawing.Point(341, 61);
-            this.btnSaveOutputToFile.Name = "btnSaveOutputToFile";
-            this.btnSaveOutputToFile.Size = new System.Drawing.Size(260, 40);
-            this.btnSaveOutputToFile.TabIndex = 32;
-            this.btnSaveOutputToFile.Text = "✔️  Save current output to file";
-            this.btnSaveOutputToFile.UseVisualStyleBackColor = false;
-            this.btnSaveOutputToFile.Click += new System.EventHandler(this.btnSaveOutputToFile_Click);
-            // 
-            // chkMinimizeOnGameLaunch
-            // 
-            this.chkMinimizeOnGameLaunch.AutoSize = true;
-            this.chkMinimizeOnGameLaunch.Checked = true;
-            this.chkMinimizeOnGameLaunch.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkMinimizeOnGameLaunch.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.chkMinimizeOnGameLaunch.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.chkMinimizeOnGameLaunch.ForeColor = System.Drawing.Color.LightGray;
-            this.chkMinimizeOnGameLaunch.Location = new System.Drawing.Point(331, 127);
-            this.chkMinimizeOnGameLaunch.Name = "chkMinimizeOnGameLaunch";
-            this.chkMinimizeOnGameLaunch.Size = new System.Drawing.Size(206, 21);
-            this.chkMinimizeOnGameLaunch.TabIndex = 33;
-            this.chkMinimizeOnGameLaunch.Text = "Minimize on game-launch";
-            this.chkMinimizeOnGameLaunch.UseVisualStyleBackColor = true;
-            this.chkMinimizeOnGameLaunch.CheckedChanged += new System.EventHandler(this.chkMinimizeOnGameLaunch_CheckedChanged);
-            // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -1650,11 +1650,11 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.lblServers);
             this.Controls.Add(this.panelServers);
-            this.Controls.Add(this.panelServer);
-            this.Controls.Add(this.panelAccount);
             this.Controls.Add(this.panelSPTAKI);
             this.Controls.Add(this.panelGameOptions);
             this.Controls.Add(this.panelAddInstall);
+            this.Controls.Add(this.panelServer);
+            this.Controls.Add(this.panelAccount);
             this.Font = new System.Drawing.Font("Bahnschrift Light", 10F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
