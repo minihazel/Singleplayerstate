@@ -124,6 +124,7 @@ namespace Singleplayerstate
             btnAddInstall.PerformClick();
             chkAutoScroll.Checked = Properties.Settings.Default.autoScrollOption;
             chkLogOnExit.Checked = Properties.Settings.Default.logOnExit;
+            chkMinimizeOnGameLaunch.Checked = Properties.Settings.Default.minimizeOnGameLaunch;
 
             if (Properties.Settings.Default.launchParameter == "donothing")
                 btnWhenSPTAKILauncher.Text = "Do nothing";
@@ -2725,6 +2726,23 @@ namespace Singleplayerstate
                 else
                     _tarkov.Arguments = $"-token={aid} -config={{\"BackendUrl\":\"http://127.0.0.1:6969\",\"Version\":\"live\"}}";
 
+                if (chkMinimizeOnGameLaunch.Checked)
+                {
+                    if (WindowState != FormWindowState.Normal &&
+                        WindowState != FormWindowState.Minimized &&
+                        WindowState != FormWindowState.Maximized &&
+                        !this.Visible &&
+                        !trayIcon.Visible)
+                    {
+                        if (trayIcon != null)
+                        {
+                            Hide();
+                            trayIcon.Visible = true;
+                            trayIcon.ShowBalloonTip(2000);
+                        }
+                    }
+                }
+
                 Process tarkovGame = new Process();
                 tarkovGame.StartInfo = _tarkov;
                 tarkovGame.Start();
@@ -3110,6 +3128,14 @@ namespace Singleplayerstate
                 killAkiServer();
                 runServerOnly();
             }
+            else if (btnCloseAkiServer.Text.ToLower().Contains("force-quit spt-aki"))
+            {
+                if (MessageBox.Show("Are you sure that you want to force-close SPT-AKI?" + Environment.NewLine + Environment.NewLine +
+                    "Progress maybe lost.", this.Text, MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    performClosing();
+                }
+            }
         }
 
         private void extensionsRequirementLOE_Click(object sender, EventArgs e)
@@ -3319,9 +3345,6 @@ namespace Singleplayerstate
 
         private void trayIcon_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            Show();
-            WindowState = FormWindowState.Normal;
-            trayIcon.Visible = false;
         }
 
         private void btnWorkshop_Click(object sender, EventArgs e)
@@ -3480,6 +3503,27 @@ namespace Singleplayerstate
                 showMessage("Couldn\'t detect the profile dictionary, regenerating...", this.Text);
                 generateProfileDictionary();
             }
+        }
+
+        private void btnSaveOutputToFile_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure that you want to save the current server output to file?", this.Text, MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                //
+            }
+        }
+
+        private void trayIcon_MouseClick(object sender, MouseEventArgs e)
+        {
+            Show();
+            WindowState = FormWindowState.Normal;
+            trayIcon.Visible = false;
+        }
+
+        private void chkMinimizeOnGameLaunch_CheckedChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.minimizeOnGameLaunch = chkMinimizeOnGameLaunch.Checked;
+            Properties.Settings.Default.Save();
         }
     }
 }

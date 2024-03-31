@@ -142,5 +142,17 @@ namespace Singleplayerstate.Properties {
                 this["logOnExit"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool minimizeOnGameLaunch {
+            get {
+                return ((bool)(this["minimizeOnGameLaunch"]));
+            }
+            set {
+                this["minimizeOnGameLaunch"] = value;
+            }
+        }
     }
 }
