@@ -819,19 +819,25 @@ namespace Singleplayerstate
             string BepInEx = Path.Combine(gamePath, "BepInEx");
             string LogOutput = Path.Combine(BepInEx, "LogOutput.log");
 
-            bool BepInExExists = Directory.Exists(BepInEx);
-            bool LogOutputExists = File.Exists(LogOutput);
-
-            if (BepInExExists && LogOutputExists)
+            bool akiServerIsRunning = IsAkiServerRunning(gamePath);
+            if (akiServerIsRunning)
+                return -1;
+            else
             {
-                string loadString = File.ReadAllLines(LogOutput)[14];
-                if (loadString.Contains("plugins to load"))
+                bool BepInExExists = Directory.Exists(BepInEx);
+                bool LogOutputExists = File.Exists(LogOutput);
+
+                if (BepInExExists && LogOutputExists)
                 {
-                    Match numberSuccess = Regex.Match(loadString, @"\d+");
-                    if (numberSuccess.Success)
+                    string loadString = File.ReadAllLines(LogOutput)[14];
+                    if (loadString.Contains("plugins to load"))
                     {
-                        num = int.Parse(numberSuccess.Value);
-                        return num;
+                        Match numberSuccess = Regex.Match(loadString, @"\d+");
+                        if (numberSuccess.Success)
+                        {
+                            num = int.Parse(numberSuccess.Value);
+                            return num;
+                        }
                     }
                 }
             }
@@ -841,28 +847,26 @@ namespace Singleplayerstate
 
         public static bool IsAkiServerRunning(string expectedFilePath)
         {
-            Process[] processes = Process.GetProcessesByName("Aki.Server");
-
-            foreach (Process process in processes)
+            try
             {
-                try
-                {
-                    if (process.MainModule != null && process.MainModule.FileName.Equals(expectedFilePath, StringComparison.OrdinalIgnoreCase))
-                    {
-                        return true;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("We appear to have run into a problem. If you\'re unsure what this is about, please contact the developer." +
-                                    Environment.NewLine +
-                                    Environment.NewLine +
-                                    ex.ToString());
-                }
+                return Process.GetProcessesByName("Aki.Server").Any();
             }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
 
-            // Aki.Server process not found or path mismatch
-            return false;
+        public static bool isTarkovRunning(string expectedFilePath)
+        {
+            try
+            {
+                return Process.GetProcessesByName("EscapeFromTarkov").Any();
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         private void listServers()
@@ -1384,7 +1388,7 @@ namespace Singleplayerstate
             bool serverOn = IsAkiServerRunning(akiServerFile);
             if (serverOn)
             {
-                showMessage("The server for this installation seems to be running already. Go ahead and hit Play!", this.Text);
+                btnPlaySPTAKI.Text = "Quit SPT-AKI";
             }
 
             // Account Tab
@@ -1621,13 +1625,15 @@ namespace Singleplayerstate
 
         private void mainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            bool accepted = false;
-
             if (e.CloseReason == CloseReason.UserClosing)
             {
-                if (serverIsRunning && !hasStopped)
+                string gamePath = txtGameInstallFolder.Text;
+                bool accepted = false;
+                bool akiServerIsRunning = IsAkiServerRunning(gamePath);
+                if (akiServerIsRunning)
                 {
-                    DialogResult result = MessageBox.Show("Aki's server is running, this will close the server and game. Are you sure you want to proceed?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    DialogResult result = MessageBox.Show("Aki's server is running, this will close the server and game. Are you sure you want to proceed?",
+                        "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                     if (result == DialogResult.No)
                         e.Cancel = true;
@@ -1638,7 +1644,18 @@ namespace Singleplayerstate
                         performClosing();
                 }
                 else
-                    performClosing();
+                {
+                    DialogResult result = MessageBox.Show("Are you sure you want to quit??",
+                        "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+                    if (result == DialogResult.No)
+                        e.Cancel = true;
+                    else
+                        accepted = true;
+
+                    if (accepted)
+                        performClosing();
+                }
             }
         }
 
@@ -2034,7 +2051,11 @@ namespace Singleplayerstate
 
         private void btnPlaySPTAKI_Click(object sender, EventArgs e)
         {
-            if (!serverIsRunning)
+            string gamePath = txtGameInstallFolder.Text;
+            bool akiServerIsRunning = IsAkiServerRunning(gamePath);
+
+            if (!akiServerIsRunning)
+            {
                 if (txtAccountAID.Text.ToLower() == "incomplete profile")
                 {
                     showMessage("You\'re trying to launch SPT-AKI with an incomplete profile." + Environment.NewLine +
@@ -2046,39 +2067,31 @@ namespace Singleplayerstate
                 }
                 else
                 {
+                    killProcesses();
                     beginLaunching();
                 }
+            }
             else
             {
-                string launcherProcess = "EscapeFromTarkov";
-                Process[] launchers = Process.GetProcessesByName(launcherProcess);
-                if (launchers != null && launchers.Length > 0)
+                string content = $"It looks like the AKI server is running. We don't support manual launching, so we'll restart the game for you:" + Environment.NewLine + Environment.NewLine +
+                                 $"Click YES to restart." + Environment.NewLine +
+                                 $"Click NO to cancel.";
+                if (MessageBox.Show(content, this.Text, MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    showMessage("Escape From Tarkov is already running. Please close it and try again.", this.Text);
-                }
-                else
-                {
-                    mainDir = txtGameInstallFolder.Text;
-                    string serverFolder = Path.Combine(mainDir, "Aki.Server.exe");
+                    killProcesses();
 
-                    bool serverOn = IsAkiServerRunning(serverFolder);
-                    if (serverOn)
+                    if (txtAccountAID.Text.ToLower() == "incomplete profile")
                     {
-                        int akiPort;
-                        string portPath = Path.Combine(mainDir, "Aki_Data\\Server\\database\\server.json");
-                        bool portExists = File.Exists(portPath);
-                        if (portExists)
-                        {
-                            string readPort = File.ReadAllText(portPath);
-                            JObject portObject = JObject.Parse(readPort);
-                            akiPort = (int)portObject["port"];
-                        }
-                        else
-                            akiPort = 6969;
-
-                        int port = akiPort;
-
-                        launchTarkov(port);
+                        showMessage("You\'re trying to launch SPT-AKI with an incomplete profile." + Environment.NewLine +
+                            "" + Environment.NewLine +
+                            "You can fix this by doing the following:" + Environment.NewLine + Environment.NewLine +
+                            "a) Running your incomplete profile via the AKI launcher." + Environment.NewLine +
+                            "b) Selecting a working profile.", this.Text);
+                        btnAccount.PerformClick();
+                    }
+                    else
+                    {
+                        beginLaunching();
                     }
                 }
             }
