@@ -167,5 +167,10 @@ namespace Singleplayerstate
             this.Size = new Size(1100, 800);
             statusCopy.Select();
         }
+
+        private void messageContent_MouseUp(object sender, MouseEventArgs e)
+        {
+            statusCopy.Select();
+        }
     }
 }

@@ -114,10 +114,12 @@
             this.messageContent.ForeColor = System.Drawing.Color.Silver;
             this.messageContent.Location = new System.Drawing.Point(30, 70);
             this.messageContent.Name = "messageContent";
+            this.messageContent.ReadOnly = true;
             this.messageContent.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
             this.messageContent.Size = new System.Drawing.Size(638, 226);
             this.messageContent.TabIndex = 13;
             this.messageContent.Text = "Placeholder";
+            this.messageContent.MouseUp += new System.Windows.Forms.MouseEventHandler(this.messageContent_MouseUp);
             // 
             // appImage
             // 
