@@ -1672,7 +1672,7 @@ namespace Singleplayerstate
 
                     string oldInstall = txtGameInstallFolder.Text;
 
-                    if (addonPaths.ContainsKey(displayName))
+                    if (folderPaths.ContainsKey(displayName))
                     {
                         showMessage($"An installation with the name {displayName} already exists." + Environment.NewLine + Environment.NewLine +
                                     $"Please choose a different name!", this.Text);
@@ -1692,7 +1692,7 @@ namespace Singleplayerstate
                         displayName = completed;
                     }
 
-                    if (addonPaths.ContainsKey(displayName))
+                    if (folderPaths.ContainsKey(displayName))
                     {
                         showMessage($"An installation with the name {displayName} already exists." + Environment.NewLine + Environment.NewLine +
                                     $"Please choose a different name!", this.Text);
