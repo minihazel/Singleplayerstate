@@ -147,6 +147,11 @@ namespace Singleplayerstate
             else
                 btnOnServerDoubleClick.Text = "Do nothing";
 
+            if (Properties.Settings.Default.whenLauncherCloses)
+                btnWhenLauncherExits.Text = "Do nothing";
+            else
+                btnWhenLauncherExits.Text = "Show pop-up";
+
             checkAutoStart();
         }
 
@@ -1632,28 +1637,63 @@ namespace Singleplayerstate
                 bool akiServerIsRunning = IsAkiServerRunning(gamePath);
                 if (akiServerIsRunning)
                 {
-                    DialogResult result = MessageBox.Show("Aki's server is running, this will close the server and game. Are you sure you want to proceed?",
-                        "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    DialogResult result = MessageBox.Show("The AKI server is running, this will close the server and game. Are you sure you want to proceed?" +
+                        Environment.NewLine +
+                        Environment.NewLine +
+                        "Click NO to cancel." + Environment.NewLine +
+                        "Click YES to proceed." + Environment.NewLine +
+                        "Click CANCEL to minimize.",
+                        "Confirmation", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
 
                     if (result == DialogResult.No)
                         e.Cancel = true;
-                    else
+                    else if (result == DialogResult.Yes)
                         accepted = true;
+                    else
+                    {
+                        e.Cancel = true;
+                        if (trayIcon != null)
+                        {
+                            Hide();
+                            trayIcon.Visible = true;
+                            trayIcon.ShowBalloonTip(2000);
+                        }
+                    }
 
                     if (accepted)
                         performClosing();
                 }
                 else
                 {
-                    DialogResult result = MessageBox.Show("Are you sure you want to quit??",
-                        "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                    if (!Properties.Settings.Default.whenLauncherCloses)
+                    {
+                        DialogResult result = MessageBox.Show("Are you sure you want to quit?" +
+                        Environment.NewLine +
+                        Environment.NewLine +
+                        "Click NO to cancel." + Environment.NewLine +
+                        "Click YES to quit." + Environment.NewLine +
+                        "Click CANCEL to minimize.",
+                        "Confirmation", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
 
-                    if (result == DialogResult.No)
-                        e.Cancel = true;
+                        if (result == DialogResult.No)
+                            e.Cancel = true;
+                        else if (result == DialogResult.Yes)
+                            accepted = true;
+                        else
+                        {
+                            e.Cancel = true;
+                            if (trayIcon != null)
+                            {
+                                Hide();
+                                trayIcon.Visible = true;
+                                trayIcon.ShowBalloonTip(2000);
+                            }
+                        }
+
+                        if (accepted)
+                            performClosing();
+                    }
                     else
-                        accepted = true;
-
-                    if (accepted)
                         performClosing();
                 }
             }
@@ -3551,6 +3591,24 @@ namespace Singleplayerstate
         {
             Properties.Settings.Default.minimizeOnGameLaunch = chkMinimizeOnGameLaunch.Checked;
             Properties.Settings.Default.Save();
+        }
+
+        private void btnWhenLauncherExits_MouseDown(object sender, MouseEventArgs e)
+        {
+            switch (btnWhenLauncherExits.Text.ToLower())
+            {
+                case "do nothing":
+                    Properties.Settings.Default.whenLauncherCloses = false;
+                    btnWhenLauncherExits.Text = "Show pop-up";
+                    break;
+                case "show pop-up":
+                    Properties.Settings.Default.whenLauncherCloses = true;
+                    btnWhenLauncherExits.Text = "Do nothing";
+                    break;
+            }
+
+            Properties.Settings.Default.Save();
+            lblServers.Select();
         }
     }
 }

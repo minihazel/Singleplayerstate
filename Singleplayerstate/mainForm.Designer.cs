@@ -128,6 +128,8 @@
             this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.btnOpenAutostart = new System.Windows.Forms.Button();
             this.clientModTip = new System.Windows.Forms.ToolTip(this.components);
+            this.titleWhenLauncherExits = new System.Windows.Forms.Label();
+            this.btnWhenLauncherExits = new System.Windows.Forms.Button();
             this.panelServers.SuspendLayout();
             this.panelGameInfo.SuspendLayout();
             this.panelGameOptions.SuspendLayout();
@@ -442,6 +444,8 @@
             // panelGameOptions
             // 
             this.panelGameOptions.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(29)))), ((int)(((byte)(31)))));
+            this.panelGameOptions.Controls.Add(this.titleWhenLauncherExits);
+            this.panelGameOptions.Controls.Add(this.btnWhenLauncherExits);
             this.panelGameOptions.Controls.Add(this.btnOpenLatestServerLog);
             this.panelGameOptions.Controls.Add(this.btnAutostartConfig);
             this.panelGameOptions.Controls.Add(this.titleOnServerDoubleClick);
@@ -509,7 +513,7 @@
             // 
             this.titleOnServerDoubleClick.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
             this.titleOnServerDoubleClick.ForeColor = System.Drawing.Color.LightGray;
-            this.titleOnServerDoubleClick.Location = new System.Drawing.Point(391, 38);
+            this.titleOnServerDoubleClick.Location = new System.Drawing.Point(391, 198);
             this.titleOnServerDoubleClick.Name = "titleOnServerDoubleClick";
             this.titleOnServerDoubleClick.Size = new System.Drawing.Size(183, 20);
             this.titleOnServerDoubleClick.TabIndex = 20;
@@ -527,7 +531,7 @@
             this.btnOnServerDoubleClick.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnOnServerDoubleClick.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
             this.btnOnServerDoubleClick.ForeColor = System.Drawing.Color.Gray;
-            this.btnOnServerDoubleClick.Location = new System.Drawing.Point(394, 61);
+            this.btnOnServerDoubleClick.Location = new System.Drawing.Point(394, 221);
             this.btnOnServerDoubleClick.Name = "btnOnServerDoubleClick";
             this.btnOnServerDoubleClick.Size = new System.Drawing.Size(180, 40);
             this.btnOnServerDoubleClick.TabIndex = 19;
@@ -540,7 +544,7 @@
             // 
             this.titleWhenSPTAKIExits.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
             this.titleWhenSPTAKIExits.ForeColor = System.Drawing.Color.LightGray;
-            this.titleWhenSPTAKIExits.Location = new System.Drawing.Point(197, 38);
+            this.titleWhenSPTAKIExits.Location = new System.Drawing.Point(391, 118);
             this.titleWhenSPTAKIExits.Name = "titleWhenSPTAKIExits";
             this.titleWhenSPTAKIExits.Size = new System.Drawing.Size(183, 20);
             this.titleWhenSPTAKIExits.TabIndex = 18;
@@ -558,7 +562,7 @@
             this.btnWhenSPTAKIExits.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnWhenSPTAKIExits.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
             this.btnWhenSPTAKIExits.ForeColor = System.Drawing.Color.Gray;
-            this.btnWhenSPTAKIExits.Location = new System.Drawing.Point(200, 61);
+            this.btnWhenSPTAKIExits.Location = new System.Drawing.Point(394, 141);
             this.btnWhenSPTAKIExits.Name = "btnWhenSPTAKIExits";
             this.btnWhenSPTAKIExits.Size = new System.Drawing.Size(180, 40);
             this.btnWhenSPTAKIExits.TabIndex = 17;
@@ -595,7 +599,7 @@
             this.extensionsRequirementLOE.Location = new System.Drawing.Point(3, 331);
             this.extensionsRequirementLOE.Name = "extensionsRequirementLOE";
             this.extensionsRequirementLOE.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.extensionsRequirementLOE.Size = new System.Drawing.Size(582, 20);
+            this.extensionsRequirementLOE.Size = new System.Drawing.Size(377, 20);
             this.extensionsRequirementLOE.TabIndex = 15;
             this.extensionsRequirementLOE.Text = "✔️ Load Order Editor found";
             this.extensionsRequirementLOE.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -611,7 +615,7 @@
             this.txtLOEPath.Location = new System.Drawing.Point(3, 302);
             this.txtLOEPath.Name = "txtLOEPath";
             this.txtLOEPath.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.txtLOEPath.Size = new System.Drawing.Size(582, 20);
+            this.txtLOEPath.Size = new System.Drawing.Size(377, 20);
             this.txtLOEPath.TabIndex = 14;
             this.txtLOEPath.Text = "Placeholder address";
             this.txtLOEPath.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -634,7 +638,7 @@
             this.gameRequirementEFT.Location = new System.Drawing.Point(3, 235);
             this.gameRequirementEFT.Name = "gameRequirementEFT";
             this.gameRequirementEFT.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.gameRequirementEFT.Size = new System.Drawing.Size(582, 20);
+            this.gameRequirementEFT.Size = new System.Drawing.Size(377, 20);
             this.gameRequirementEFT.TabIndex = 12;
             this.gameRequirementEFT.Text = "✔️ Escape From Tarkov found";
             this.gameRequirementEFT.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -646,7 +650,7 @@
             this.gameRequirementLauncher.Location = new System.Drawing.Point(3, 212);
             this.gameRequirementLauncher.Name = "gameRequirementLauncher";
             this.gameRequirementLauncher.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.gameRequirementLauncher.Size = new System.Drawing.Size(582, 20);
+            this.gameRequirementLauncher.Size = new System.Drawing.Size(377, 20);
             this.gameRequirementLauncher.TabIndex = 11;
             this.gameRequirementLauncher.Text = "✔️ Aki.Launcher found";
             this.gameRequirementLauncher.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -658,7 +662,7 @@
             this.gameRequirementServer.Location = new System.Drawing.Point(3, 189);
             this.gameRequirementServer.Name = "gameRequirementServer";
             this.gameRequirementServer.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.gameRequirementServer.Size = new System.Drawing.Size(582, 20);
+            this.gameRequirementServer.Size = new System.Drawing.Size(377, 20);
             this.gameRequirementServer.TabIndex = 10;
             this.gameRequirementServer.Text = "✔️ Aki.Server found";
             this.gameRequirementServer.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -694,7 +698,7 @@
             // 
             this.titleWhenSPTAKILauncher.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
             this.titleWhenSPTAKILauncher.ForeColor = System.Drawing.Color.LightGray;
-            this.titleWhenSPTAKILauncher.Location = new System.Drawing.Point(3, 38);
+            this.titleWhenSPTAKILauncher.Location = new System.Drawing.Point(391, 38);
             this.titleWhenSPTAKILauncher.Name = "titleWhenSPTAKILauncher";
             this.titleWhenSPTAKILauncher.Size = new System.Drawing.Size(183, 20);
             this.titleWhenSPTAKILauncher.TabIndex = 7;
@@ -723,7 +727,7 @@
             this.btnWhenSPTAKILauncher.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnWhenSPTAKILauncher.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
             this.btnWhenSPTAKILauncher.ForeColor = System.Drawing.Color.Gray;
-            this.btnWhenSPTAKILauncher.Location = new System.Drawing.Point(6, 61);
+            this.btnWhenSPTAKILauncher.Location = new System.Drawing.Point(394, 61);
             this.btnWhenSPTAKILauncher.Name = "btnWhenSPTAKILauncher";
             this.btnWhenSPTAKILauncher.Size = new System.Drawing.Size(180, 40);
             this.btnWhenSPTAKILauncher.TabIndex = 4;
@@ -1633,6 +1637,37 @@
             this.clientModTip.UseAnimation = false;
             this.clientModTip.UseFading = false;
             // 
+            // titleWhenLauncherExits
+            // 
+            this.titleWhenLauncherExits.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.titleWhenLauncherExits.ForeColor = System.Drawing.Color.LightGray;
+            this.titleWhenLauncherExits.Location = new System.Drawing.Point(391, 278);
+            this.titleWhenLauncherExits.Name = "titleWhenLauncherExits";
+            this.titleWhenLauncherExits.Size = new System.Drawing.Size(183, 20);
+            this.titleWhenLauncherExits.TabIndex = 24;
+            this.titleWhenLauncherExits.Text = "On launcher close";
+            this.titleWhenLauncherExits.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // btnWhenLauncherExits
+            // 
+            this.btnWhenLauncherExits.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.btnWhenLauncherExits.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnWhenLauncherExits.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
+            this.btnWhenLauncherExits.FlatAppearance.BorderSize = 2;
+            this.btnWhenLauncherExits.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnWhenLauncherExits.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnWhenLauncherExits.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnWhenLauncherExits.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.btnWhenLauncherExits.ForeColor = System.Drawing.Color.Gray;
+            this.btnWhenLauncherExits.Location = new System.Drawing.Point(394, 301);
+            this.btnWhenLauncherExits.Name = "btnWhenLauncherExits";
+            this.btnWhenLauncherExits.Size = new System.Drawing.Size(180, 40);
+            this.btnWhenLauncherExits.TabIndex = 23;
+            this.btnWhenLauncherExits.Text = "Do nothing";
+            this.btnWhenLauncherExits.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnWhenLauncherExits.UseVisualStyleBackColor = false;
+            this.btnWhenLauncherExits.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnWhenLauncherExits_MouseDown);
+            // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -1650,11 +1685,11 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.lblServers);
             this.Controls.Add(this.panelServers);
-            this.Controls.Add(this.panelSPTAKI);
             this.Controls.Add(this.panelGameOptions);
             this.Controls.Add(this.panelAddInstall);
             this.Controls.Add(this.panelServer);
             this.Controls.Add(this.panelAccount);
+            this.Controls.Add(this.panelSPTAKI);
             this.Font = new System.Drawing.Font("Bahnschrift Light", 10F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -1790,6 +1825,8 @@
         private System.Windows.Forms.Button btnRegenerateProfileDict;
         private System.Windows.Forms.Button btnSaveOutputToFile;
         private System.Windows.Forms.CheckBox chkMinimizeOnGameLaunch;
+        private System.Windows.Forms.Label titleWhenLauncherExits;
+        private System.Windows.Forms.Button btnWhenLauncherExits;
     }
 }
 

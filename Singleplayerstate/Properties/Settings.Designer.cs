@@ -154,5 +154,17 @@ namespace Singleplayerstate.Properties {
                 this["minimizeOnGameLaunch"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool whenLauncherCloses {
+            get {
+                return ((bool)(this["whenLauncherCloses"]));
+            }
+            set {
+                this["whenLauncherCloses"] = value;
+            }
+        }
     }
 }
