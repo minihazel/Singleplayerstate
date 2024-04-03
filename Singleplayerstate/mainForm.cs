@@ -1672,7 +1672,14 @@ namespace Singleplayerstate
 
                     string oldInstall = txtGameInstallFolder.Text;
 
-                    saveServer(displayName, folderPath, oldInstall);
+                    if (addonPaths.ContainsKey(displayName))
+                    {
+                        showMessage($"An installation with the name {displayName} already exists." + Environment.NewLine + Environment.NewLine +
+                                    $"Please choose a different name!", this.Text);
+                        txtSetDisplayName.Focus();
+                    }
+                    else
+                        saveServer(displayName, folderPath, oldInstall);
                 }
                 else
                 {
@@ -1685,7 +1692,14 @@ namespace Singleplayerstate
                         displayName = completed;
                     }
 
-                    saveServers(displayName, folderPath);
+                    if (addonPaths.ContainsKey(displayName))
+                    {
+                        showMessage($"An installation with the name {displayName} already exists." + Environment.NewLine + Environment.NewLine +
+                                    $"Please choose a different name!", this.Text);
+                        txtSetDisplayName.Focus();
+                    }
+                    else
+                        saveServers(displayName, folderPath);
                 }
             }
 

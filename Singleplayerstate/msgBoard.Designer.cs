@@ -32,9 +32,9 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
             this.mainPanel = new System.Windows.Forms.Panel();
+            this.messageContent = new System.Windows.Forms.RichTextBox();
             this.appImage = new System.Windows.Forms.PictureBox();
             this.messageTitle = new System.Windows.Forms.Label();
-            this.messageContent = new System.Windows.Forms.Label();
             this.btnCopyMessage = new System.Windows.Forms.Button();
             this.statusCopy = new System.Windows.Forms.Label();
             this.btnLevelOne = new System.Windows.Forms.Button();
@@ -92,9 +92,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.mainPanel.AutoScroll = true;
             this.mainPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(24)))), ((int)(((byte)(26)))));
+            this.mainPanel.Controls.Add(this.messageContent);
             this.mainPanel.Controls.Add(this.appImage);
             this.mainPanel.Controls.Add(this.messageTitle);
-            this.mainPanel.Controls.Add(this.messageContent);
             this.mainPanel.Cursor = System.Windows.Forms.Cursors.Default;
             this.mainPanel.Location = new System.Drawing.Point(1, 1);
             this.mainPanel.Name = "mainPanel";
@@ -102,6 +102,22 @@
             this.mainPanel.Size = new System.Drawing.Size(698, 311);
             this.mainPanel.TabIndex = 8;
             this.mainPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mainPanel_MouseDown);
+            // 
+            // messageContent
+            // 
+            this.messageContent.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.messageContent.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(24)))), ((int)(((byte)(26)))));
+            this.messageContent.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.messageContent.Font = new System.Drawing.Font("Bender", 14F);
+            this.messageContent.ForeColor = System.Drawing.Color.Silver;
+            this.messageContent.Location = new System.Drawing.Point(30, 70);
+            this.messageContent.Name = "messageContent";
+            this.messageContent.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.Vertical;
+            this.messageContent.Size = new System.Drawing.Size(638, 226);
+            this.messageContent.TabIndex = 13;
+            this.messageContent.Text = "Placeholder";
             // 
             // appImage
             // 
@@ -125,21 +141,6 @@
             this.messageTitle.Size = new System.Drawing.Size(607, 45);
             this.messageTitle.TabIndex = 10;
             this.messageTitle.Text = "PlaceholderTitle";
-            // 
-            // messageContent
-            // 
-            this.messageContent.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.messageContent.Cursor = System.Windows.Forms.Cursors.Default;
-            this.messageContent.Font = new System.Drawing.Font("Bender", 14F);
-            this.messageContent.ForeColor = System.Drawing.Color.Silver;
-            this.messageContent.Location = new System.Drawing.Point(28, 70);
-            this.messageContent.Name = "messageContent";
-            this.messageContent.Size = new System.Drawing.Size(642, 226);
-            this.messageContent.TabIndex = 9;
-            this.messageContent.Text = "PlaceholderText";
-            this.messageContent.MouseDown += new System.Windows.Forms.MouseEventHandler(this.messageContent_MouseDown);
             // 
             // btnCopyMessage
             // 
@@ -197,6 +198,7 @@
             this.btnLevelOne.Size = new System.Drawing.Size(100, 10);
             this.btnLevelOne.TabIndex = 12;
             this.btnLevelOne.UseVisualStyleBackColor = false;
+            this.btnLevelOne.Visible = false;
             this.btnLevelOne.Click += new System.EventHandler(this.btnLevelOne_Click);
             // 
             // btnLevelTwo
@@ -216,6 +218,7 @@
             this.btnLevelTwo.Size = new System.Drawing.Size(100, 10);
             this.btnLevelTwo.TabIndex = 13;
             this.btnLevelTwo.UseVisualStyleBackColor = false;
+            this.btnLevelTwo.Visible = false;
             this.btnLevelTwo.Click += new System.EventHandler(this.btnLevelTwo_Click);
             // 
             // btnLevelThree
@@ -235,6 +238,7 @@
             this.btnLevelThree.Size = new System.Drawing.Size(100, 10);
             this.btnLevelThree.TabIndex = 14;
             this.btnLevelThree.UseVisualStyleBackColor = false;
+            this.btnLevelThree.Visible = false;
             this.btnLevelThree.Click += new System.EventHandler(this.btnLevelThree_Click);
             // 
             // msgBoard
@@ -277,7 +281,6 @@
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.Panel mainPanel;
-        public System.Windows.Forms.Label messageContent;
         private System.Windows.Forms.Button btnCopyMessage;
         public System.Windows.Forms.Label messageTitle;
         public System.Windows.Forms.Label statusCopy;
@@ -285,5 +288,6 @@
         private System.Windows.Forms.Button btnLevelOne;
         private System.Windows.Forms.Button btnLevelTwo;
         private System.Windows.Forms.Button btnLevelThree;
+        public System.Windows.Forms.RichTextBox messageContent;
     }
 }
