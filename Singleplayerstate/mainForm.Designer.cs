@@ -52,6 +52,8 @@
             this.infoGameEditionTitle = new System.Windows.Forms.Label();
             this.infoGameVersionTitle = new System.Windows.Forms.Label();
             this.panelGameOptions = new System.Windows.Forms.Panel();
+            this.titleWhenLauncherExits = new System.Windows.Forms.Label();
+            this.btnWhenLauncherExits = new System.Windows.Forms.Button();
             this.btnOpenLatestServerLog = new System.Windows.Forms.Button();
             this.btnAutostartConfig = new System.Windows.Forms.Button();
             this.titleOnServerDoubleClick = new System.Windows.Forms.Label();
@@ -128,8 +130,6 @@
             this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.btnOpenAutostart = new System.Windows.Forms.Button();
             this.clientModTip = new System.Windows.Forms.ToolTip(this.components);
-            this.titleWhenLauncherExits = new System.Windows.Forms.Label();
-            this.btnWhenLauncherExits = new System.Windows.Forms.Button();
             this.panelServers.SuspendLayout();
             this.panelGameInfo.SuspendLayout();
             this.panelGameOptions.SuspendLayout();
@@ -469,6 +469,37 @@
             this.panelGameOptions.Size = new System.Drawing.Size(608, 583);
             this.panelGameOptions.TabIndex = 1;
             // 
+            // titleWhenLauncherExits
+            // 
+            this.titleWhenLauncherExits.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.titleWhenLauncherExits.ForeColor = System.Drawing.Color.LightGray;
+            this.titleWhenLauncherExits.Location = new System.Drawing.Point(391, 278);
+            this.titleWhenLauncherExits.Name = "titleWhenLauncherExits";
+            this.titleWhenLauncherExits.Size = new System.Drawing.Size(183, 20);
+            this.titleWhenLauncherExits.TabIndex = 24;
+            this.titleWhenLauncherExits.Text = "On launcher close";
+            this.titleWhenLauncherExits.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // btnWhenLauncherExits
+            // 
+            this.btnWhenLauncherExits.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.btnWhenLauncherExits.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnWhenLauncherExits.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
+            this.btnWhenLauncherExits.FlatAppearance.BorderSize = 2;
+            this.btnWhenLauncherExits.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnWhenLauncherExits.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnWhenLauncherExits.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnWhenLauncherExits.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.btnWhenLauncherExits.ForeColor = System.Drawing.Color.Gray;
+            this.btnWhenLauncherExits.Location = new System.Drawing.Point(394, 301);
+            this.btnWhenLauncherExits.Name = "btnWhenLauncherExits";
+            this.btnWhenLauncherExits.Size = new System.Drawing.Size(180, 40);
+            this.btnWhenLauncherExits.TabIndex = 23;
+            this.btnWhenLauncherExits.Text = "Do nothing";
+            this.btnWhenLauncherExits.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnWhenLauncherExits.UseVisualStyleBackColor = false;
+            this.btnWhenLauncherExits.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnWhenLauncherExits_MouseDown);
+            // 
             // btnOpenLatestServerLog
             // 
             this.btnOpenLatestServerLog.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
@@ -582,7 +613,7 @@
             this.btnRemoveInstall.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
             this.btnRemoveInstall.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRemoveInstall.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.btnRemoveInstall.ForeColor = System.Drawing.Color.Red;
+            this.btnRemoveInstall.ForeColor = System.Drawing.Color.Brown;
             this.btnRemoveInstall.Location = new System.Drawing.Point(6, 379);
             this.btnRemoveInstall.Name = "btnRemoveInstall";
             this.btnRemoveInstall.Size = new System.Drawing.Size(240, 40);
@@ -916,7 +947,7 @@
             this.btnDeleteAccount.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
             this.btnDeleteAccount.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDeleteAccount.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.btnDeleteAccount.ForeColor = System.Drawing.Color.Red;
+            this.btnDeleteAccount.ForeColor = System.Drawing.Color.Brown;
             this.btnDeleteAccount.Location = new System.Drawing.Point(6, 347);
             this.btnDeleteAccount.Name = "btnDeleteAccount";
             this.btnDeleteAccount.Size = new System.Drawing.Size(300, 40);
@@ -1004,7 +1035,7 @@
             this.btnCancelProcess.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
             this.btnCancelProcess.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCancelProcess.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.btnCancelProcess.ForeColor = System.Drawing.Color.Red;
+            this.btnCancelProcess.ForeColor = System.Drawing.Color.Brown;
             this.btnCancelProcess.Location = new System.Drawing.Point(6, 218);
             this.btnCancelProcess.Name = "btnCancelProcess";
             this.btnCancelProcess.Size = new System.Drawing.Size(300, 40);
@@ -1127,7 +1158,7 @@
             this.btnClearList.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
             this.btnClearList.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClearList.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.btnClearList.ForeColor = System.Drawing.Color.Red;
+            this.btnClearList.ForeColor = System.Drawing.Color.Brown;
             this.btnClearList.Location = new System.Drawing.Point(14, 603);
             this.btnClearList.Name = "btnClearList";
             this.btnClearList.Size = new System.Drawing.Size(150, 40);
@@ -1248,7 +1279,7 @@
             // 
             this.txtServerIsRunning.Cursor = System.Windows.Forms.Cursors.Hand;
             this.txtServerIsRunning.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.txtServerIsRunning.ForeColor = System.Drawing.Color.Red;
+            this.txtServerIsRunning.ForeColor = System.Drawing.Color.Brown;
             this.txtServerIsRunning.Location = new System.Drawing.Point(318, 71);
             this.txtServerIsRunning.Name = "txtServerIsRunning";
             this.txtServerIsRunning.Size = new System.Drawing.Size(283, 20);
@@ -1637,37 +1668,6 @@
             this.clientModTip.UseAnimation = false;
             this.clientModTip.UseFading = false;
             // 
-            // titleWhenLauncherExits
-            // 
-            this.titleWhenLauncherExits.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.titleWhenLauncherExits.ForeColor = System.Drawing.Color.LightGray;
-            this.titleWhenLauncherExits.Location = new System.Drawing.Point(391, 278);
-            this.titleWhenLauncherExits.Name = "titleWhenLauncherExits";
-            this.titleWhenLauncherExits.Size = new System.Drawing.Size(183, 20);
-            this.titleWhenLauncherExits.TabIndex = 24;
-            this.titleWhenLauncherExits.Text = "On launcher close";
-            this.titleWhenLauncherExits.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // btnWhenLauncherExits
-            // 
-            this.btnWhenLauncherExits.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
-            this.btnWhenLauncherExits.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnWhenLauncherExits.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
-            this.btnWhenLauncherExits.FlatAppearance.BorderSize = 2;
-            this.btnWhenLauncherExits.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.btnWhenLauncherExits.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.btnWhenLauncherExits.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnWhenLauncherExits.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.btnWhenLauncherExits.ForeColor = System.Drawing.Color.Gray;
-            this.btnWhenLauncherExits.Location = new System.Drawing.Point(394, 301);
-            this.btnWhenLauncherExits.Name = "btnWhenLauncherExits";
-            this.btnWhenLauncherExits.Size = new System.Drawing.Size(180, 40);
-            this.btnWhenLauncherExits.TabIndex = 23;
-            this.btnWhenLauncherExits.Text = "Do nothing";
-            this.btnWhenLauncherExits.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnWhenLauncherExits.UseVisualStyleBackColor = false;
-            this.btnWhenLauncherExits.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnWhenLauncherExits_MouseDown);
-            // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -1685,11 +1685,11 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.lblServers);
             this.Controls.Add(this.panelServers);
+            this.Controls.Add(this.panelSPTAKI);
             this.Controls.Add(this.panelGameOptions);
             this.Controls.Add(this.panelAddInstall);
             this.Controls.Add(this.panelServer);
             this.Controls.Add(this.panelAccount);
-            this.Controls.Add(this.panelSPTAKI);
             this.Font = new System.Drawing.Font("Bahnschrift Light", 10F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
