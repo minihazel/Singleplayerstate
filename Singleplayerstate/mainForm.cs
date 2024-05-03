@@ -3416,9 +3416,8 @@ namespace Singleplayerstate
 
         private void btnWorkshop_Click(object sender, EventArgs e)
         {
-            
-
-            Process.Start("https://hub.sp-tarkov.com/files/");
+            searchForm frm = new searchForm();
+            frm.ShowDialog();
         }
 
         private void txtSetDisplayName_TextChanged(object sender, EventArgs e)
