@@ -1290,7 +1290,7 @@ namespace Singleplayerstate
             string akiLauncherFile = Path.Combine(mainDir, "SPT.Launcher.exe");
             string EFTFile = Path.Combine(mainDir, "EscapeFromTarkov.exe");
 
-            string akiDataFolder = Path.Combine(mainDir, "Aki_Data");
+            string akiDataFolder = Path.Combine(mainDir, "SPT_Data");
             string akiServerFolder = Path.Combine(akiDataFolder, "Server");
             string akiConfigsFolder = Path.Combine(akiServerFolder, "configs");
             string akiCoreJSON = Path.Combine(akiConfigsFolder, "core.json");
@@ -3037,7 +3037,7 @@ namespace Singleplayerstate
         {
             string serverFolder = txtGameInstallFolder.Text;
             int akiPort;
-            string portPath = Path.Combine(serverFolder, "Aki_Data\\Server\\database\\server.json");
+            string portPath = Path.Combine(serverFolder, "SPT_Data", "Server", "database", "server.json");
             bool portExists = File.Exists(portPath);
             if (portExists)
             {
