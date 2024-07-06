@@ -143,7 +143,7 @@ namespace Singleplayerstate
                 btnWhenSPTAKIExits.Text = "Do nothing";
 
             if (Properties.Settings.Default.onServerDoubleClick)
-                btnOnServerDoubleClick.Text = "Play SPT-AKI";
+                btnOnServerDoubleClick.Text = "Play SPT";
             else
                 btnOnServerDoubleClick.Text = "Do nothing";
 
@@ -239,7 +239,7 @@ namespace Singleplayerstate
         private void editGameInstall(string displayName, string oldInstall)
         {
             var browse = new BetterFolderBrowser();
-            browse.Title = "Select folder that contains SPT-AKI";
+            browse.Title = "Select folder that contains SPT";
             browse.RootFolder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             browse.Multiselect = false;
 
@@ -601,7 +601,7 @@ namespace Singleplayerstate
             Properties.Settings.Default.availableServers = serializedPaths;
             Properties.Settings.Default.Save();
 
-            showMessage($"SPT-AKI installation {displayName} changed to folder {folderPath}!", this.Text);
+            showMessage($"SPT installation {displayName} changed to folder {folderPath}!", this.Text);
             enterInputMode(false, null);
             listServers();
         }
@@ -854,7 +854,7 @@ namespace Singleplayerstate
         {
             try
             {
-                return Process.GetProcessesByName("Aki.Server").Any();
+                return Process.GetProcessesByName("SPT.Server").Any();
             }
             catch (Exception)
             {
@@ -1267,11 +1267,11 @@ namespace Singleplayerstate
             txtLOEPath.Text = $"❌ user\\mods\\Load Order Editor.exe";
             txtServerMods.Text = $"❌ user\\mods";
             txtClientMods.Text = $"❌ BepInEx\\plugins";
-            infoServer.Text = $"Regular SPT-AKI (offline)";
+            infoServer.Text = $"Regular SPT (offline)";
 
-            gameRequirementServer.Text = $"✔️ Aki.Server not found";
+            gameRequirementServer.Text = $"✔️ SPT.Server not found";
             gameRequirementServer.ForeColor = Color.Red;
-            gameRequirementLauncher.Text = $"✔️ Aki.Launcher not found";
+            gameRequirementLauncher.Text = $"✔️ SPT.Launcher not found";
             gameRequirementLauncher.ForeColor = Color.Red;
             gameRequirementEFT.Text = $"✔️ Escape From Tarkov not found";
             gameRequirementEFT.ForeColor = Color.Red;
@@ -1286,8 +1286,8 @@ namespace Singleplayerstate
             string mainDir = path;
 
             string userFolder = Path.Combine(mainDir, "user");
-            string akiServerFile = Path.Combine(mainDir, "Aki.Server.exe");
-            string akiLauncherFile = Path.Combine(mainDir, "Aki.Launcher.exe");
+            string akiServerFile = Path.Combine(mainDir, "SPT.Server.exe");
+            string akiLauncherFile = Path.Combine(mainDir, "SPT.Launcher.exe");
             string EFTFile = Path.Combine(mainDir, "EscapeFromTarkov.exe");
 
             string akiDataFolder = Path.Combine(mainDir, "Aki_Data");
@@ -1372,12 +1372,12 @@ namespace Singleplayerstate
 
             if (File.Exists(akiServerFile))
             {
-                gameRequirementServer.Text = $"✔️ Aki.Server found";
+                gameRequirementServer.Text = $"✔️ SPT.Server found";
                 gameRequirementServer.ForeColor = Color.SeaGreen;
             }
             if (File.Exists(akiLauncherFile))
             {
-                gameRequirementLauncher.Text = $"✔️ Aki.Launcher found";
+                gameRequirementLauncher.Text = $"✔️ SPT.Launcher found";
                 gameRequirementLauncher.ForeColor = Color.SeaGreen;
             }
             if (File.Exists(EFTFile))
@@ -1393,7 +1393,7 @@ namespace Singleplayerstate
             bool serverOn = IsAkiServerRunning(akiServerFile);
             if (serverOn)
             {
-                btnPlaySPTAKI.Text = "Quit SPT-AKI";
+                btnPlaySPTAKI.Text = "Quit SPT";
             }
 
             // Account Tab
@@ -1408,12 +1408,12 @@ namespace Singleplayerstate
                 }
                 else
                 {
-                    showMessage("Could not detect a profiles folder. Install SPT-AKI and create a profile, then try again.", this.Text);
+                    showMessage("Could not detect a profiles folder. Install SPT and create a profile, then try again.", this.Text);
                 }
             }
             else
             {
-                showMessage("Could not detect a user folder. Install SPT-AKI and try again.", this.Text);
+                showMessage("Could not detect a user folder. Install SPT and try again.", this.Text);
             }
         }
 
@@ -1437,7 +1437,7 @@ namespace Singleplayerstate
             {
                 btnClientMods.Text = "Client mods - N/A";
                 clientModTip.Active = true;
-                clientModTip.SetToolTip(btnClientMods, "Please start SPT-AKI once to generate LogOutput.log to ensure correct readings.");
+                clientModTip.SetToolTip(btnClientMods, "Please start SPT once to generate LogOutput.log to ensure correct readings.");
                 txtClientMods.Text = $"✔️ BepInEx\\plugins (no LogOutput.log)";
             }
         }
@@ -1607,7 +1607,7 @@ namespace Singleplayerstate
         private void btnBrowseForFolder_Click(object sender, EventArgs e)
         {
             var browse = new BetterFolderBrowser();
-            browse.Title = "Select folder that contains SPT-AKI";
+            browse.Title = "Select folder that contains SPT";
             browse.RootFolder = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             browse.Multiselect = false;
 
@@ -2098,7 +2098,7 @@ namespace Singleplayerstate
             {
                 if (txtAccountAID.Text.ToLower() == "incomplete profile")
                 {
-                    showMessage("You\'re trying to launch SPT-AKI with an incomplete profile." + Environment.NewLine +
+                    showMessage("You\'re trying to launch SPT with an incomplete profile." + Environment.NewLine +
                         "" + Environment.NewLine +
                         "You can fix this by doing the following:" + Environment.NewLine + Environment.NewLine +
                         "a) Running your incomplete profile via the AKI launcher." + Environment.NewLine +
@@ -2122,7 +2122,7 @@ namespace Singleplayerstate
 
                     if (txtAccountAID.Text.ToLower() == "incomplete profile")
                     {
-                        showMessage("You\'re trying to launch SPT-AKI with an incomplete profile." + Environment.NewLine +
+                        showMessage("You\'re trying to launch SPT with an incomplete profile." + Environment.NewLine +
                             "" + Environment.NewLine +
                             "You can fix this by doing the following:" + Environment.NewLine + Environment.NewLine +
                             "a) Running your incomplete profile via the AKI launcher." + Environment.NewLine +
@@ -2277,7 +2277,7 @@ namespace Singleplayerstate
             else if (Properties.Settings.Default.launchParameter == "viewserver")
                 btnServer.PerformClick();
 
-            btnPlaySPTAKI.Text = "Quit SPT-AKI";
+            btnPlaySPTAKI.Text = "Quit SPT";
             btnPlaySPTAKI.Enabled = false;
 
             Timer tmr = new Timer();
@@ -2293,7 +2293,7 @@ namespace Singleplayerstate
 
         private void killAkiServer()
         {
-            string akiServerProcess = "Aki.Server";
+            string akiServerProcess = "SPT.Server";
             try
             {
                 Process[] procs = Process.GetProcessesByName(akiServerProcess);
@@ -2358,7 +2358,7 @@ namespace Singleplayerstate
 
         private void killProcesses()
         {
-            string akiServerProcess = "Aki.Server";
+            string akiServerProcess = "SPT.Server";
             string eftProcess = "EscapeFromTarkov";
 
             try
@@ -2542,13 +2542,13 @@ namespace Singleplayerstate
                 {
                     BeginInvoke((MethodInvoker)delegate
                     {
-                        btnPlaySPTAKI.Text = "Play SPT-AKI";
+                        btnPlaySPTAKI.Text = "Play SPT";
                         btnPlaySPTAKI.Enabled = true;
                     });
                 }
                 else
                 {
-                    btnPlaySPTAKI.Text = "Play SPT-AKI";
+                    btnPlaySPTAKI.Text = "Play SPT";
                     btnPlaySPTAKI.Enabled = true;
                 }
 
@@ -2563,7 +2563,7 @@ namespace Singleplayerstate
             Task.Delay(300);
             string serverFolder = txtGameInstallFolder.Text;
 
-            string launcherProcess = "Aki.Server";
+            string launcherProcess = "SPT.Server";
             Process[] launchers = Process.GetProcessesByName(launcherProcess);
             if (launchers != null && launchers.Length > 0)
             {
@@ -2599,7 +2599,7 @@ namespace Singleplayerstate
             Process akiServer = new Process();
 
             akiServer.StartInfo.WorkingDirectory = serverFolder;
-            akiServer.StartInfo.FileName = "Aki.Server.exe";
+            akiServer.StartInfo.FileName = "SPT.Server.exe";
             akiServer.StartInfo.CreateNoWindow = true;
             akiServer.StartInfo.UseShellExecute = false;
             akiServer.StartInfo.RedirectStandardOutput = true;
@@ -2680,7 +2680,7 @@ namespace Singleplayerstate
             Task.Delay(300);
             string serverFolder = txtGameInstallFolder.Text;
 
-            string launcherProcess = "Aki.Server";
+            string launcherProcess = "SPT.Server";
             Process[] launchers = Process.GetProcessesByName(launcherProcess);
             if (launchers != null && launchers.Length > 0)
             {
@@ -2716,7 +2716,7 @@ namespace Singleplayerstate
             Process akiServer = new Process();
 
             akiServer.StartInfo.WorkingDirectory = serverFolder;
-            akiServer.StartInfo.FileName = "Aki.Server.exe";
+            akiServer.StartInfo.FileName = "SPT.Server.exe";
             akiServer.StartInfo.CreateNoWindow = true;
             akiServer.StartInfo.UseShellExecute = false;
             akiServer.StartInfo.RedirectStandardOutput = true;
@@ -2993,7 +2993,7 @@ namespace Singleplayerstate
 
             if (AkiServerDetector != null)
             {
-                string aki_server = "Aki.Server";
+                string aki_server = "SPT.Server";
                 bool isServerRunning = Process.GetProcesses().Any(p => p.ProcessName.Equals(aki_server, StringComparison.OrdinalIgnoreCase));
 
                 if (!isServerRunning)
@@ -3162,14 +3162,14 @@ namespace Singleplayerstate
             }
             else if (btnCloseAkiServer.Text.ToLower() == "force-close server")
             {
-                string aki_server = "Aki.Server";
+                string aki_server = "SPT.Server";
                 string eft_process = "EscapeFromTarkov";
                 bool isServerRunning = Process.GetProcesses().Any(p => p.ProcessName.Equals(aki_server, StringComparison.OrdinalIgnoreCase));
                 bool isEFTRunning = Process.GetProcesses().Any(p => p.ProcessName.Equals(eft_process, StringComparison.OrdinalIgnoreCase));
 
                 if (!isServerRunning && !isEFTRunning)
                 {
-                    showMessage("SPT-AKI is not running!", this.Text);
+                    showMessage("SPT is not running!", this.Text);
                 }
                 else
                 {
@@ -3195,9 +3195,9 @@ namespace Singleplayerstate
                 killAkiServer();
                 runServerOnly();
             }
-            else if (btnCloseAkiServer.Text.ToLower().Contains("force-quit spt-aki"))
+            else if (btnCloseAkiServer.Text.ToLower().Contains("force-quit SPT"))
             {
-                if (MessageBox.Show("Are you sure that you want to force-close SPT-AKI?" + Environment.NewLine + Environment.NewLine +
+                if (MessageBox.Show("Are you sure that you want to force-close SPT?" + Environment.NewLine + Environment.NewLine +
                     "Progress maybe lost.", this.Text, MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
                     performClosing();
@@ -3475,9 +3475,9 @@ namespace Singleplayerstate
             {
                 case "do nothing":
                     Properties.Settings.Default.onServerDoubleClick = true;
-                    btnOnServerDoubleClick.Text = "Play SPT-AKI";
+                    btnOnServerDoubleClick.Text = "Play SPT";
                     break;
-                case "play spt-aki":
+                case "play SPT":
                     Properties.Settings.Default.onServerDoubleClick = false;
                     btnOnServerDoubleClick.Text = "Do nothing";
                     break;
