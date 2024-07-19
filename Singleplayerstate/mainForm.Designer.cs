@@ -130,6 +130,7 @@
             this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.btnOpenAutostart = new System.Windows.Forms.Button();
             this.clientModTip = new System.Windows.Forms.ToolTip(this.components);
+            this.btnModInstaller = new System.Windows.Forms.Button();
             this.panelServers.SuspendLayout();
             this.panelGameInfo.SuspendLayout();
             this.panelGameOptions.SuspendLayout();
@@ -355,7 +356,7 @@
             this.titleSPTAKI.Name = "titleSPTAKI";
             this.titleSPTAKI.Size = new System.Drawing.Size(582, 20);
             this.titleSPTAKI.TabIndex = 6;
-            this.titleSPTAKI.Text = "SPT-AKI settings";
+            this.titleSPTAKI.Text = "SPT settings";
             this.titleSPTAKI.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // panelGameInfo
@@ -1381,6 +1382,7 @@
             this.panelSPTAKI.Controls.Add(this.btnLOE);
             this.panelSPTAKI.Controls.Add(this.txtLocalCache);
             this.panelSPTAKI.Controls.Add(this.btnServerMods);
+            this.panelSPTAKI.Controls.Add(this.btnModInstaller);
             this.panelSPTAKI.Location = new System.Drawing.Point(335, 60);
             this.panelSPTAKI.Name = "panelSPTAKI";
             this.panelSPTAKI.Size = new System.Drawing.Size(608, 583);
@@ -1401,7 +1403,7 @@
             this.btnWorkshop.Name = "btnWorkshop";
             this.btnWorkshop.Size = new System.Drawing.Size(200, 40);
             this.btnWorkshop.TabIndex = 22;
-            this.btnWorkshop.Text = "SPT-AKI workshop";
+            this.btnWorkshop.Text = "SPT workshop";
             this.btnWorkshop.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnWorkshop.UseVisualStyleBackColor = false;
             this.btnWorkshop.Click += new System.EventHandler(this.btnWorkshop_Click);
@@ -1528,7 +1530,7 @@
             this.btnSPTAKI.Name = "btnSPTAKI";
             this.btnSPTAKI.Size = new System.Drawing.Size(120, 40);
             this.btnSPTAKI.TabIndex = 24;
-            this.btnSPTAKI.Text = "SPT-AKI";
+            this.btnSPTAKI.Text = "SPT";
             this.btnSPTAKI.UseVisualStyleBackColor = false;
             this.btnSPTAKI.Click += new System.EventHandler(this.btnSPTAKI_Click);
             // 
@@ -1667,6 +1669,26 @@
             this.clientModTip.ToolTipTitle = "LogOutput.log not detected!";
             this.clientModTip.UseAnimation = false;
             this.clientModTip.UseFading = false;
+            // 
+            // btnModInstaller
+            // 
+            this.btnModInstaller.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.btnModInstaller.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnModInstaller.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
+            this.btnModInstaller.FlatAppearance.BorderSize = 2;
+            this.btnModInstaller.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnModInstaller.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnModInstaller.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnModInstaller.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.btnModInstaller.ForeColor = System.Drawing.Color.Gray;
+            this.btnModInstaller.Location = new System.Drawing.Point(238, 411);
+            this.btnModInstaller.Name = "btnModInstaller";
+            this.btnModInstaller.Size = new System.Drawing.Size(200, 40);
+            this.btnModInstaller.TabIndex = 23;
+            this.btnModInstaller.Text = "Mod Installer";
+            this.btnModInstaller.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnModInstaller.UseVisualStyleBackColor = false;
+            this.btnModInstaller.Click += new System.EventHandler(this.btnModInstaller_Click);
             // 
             // mainForm
             // 
@@ -1827,6 +1849,7 @@
         private System.Windows.Forms.CheckBox chkMinimizeOnGameLaunch;
         private System.Windows.Forms.Label titleWhenLauncherExits;
         private System.Windows.Forms.Button btnWhenLauncherExits;
+        private System.Windows.Forms.Button btnModInstaller;
     }
 }
 

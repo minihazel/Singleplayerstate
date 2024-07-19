@@ -3611,5 +3611,54 @@ namespace Singleplayerstate
             Properties.Settings.Default.Save();
             lblServers.Select();
         }
+
+        private void btnModInstaller_Click(object sender, EventArgs e)
+        {
+            mainDir = txtGameInstallFolder.Text;
+            string sptModInstaller = Path.Combine(mainDir, "SPT Mod Installer.exe");
+            bool sptModInstallerExists = File.Exists(sptModInstaller);
+
+            if (sptModInstallerExists)
+            {
+                try
+                {
+                    string fullPath = sptModInstaller;
+                    ProcessStartInfo newApp = new ProcessStartInfo();
+                    newApp.WorkingDirectory = Path.GetDirectoryName(fullPath);
+                    newApp.FileName = Path.GetFileName(fullPath);
+                    newApp.UseShellExecute = true;
+                    newApp.Verb = "open";
+
+                    Process.Start(newApp);
+                }
+                catch (Exception ex)
+                {
+                    showMessage("We appear to have run into a problem. If you\'re unsure what this is about, please contact the developer." +
+                                Environment.NewLine +
+                                Environment.NewLine +
+                                ex.ToString(), this.Text);
+                }
+            }
+            else
+            {
+                if (MessageBox.Show("SPT Mod Installer does not appear to be present. Would you like to download it?",
+                    this.Text, MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    try
+                    {
+                        string fullPath = "https://hub.sp-tarkov.com/files/file/1742-spt-mods-installer/";
+                        Process.Start(fullPath);
+                    }
+                    catch (Exception ex)
+                    {
+                        showMessage("We appear to have run into a problem. If you\'re unsure what this is about, please contact the developer." +
+                                    Environment.NewLine +
+                                    Environment.NewLine +
+                                    ex.ToString(), this.Text);
+                    }
+                }
+            }
+            lblServers.Select();
+        }
     }
 }
