@@ -3615,7 +3615,7 @@ namespace Singleplayerstate
         private void btnModInstaller_Click(object sender, EventArgs e)
         {
             mainDir = txtGameInstallFolder.Text;
-            string sptModInstaller = Path.Combine(mainDir, "SPT Mod Installer.exe");
+            string sptModInstaller = Path.Combine(mainDir, "SPT Mods Installer.exe");
             bool sptModInstallerExists = File.Exists(sptModInstaller);
 
             if (sptModInstallerExists)
