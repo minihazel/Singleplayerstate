@@ -120,6 +120,7 @@
             this.btnAddons = new System.Windows.Forms.Button();
             this.txtServerFolder = new System.Windows.Forms.Label();
             this.btnServerFolder = new System.Windows.Forms.Button();
+            this.btnModInstaller = new System.Windows.Forms.Button();
             this.btnSPTAKI = new System.Windows.Forms.Button();
             this.btnGameOptions = new System.Windows.Forms.Button();
             this.btnAccount = new System.Windows.Forms.Button();
@@ -130,7 +131,13 @@
             this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.btnOpenAutostart = new System.Windows.Forms.Button();
             this.clientModTip = new System.Windows.Forms.ToolTip(this.components);
-            this.btnModInstaller = new System.Windows.Forms.Button();
+            this.titleEditLocalIP = new System.Windows.Forms.Label();
+            this.btnSetNewIP = new System.Windows.Forms.Button();
+            this.titleDevMode = new System.Windows.Forms.Label();
+            this.btnDevMode = new System.Windows.Forms.Button();
+            this.panelIPAddress = new System.Windows.Forms.Panel();
+            this.titleCurrentIP = new System.Windows.Forms.Label();
+            this.titleCurrentPort = new System.Windows.Forms.Label();
             this.panelServers.SuspendLayout();
             this.panelGameInfo.SuspendLayout();
             this.panelGameOptions.SuspendLayout();
@@ -145,6 +152,7 @@
             this.panelSPTAKI.SuspendLayout();
             this.panelAddons.SuspendLayout();
             this.panel3.SuspendLayout();
+            this.panelIPAddress.SuspendLayout();
             this.SuspendLayout();
             // 
             // panelServers
@@ -445,6 +453,9 @@
             // panelGameOptions
             // 
             this.panelGameOptions.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(29)))), ((int)(((byte)(31)))));
+            this.panelGameOptions.Controls.Add(this.panelIPAddress);
+            this.panelGameOptions.Controls.Add(this.titleDevMode);
+            this.panelGameOptions.Controls.Add(this.btnDevMode);
             this.panelGameOptions.Controls.Add(this.titleWhenLauncherExits);
             this.panelGameOptions.Controls.Add(this.btnWhenLauncherExits);
             this.panelGameOptions.Controls.Add(this.btnOpenLatestServerLog);
@@ -499,6 +510,7 @@
             this.btnWhenLauncherExits.Text = "Do nothing";
             this.btnWhenLauncherExits.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnWhenLauncherExits.UseVisualStyleBackColor = false;
+            this.btnWhenLauncherExits.Click += new System.EventHandler(this.btnWhenLauncherExits_Click);
             this.btnWhenLauncherExits.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnWhenLauncherExits_MouseDown);
             // 
             // btnOpenLatestServerLog
@@ -512,7 +524,7 @@
             this.btnOpenLatestServerLog.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnOpenLatestServerLog.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
             this.btnOpenLatestServerLog.ForeColor = System.Drawing.Color.MediumSlateBlue;
-            this.btnOpenLatestServerLog.Location = new System.Drawing.Point(6, 543);
+            this.btnOpenLatestServerLog.Location = new System.Drawing.Point(6, 471);
             this.btnOpenLatestServerLog.Name = "btnOpenLatestServerLog";
             this.btnOpenLatestServerLog.Size = new System.Drawing.Size(240, 40);
             this.btnOpenLatestServerLog.TabIndex = 22;
@@ -532,7 +544,7 @@
             this.btnAutostartConfig.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAutostartConfig.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
             this.btnAutostartConfig.ForeColor = System.Drawing.Color.MediumSlateBlue;
-            this.btnAutostartConfig.Location = new System.Drawing.Point(6, 497);
+            this.btnAutostartConfig.Location = new System.Drawing.Point(6, 425);
             this.btnAutostartConfig.Name = "btnAutostartConfig";
             this.btnAutostartConfig.Size = new System.Drawing.Size(240, 40);
             this.btnAutostartConfig.TabIndex = 21;
@@ -1515,6 +1527,26 @@
             this.btnServerFolder.UseVisualStyleBackColor = false;
             this.btnServerFolder.Click += new System.EventHandler(this.btnServerFolder_Click);
             // 
+            // btnModInstaller
+            // 
+            this.btnModInstaller.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.btnModInstaller.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnModInstaller.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
+            this.btnModInstaller.FlatAppearance.BorderSize = 2;
+            this.btnModInstaller.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnModInstaller.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnModInstaller.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnModInstaller.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.btnModInstaller.ForeColor = System.Drawing.Color.Gray;
+            this.btnModInstaller.Location = new System.Drawing.Point(238, 411);
+            this.btnModInstaller.Name = "btnModInstaller";
+            this.btnModInstaller.Size = new System.Drawing.Size(200, 40);
+            this.btnModInstaller.TabIndex = 23;
+            this.btnModInstaller.Text = "Mod Installer";
+            this.btnModInstaller.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnModInstaller.UseVisualStyleBackColor = false;
+            this.btnModInstaller.Click += new System.EventHandler(this.btnModInstaller_Click);
+            // 
             // btnSPTAKI
             // 
             this.btnSPTAKI.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
@@ -1670,25 +1702,99 @@
             this.clientModTip.UseAnimation = false;
             this.clientModTip.UseFading = false;
             // 
-            // btnModInstaller
+            // titleEditLocalIP
             // 
-            this.btnModInstaller.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
-            this.btnModInstaller.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnModInstaller.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
-            this.btnModInstaller.FlatAppearance.BorderSize = 2;
-            this.btnModInstaller.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.btnModInstaller.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.btnModInstaller.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnModInstaller.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.btnModInstaller.ForeColor = System.Drawing.Color.Gray;
-            this.btnModInstaller.Location = new System.Drawing.Point(238, 411);
-            this.btnModInstaller.Name = "btnModInstaller";
-            this.btnModInstaller.Size = new System.Drawing.Size(200, 40);
-            this.btnModInstaller.TabIndex = 23;
-            this.btnModInstaller.Text = "Mod Installer";
-            this.btnModInstaller.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnModInstaller.UseVisualStyleBackColor = false;
-            this.btnModInstaller.Click += new System.EventHandler(this.btnModInstaller_Click);
+            this.titleEditLocalIP.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.titleEditLocalIP.ForeColor = System.Drawing.Color.LightGray;
+            this.titleEditLocalIP.Location = new System.Drawing.Point(139, 9);
+            this.titleEditLocalIP.Name = "titleEditLocalIP";
+            this.titleEditLocalIP.Size = new System.Drawing.Size(183, 18);
+            this.titleEditLocalIP.TabIndex = 26;
+            this.titleEditLocalIP.Text = "Local network settings";
+            // 
+            // btnSetNewIP
+            // 
+            this.btnSetNewIP.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.btnSetNewIP.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnSetNewIP.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
+            this.btnSetNewIP.FlatAppearance.BorderSize = 2;
+            this.btnSetNewIP.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnSetNewIP.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnSetNewIP.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSetNewIP.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.btnSetNewIP.ForeColor = System.Drawing.Color.Gray;
+            this.btnSetNewIP.Location = new System.Drawing.Point(142, 72);
+            this.btnSetNewIP.Name = "btnSetNewIP";
+            this.btnSetNewIP.Size = new System.Drawing.Size(180, 40);
+            this.btnSetNewIP.TabIndex = 25;
+            this.btnSetNewIP.Text = "Set new IP address";
+            this.btnSetNewIP.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnSetNewIP.UseVisualStyleBackColor = false;
+            this.btnSetNewIP.Click += new System.EventHandler(this.btnSetNewIP_Click);
+            this.btnSetNewIP.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnSetNewIP_MouseDown);
+            // 
+            // titleDevMode
+            // 
+            this.titleDevMode.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.titleDevMode.ForeColor = System.Drawing.Color.LightGray;
+            this.titleDevMode.Location = new System.Drawing.Point(391, 356);
+            this.titleDevMode.Name = "titleDevMode";
+            this.titleDevMode.Size = new System.Drawing.Size(183, 20);
+            this.titleDevMode.TabIndex = 30;
+            this.titleDevMode.Text = "Developer mode";
+            this.titleDevMode.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // btnDevMode
+            // 
+            this.btnDevMode.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.btnDevMode.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnDevMode.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
+            this.btnDevMode.FlatAppearance.BorderSize = 2;
+            this.btnDevMode.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnDevMode.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnDevMode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDevMode.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.btnDevMode.ForeColor = System.Drawing.Color.Gray;
+            this.btnDevMode.Location = new System.Drawing.Point(394, 379);
+            this.btnDevMode.Name = "btnDevMode";
+            this.btnDevMode.Size = new System.Drawing.Size(180, 40);
+            this.btnDevMode.TabIndex = 29;
+            this.btnDevMode.Text = "Disabled";
+            this.btnDevMode.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnDevMode.UseVisualStyleBackColor = false;
+            this.btnDevMode.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnDevMode_MouseDown);
+            // 
+            // panelIPAddress
+            // 
+            this.panelIPAddress.Controls.Add(this.titleCurrentPort);
+            this.panelIPAddress.Controls.Add(this.titleCurrentIP);
+            this.panelIPAddress.Controls.Add(this.titleEditLocalIP);
+            this.panelIPAddress.Controls.Add(this.btnSetNewIP);
+            this.panelIPAddress.Location = new System.Drawing.Point(252, 436);
+            this.panelIPAddress.Name = "panelIPAddress";
+            this.panelIPAddress.Size = new System.Drawing.Size(333, 147);
+            this.panelIPAddress.TabIndex = 31;
+            this.panelIPAddress.Visible = false;
+            // 
+            // titleCurrentIP
+            // 
+            this.titleCurrentIP.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.titleCurrentIP.ForeColor = System.Drawing.Color.LightGray;
+            this.titleCurrentIP.Location = new System.Drawing.Point(139, 30);
+            this.titleCurrentIP.Name = "titleCurrentIP";
+            this.titleCurrentIP.Size = new System.Drawing.Size(183, 18);
+            this.titleCurrentIP.TabIndex = 28;
+            this.titleCurrentIP.Text = "IP:";
+            // 
+            // titleCurrentPort
+            // 
+            this.titleCurrentPort.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.titleCurrentPort.ForeColor = System.Drawing.Color.LightGray;
+            this.titleCurrentPort.Location = new System.Drawing.Point(139, 51);
+            this.titleCurrentPort.Name = "titleCurrentPort";
+            this.titleCurrentPort.Size = new System.Drawing.Size(183, 18);
+            this.titleCurrentPort.TabIndex = 29;
+            this.titleCurrentPort.Text = "Port:";
             // 
             // mainForm
             // 
@@ -1707,11 +1813,11 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.lblServers);
             this.Controls.Add(this.panelServers);
-            this.Controls.Add(this.panelSPTAKI);
             this.Controls.Add(this.panelGameOptions);
             this.Controls.Add(this.panelAddInstall);
             this.Controls.Add(this.panelServer);
             this.Controls.Add(this.panelAccount);
+            this.Controls.Add(this.panelSPTAKI);
             this.Font = new System.Drawing.Font("Bahnschrift Light", 10F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -1743,6 +1849,7 @@
             this.panelSPTAKI.ResumeLayout(false);
             this.panelAddons.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
+            this.panelIPAddress.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1850,6 +1957,13 @@
         private System.Windows.Forms.Label titleWhenLauncherExits;
         private System.Windows.Forms.Button btnWhenLauncherExits;
         private System.Windows.Forms.Button btnModInstaller;
+        private System.Windows.Forms.Label titleEditLocalIP;
+        private System.Windows.Forms.Button btnSetNewIP;
+        private System.Windows.Forms.Label titleDevMode;
+        private System.Windows.Forms.Button btnDevMode;
+        private System.Windows.Forms.Panel panelIPAddress;
+        private System.Windows.Forms.Label titleCurrentPort;
+        private System.Windows.Forms.Label titleCurrentIP;
     }
 }
 

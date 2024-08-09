@@ -8,6 +8,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Permissions;
@@ -20,6 +21,7 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 using System.Xml.Schema;
 using WK.Libraries.BetterFolderBrowserNS;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 using Timer = System.Windows.Forms.Timer;
 
@@ -151,6 +153,31 @@ namespace Singleplayerstate
                 btnWhenLauncherExits.Text = "Do nothing";
             else
                 btnWhenLauncherExits.Text = "Show pop-up";
+
+            if (Properties.Settings.Default.devMode)
+            {
+                btnDevMode.Text = "Enabled";
+                panelIPAddress.Visible = true;
+            }
+            else
+            {
+                btnDevMode.Text = "Disabled";
+                panelIPAddress.Visible = false;
+            }
+
+            if (Properties.Settings.Default.localhostIP != "" &&
+                Properties.Settings.Default.localhostIP != "127.0.0.1")
+            {
+                string fetchedAddress = Properties.Settings.Default.localhostIP;
+                IPAddress existingIP = IPAddress.Parse(fetchedAddress);
+                string existingIP_string = existingIP.ToString();
+
+                titleCurrentIP.Text = $"IP: {existingIP_string}";
+            }
+            else
+            {
+                titleCurrentIP.Text = $"IP: 127.0.0.1";
+            }
 
             checkAutoStart();
         }
@@ -1415,6 +1442,20 @@ namespace Singleplayerstate
             {
                 showMessage("Could not detect a user folder. Install SPT and try again.", this.Text);
             }
+
+            string serverFolder = txtGameInstallFolder.Text;
+            int akiPort;
+            string portPath = Path.Combine(serverFolder, "SPT_Data", "Server", "database", "server.json");
+            bool portExists = File.Exists(portPath);
+            if (portExists)
+            {
+                string readPort = File.ReadAllText(portPath);
+                JObject portObject = JObject.Parse(readPort);
+                akiPort = (int)portObject["port"];
+                titleCurrentPort.Text = $"Port: {akiPort.ToString()}";
+            }
+            else
+                titleCurrentPort.Text = "Port: 6969";
         }
 
         private void displayClientMods()
@@ -2778,6 +2819,8 @@ namespace Singleplayerstate
         {
             ProcessStartInfo _tarkov = new ProcessStartInfo();
             string serverFolder = txtGameInstallFolder.Text;
+            string localhostAddress = Properties.Settings.Default.localhostIP;
+            IPAddress localhostIP;
 
             string content = File.ReadAllText(profiles_dict);
             JObject objectContent = JObject.Parse(content);
@@ -2786,12 +2829,22 @@ namespace Singleplayerstate
             if (profile != null && !string.IsNullOrEmpty(profile))
             {
                 string aid = profile;
-
                 _tarkov.FileName = Path.Combine(serverFolder, "EscapeFromTarkov.exe");
-                if (akiPort != 0)
-                    _tarkov.Arguments = $"-token={aid} -config={{\"BackendUrl\":\"http://127.0.0.1:{akiPort}\",\"Version\":\"live\"}}";
+
+                if (IPAddress.TryParse(localhostAddress, out localhostIP))
+                {
+                    if (akiPort != 0)
+                        _tarkov.Arguments = $"-token={aid} -config={{\"BackendUrl\":\"http://{localhostIP}:{akiPort}\",\"Version\":\"live\"}}";
+                    else
+                        _tarkov.Arguments = $"-token={aid} -config={{\"BackendUrl\":\"http://{localhostIP}:6969\",\"Version\":\"live\"}}";
+                }
                 else
-                    _tarkov.Arguments = $"-token={aid} -config={{\"BackendUrl\":\"http://127.0.0.1:6969\",\"Version\":\"live\"}}";
+                {
+                    if (akiPort != 0)
+                        _tarkov.Arguments = $"-token={aid} -config={{\"BackendUrl\":\"http://127.0.0.1:{akiPort}\",\"Version\":\"live\"}}";
+                    else
+                        _tarkov.Arguments = $"-token={aid} -config={{\"BackendUrl\":\"http://127.0.0.1:6969\",\"Version\":\"live\"}}";
+                }
 
                 if (chkMinimizeOnGameLaunch.Checked)
                 {
@@ -3659,6 +3712,49 @@ namespace Singleplayerstate
                 }
             }
             lblServers.Select();
+        }
+
+        private void btnWhenLauncherExits_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnDevMode_MouseDown(object sender, MouseEventArgs e)
+        {
+            switch (btnDevMode.Text.ToLower())
+            {
+                case "enabled":
+                    Properties.Settings.Default.devMode = false;
+                    btnDevMode.Text = "Disabled";
+                    panelIPAddress.Visible = false;
+                    break;
+                case "disabled":
+                    Properties.Settings.Default.devMode = true;
+                    btnDevMode.Text = "Enabled";
+                    panelIPAddress.Visible = true;
+                    break;
+            }
+
+            Properties.Settings.Default.Save();
+            lblServers.Select();
+        }
+
+        private void btnSetNewIP_MouseDown(object sender, MouseEventArgs e)
+        {
+            EditLocalhost editForm = new EditLocalhost(titleEditLocalIP);
+            editForm.ShowDialog();
+        }
+
+        private void btnSetNewIP_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void btnSetNewPort_MouseDown(object sender, MouseEventArgs e)
+        {
+        }
+
+        private void btnSetNewPort_Click(object sender, EventArgs e)
+        {
         }
     }
 }

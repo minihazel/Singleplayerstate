@@ -140,6 +140,12 @@
     <Compile Include="DevTools.Designer.cs">
       <DependentUpon>DevTools.cs</DependentUpon>
     </Compile>
+    <Compile Include="EditLocalhost.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="EditLocalhost.Designer.cs">
+      <DependentUpon>EditLocalhost.cs</DependentUpon>
+    </Compile>
     <Compile Include="mainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -165,6 +171,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DevTools.resx">
       <DependentUpon>DevTools.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditLocalhost.resx">
+      <DependentUpon>EditLocalhost.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="mainForm.resx">
       <DependentUpon>mainForm.cs</DependentUpon>
