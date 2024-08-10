@@ -497,8 +497,7 @@ namespace Singleplayerstate
 
             string content = File.ReadAllText(profiles_dict);
             JObject objectContent = JObject.Parse(content);
-            if (objectContent != null &&
-                !string.IsNullOrEmpty((string)objectContent[mainDir]))
+            if (objectContent != null && !string.IsNullOrEmpty((string)objectContent[mainDir]))
                 objectContent[mainDir] = aid;
 
             string updated = objectContent.ToString();
@@ -822,6 +821,8 @@ namespace Singleplayerstate
                                     GameVersion = "Prepare for Darkness Edition";
                                 else if (GameVersion.ToLower() == "edge_of_darkness")
                                     GameVersion = "Edge of Darkness Edition";
+                                else if (GameVersion.ToLower() == "unheard_edition")
+                                    GameVersion = "Unheard Edition";
 
                                 string Nickname = (string)Info["Nickname"];
 
@@ -1049,7 +1050,6 @@ namespace Singleplayerstate
             mainDir = txtGameInstallFolder.Text;
             string userFolder = Path.Combine(mainDir, "user");
             string profilesFolder = Path.Combine(userFolder, "profiles");
-
             string[] profiles = Directory.GetFiles(profilesFolder, "*.json");
 
             for (int i = 0; i < profiles.Length; i++)
