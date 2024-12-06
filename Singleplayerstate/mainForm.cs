@@ -3756,5 +3756,23 @@ namespace Singleplayerstate
         private void btnSetNewPort_Click(object sender, EventArgs e)
         {
         }
+
+        private void btnAppCloseNotification_MouseDown(object sender, MouseEventArgs e)
+        {
+            switch (btnAppCloseNotification.Text.ToLower())
+            {
+                case "enabled":
+                    Properties.Settings.Default.closeOnExit = true;
+                    btnAppCloseNotification.Text = "Disabled";
+                    break;
+                case "disabled":
+                    Properties.Settings.Default.closeOnExit = false;
+                    btnAppCloseNotification.Text = "Enabled";
+                    break;
+            }
+
+            Properties.Settings.Default.Save();
+            lblServers.Select();
+        }
     }
 }
