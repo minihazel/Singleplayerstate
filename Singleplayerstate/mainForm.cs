@@ -165,6 +165,11 @@ namespace Singleplayerstate
                 panelIPAddress.Visible = false;
             }
 
+            if (Properties.Settings.Default.closeOnExit)
+                btnAppCloseNotification.Text = "Enabled";
+            else
+                btnAppCloseNotification.Text = "Disabled";
+
             if (Properties.Settings.Default.localhostIP != "" &&
                 Properties.Settings.Default.localhostIP != "127.0.0.1")
             {
