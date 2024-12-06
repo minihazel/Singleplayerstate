@@ -1806,6 +1806,7 @@ namespace Singleplayerstate
                 }
             }
 
+            btnSPTAKI.PerformClick();
             txtSetDisplayName.Clear();
             lblServers.Select();
         }
