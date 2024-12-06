@@ -1678,48 +1678,20 @@ namespace Singleplayerstate
         {
             if (e.CloseReason == CloseReason.UserClosing)
             {
-                string gamePath = txtGameInstallFolder.Text;
-                bool accepted = false;
-                bool akiServerIsRunning = IsAkiServerRunning(gamePath);
-                if (akiServerIsRunning)
+                if (Properties.Settings.Default.closeOnExit)
                 {
-                    DialogResult result = MessageBox.Show("The AKI server is running, this will close the server and game. Are you sure you want to proceed?" +
-                        Environment.NewLine +
-                        Environment.NewLine +
-                        "Click NO to cancel." + Environment.NewLine +
-                        "Click YES to proceed." + Environment.NewLine +
-                        "Click CANCEL to minimize.",
-                        "Confirmation", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
-
-                    if (result == DialogResult.No)
-                        e.Cancel = true;
-                    else if (result == DialogResult.Yes)
-                        accepted = true;
-                    else
+                    string gamePath = txtGameInstallFolder.Text;
+                    bool accepted = false;
+                    bool akiServerIsRunning = IsAkiServerRunning(gamePath);
+                    if (akiServerIsRunning)
                     {
-                        e.Cancel = true;
-                        if (trayIcon != null)
-                        {
-                            Hide();
-                            trayIcon.Visible = true;
-                            trayIcon.ShowBalloonTip(2000);
-                        }
-                    }
-
-                    if (accepted)
-                        performClosing();
-                }
-                else
-                {
-                    if (!Properties.Settings.Default.whenLauncherCloses)
-                    {
-                        DialogResult result = MessageBox.Show("Are you sure you want to quit?" +
-                        Environment.NewLine +
-                        Environment.NewLine +
-                        "Click NO to cancel." + Environment.NewLine +
-                        "Click YES to quit." + Environment.NewLine +
-                        "Click CANCEL to minimize.",
-                        "Confirmation", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                        DialogResult result = MessageBox.Show("The AKI server is running, this will close the server and game. Are you sure you want to proceed?" +
+                            Environment.NewLine +
+                            Environment.NewLine +
+                            "Click NO to cancel." + Environment.NewLine +
+                            "Click YES to proceed." + Environment.NewLine +
+                            "Click CANCEL to minimize.",
+                            "Confirmation", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
 
                         if (result == DialogResult.No)
                             e.Cancel = true;
@@ -1740,7 +1712,38 @@ namespace Singleplayerstate
                             performClosing();
                     }
                     else
-                        performClosing();
+                    {
+                        if (!Properties.Settings.Default.whenLauncherCloses)
+                        {
+                            DialogResult result = MessageBox.Show("Are you sure you want to quit?" +
+                            Environment.NewLine +
+                            Environment.NewLine +
+                            "Click NO to cancel." + Environment.NewLine +
+                            "Click YES to quit." + Environment.NewLine +
+                            "Click CANCEL to minimize.",
+                            "Confirmation", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+
+                            if (result == DialogResult.No)
+                                e.Cancel = true;
+                            else if (result == DialogResult.Yes)
+                                accepted = true;
+                            else
+                            {
+                                e.Cancel = true;
+                                if (trayIcon != null)
+                                {
+                                    Hide();
+                                    trayIcon.Visible = true;
+                                    trayIcon.ShowBalloonTip(2000);
+                                }
+                            }
+
+                            if (accepted)
+                                performClosing();
+                        }
+                        else
+                            performClosing();
+                    }
                 }
             }
         }
