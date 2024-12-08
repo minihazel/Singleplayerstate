@@ -202,5 +202,17 @@ namespace Singleplayerstate.Properties {
                 this["closeOnExit"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("127.0.0.1")]
+        public string fikaIP {
+            get {
+                return ((string)(this["fikaIP"]));
+            }
+            set {
+                this["fikaIP"] = value;
+            }
+        }
     }
 }

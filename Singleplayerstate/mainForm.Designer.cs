@@ -140,6 +140,8 @@
             this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.btnOpenAutostart = new System.Windows.Forms.Button();
             this.clientModTip = new System.Windows.Forms.ToolTip(this.components);
+            this.titleFikaMode = new System.Windows.Forms.Label();
+            this.btnFikaMode = new System.Windows.Forms.Button();
             this.panelServers.SuspendLayout();
             this.panelGameInfo.SuspendLayout();
             this.panelGameOptions.SuspendLayout();
@@ -455,6 +457,8 @@
             // panelGameOptions
             // 
             this.panelGameOptions.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(29)))), ((int)(((byte)(31)))));
+            this.panelGameOptions.Controls.Add(this.titleFikaMode);
+            this.panelGameOptions.Controls.Add(this.btnFikaMode);
             this.panelGameOptions.Controls.Add(this.titleAppCloseNotification);
             this.panelGameOptions.Controls.Add(this.btnAppCloseNotification);
             this.panelGameOptions.Controls.Add(this.panelIPAddress);
@@ -1831,6 +1835,38 @@
             this.clientModTip.UseAnimation = false;
             this.clientModTip.UseFading = false;
             // 
+            // titleFikaMode
+            // 
+            this.titleFikaMode.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.titleFikaMode.ForeColor = System.Drawing.Color.LightGray;
+            this.titleFikaMode.Location = new System.Drawing.Point(3, 38);
+            this.titleFikaMode.Name = "titleFikaMode";
+            this.titleFikaMode.Size = new System.Drawing.Size(183, 20);
+            this.titleFikaMode.TabIndex = 35;
+            this.titleFikaMode.Text = "Fika mode";
+            this.titleFikaMode.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // btnFikaMode
+            // 
+            this.btnFikaMode.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.btnFikaMode.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnFikaMode.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
+            this.btnFikaMode.FlatAppearance.BorderSize = 2;
+            this.btnFikaMode.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnFikaMode.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnFikaMode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnFikaMode.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.btnFikaMode.ForeColor = System.Drawing.Color.Gray;
+            this.btnFikaMode.Location = new System.Drawing.Point(6, 61);
+            this.btnFikaMode.Name = "btnFikaMode";
+            this.btnFikaMode.Size = new System.Drawing.Size(180, 40);
+            this.btnFikaMode.TabIndex = 34;
+            this.btnFikaMode.Text = "Enabled";
+            this.btnFikaMode.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnFikaMode.UseVisualStyleBackColor = false;
+            this.btnFikaMode.Click += new System.EventHandler(this.btnFikaMode_Click);
+            this.btnFikaMode.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnFikaMode_MouseDown);
+            // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -2001,6 +2037,8 @@
         private System.Windows.Forms.Label titleCurrentIP;
         private System.Windows.Forms.Label titleAppCloseNotification;
         private System.Windows.Forms.Button btnAppCloseNotification;
+        private System.Windows.Forms.Label titleFikaMode;
+        private System.Windows.Forms.Button btnFikaMode;
     }
 }
 

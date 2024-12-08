@@ -3783,5 +3783,30 @@ namespace Singleplayerstate
             Properties.Settings.Default.Save();
             lblServers.Select();
         }
+
+        private void btnFikaMode_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void btnFikaMode_MouseDown(object sender, MouseEventArgs e)
+        {
+            switch (btnFikaMode.Text.ToLower())
+            {
+                case "enabled":
+                    Properties.Settings.Default.closeOnExit = true;
+                    btnFikaMode.Text = "Disabled";
+                    btnPlaySPTAKI.Text = "Play SPT";
+                    break;
+
+                case "disabled":
+                    Properties.Settings.Default.closeOnExit = false;
+                    btnFikaMode.Text = "Enabled";
+                    btnPlaySPTAKI.Text = "Play Fika";
+                    break;
+            }
+
+            Properties.Settings.Default.Save();
+            lblServers.Select();
+        }
     }
 }
