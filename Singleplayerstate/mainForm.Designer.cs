@@ -52,6 +52,8 @@
             this.infoGameEditionTitle = new System.Windows.Forms.Label();
             this.infoGameVersionTitle = new System.Windows.Forms.Label();
             this.panelGameOptions = new System.Windows.Forms.Panel();
+            this.titleAppCloseNotification = new System.Windows.Forms.Label();
+            this.btnAppCloseNotification = new System.Windows.Forms.Button();
             this.panelIPAddress = new System.Windows.Forms.Panel();
             this.titleCurrentPort = new System.Windows.Forms.Label();
             this.titleCurrentIP = new System.Windows.Forms.Label();
@@ -138,8 +140,6 @@
             this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.btnOpenAutostart = new System.Windows.Forms.Button();
             this.clientModTip = new System.Windows.Forms.ToolTip(this.components);
-            this.titleAppCloseNotification = new System.Windows.Forms.Label();
-            this.btnAppCloseNotification = new System.Windows.Forms.Button();
             this.panelServers.SuspendLayout();
             this.panelGameInfo.SuspendLayout();
             this.panelGameOptions.SuspendLayout();
@@ -484,6 +484,37 @@
             this.panelGameOptions.Name = "panelGameOptions";
             this.panelGameOptions.Size = new System.Drawing.Size(608, 583);
             this.panelGameOptions.TabIndex = 1;
+            // 
+            // titleAppCloseNotification
+            // 
+            this.titleAppCloseNotification.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.titleAppCloseNotification.ForeColor = System.Drawing.Color.LightGray;
+            this.titleAppCloseNotification.Location = new System.Drawing.Point(197, 38);
+            this.titleAppCloseNotification.Name = "titleAppCloseNotification";
+            this.titleAppCloseNotification.Size = new System.Drawing.Size(183, 20);
+            this.titleAppCloseNotification.TabIndex = 33;
+            this.titleAppCloseNotification.Text = "App-close notification";
+            this.titleAppCloseNotification.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // btnAppCloseNotification
+            // 
+            this.btnAppCloseNotification.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.btnAppCloseNotification.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnAppCloseNotification.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
+            this.btnAppCloseNotification.FlatAppearance.BorderSize = 2;
+            this.btnAppCloseNotification.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnAppCloseNotification.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnAppCloseNotification.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAppCloseNotification.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.btnAppCloseNotification.ForeColor = System.Drawing.Color.Gray;
+            this.btnAppCloseNotification.Location = new System.Drawing.Point(200, 61);
+            this.btnAppCloseNotification.Name = "btnAppCloseNotification";
+            this.btnAppCloseNotification.Size = new System.Drawing.Size(180, 40);
+            this.btnAppCloseNotification.TabIndex = 32;
+            this.btnAppCloseNotification.Text = "Enabled";
+            this.btnAppCloseNotification.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnAppCloseNotification.UseVisualStyleBackColor = false;
+            this.btnAppCloseNotification.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnAppCloseNotification_MouseDown);
             // 
             // panelIPAddress
             // 
@@ -1800,37 +1831,6 @@
             this.clientModTip.UseAnimation = false;
             this.clientModTip.UseFading = false;
             // 
-            // titleAppCloseNotification
-            // 
-            this.titleAppCloseNotification.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.titleAppCloseNotification.ForeColor = System.Drawing.Color.LightGray;
-            this.titleAppCloseNotification.Location = new System.Drawing.Point(197, 38);
-            this.titleAppCloseNotification.Name = "titleAppCloseNotification";
-            this.titleAppCloseNotification.Size = new System.Drawing.Size(183, 20);
-            this.titleAppCloseNotification.TabIndex = 33;
-            this.titleAppCloseNotification.Text = "App-close notification";
-            this.titleAppCloseNotification.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // btnAppCloseNotification
-            // 
-            this.btnAppCloseNotification.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
-            this.btnAppCloseNotification.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnAppCloseNotification.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
-            this.btnAppCloseNotification.FlatAppearance.BorderSize = 2;
-            this.btnAppCloseNotification.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.btnAppCloseNotification.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.btnAppCloseNotification.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAppCloseNotification.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.btnAppCloseNotification.ForeColor = System.Drawing.Color.Gray;
-            this.btnAppCloseNotification.Location = new System.Drawing.Point(200, 61);
-            this.btnAppCloseNotification.Name = "btnAppCloseNotification";
-            this.btnAppCloseNotification.Size = new System.Drawing.Size(180, 40);
-            this.btnAppCloseNotification.TabIndex = 32;
-            this.btnAppCloseNotification.Text = "Enabled";
-            this.btnAppCloseNotification.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnAppCloseNotification.UseVisualStyleBackColor = false;
-            this.btnAppCloseNotification.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnAppCloseNotification_MouseDown);
-            // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -1848,11 +1848,11 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.lblServers);
             this.Controls.Add(this.panelServers);
+            this.Controls.Add(this.panelGameOptions);
             this.Controls.Add(this.panelAddInstall);
             this.Controls.Add(this.panelServer);
             this.Controls.Add(this.panelAccount);
             this.Controls.Add(this.panelSPTAKI);
-            this.Controls.Add(this.panelGameOptions);
             this.Font = new System.Drawing.Font("Bahnschrift Light", 10F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
