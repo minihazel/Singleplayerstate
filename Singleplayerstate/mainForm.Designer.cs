@@ -52,6 +52,8 @@
             this.infoGameEditionTitle = new System.Windows.Forms.Label();
             this.infoGameVersionTitle = new System.Windows.Forms.Label();
             this.panelGameOptions = new System.Windows.Forms.Panel();
+            this.titleFikaMode = new System.Windows.Forms.Label();
+            this.btnFikaMode = new System.Windows.Forms.Button();
             this.titleAppCloseNotification = new System.Windows.Forms.Label();
             this.btnAppCloseNotification = new System.Windows.Forms.Button();
             this.panelIPAddress = new System.Windows.Forms.Panel();
@@ -140,8 +142,6 @@
             this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.btnOpenAutostart = new System.Windows.Forms.Button();
             this.clientModTip = new System.Windows.Forms.ToolTip(this.components);
-            this.titleFikaMode = new System.Windows.Forms.Label();
-            this.btnFikaMode = new System.Windows.Forms.Button();
             this.panelServers.SuspendLayout();
             this.panelGameInfo.SuspendLayout();
             this.panelGameOptions.SuspendLayout();
@@ -488,6 +488,38 @@
             this.panelGameOptions.Name = "panelGameOptions";
             this.panelGameOptions.Size = new System.Drawing.Size(608, 583);
             this.panelGameOptions.TabIndex = 1;
+            // 
+            // titleFikaMode
+            // 
+            this.titleFikaMode.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.titleFikaMode.ForeColor = System.Drawing.Color.LightGray;
+            this.titleFikaMode.Location = new System.Drawing.Point(3, 38);
+            this.titleFikaMode.Name = "titleFikaMode";
+            this.titleFikaMode.Size = new System.Drawing.Size(183, 20);
+            this.titleFikaMode.TabIndex = 35;
+            this.titleFikaMode.Text = "Fika mode";
+            this.titleFikaMode.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // btnFikaMode
+            // 
+            this.btnFikaMode.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.btnFikaMode.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnFikaMode.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
+            this.btnFikaMode.FlatAppearance.BorderSize = 2;
+            this.btnFikaMode.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnFikaMode.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnFikaMode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnFikaMode.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.btnFikaMode.ForeColor = System.Drawing.Color.Gray;
+            this.btnFikaMode.Location = new System.Drawing.Point(6, 61);
+            this.btnFikaMode.Name = "btnFikaMode";
+            this.btnFikaMode.Size = new System.Drawing.Size(180, 40);
+            this.btnFikaMode.TabIndex = 34;
+            this.btnFikaMode.Text = "Enabled";
+            this.btnFikaMode.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnFikaMode.UseVisualStyleBackColor = false;
+            this.btnFikaMode.Click += new System.EventHandler(this.btnFikaMode_Click);
+            this.btnFikaMode.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnFikaMode_MouseDown);
             // 
             // titleAppCloseNotification
             // 
@@ -1835,38 +1867,6 @@
             this.clientModTip.UseAnimation = false;
             this.clientModTip.UseFading = false;
             // 
-            // titleFikaMode
-            // 
-            this.titleFikaMode.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.titleFikaMode.ForeColor = System.Drawing.Color.LightGray;
-            this.titleFikaMode.Location = new System.Drawing.Point(3, 38);
-            this.titleFikaMode.Name = "titleFikaMode";
-            this.titleFikaMode.Size = new System.Drawing.Size(183, 20);
-            this.titleFikaMode.TabIndex = 35;
-            this.titleFikaMode.Text = "Fika mode";
-            this.titleFikaMode.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // btnFikaMode
-            // 
-            this.btnFikaMode.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
-            this.btnFikaMode.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnFikaMode.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
-            this.btnFikaMode.FlatAppearance.BorderSize = 2;
-            this.btnFikaMode.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.btnFikaMode.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.btnFikaMode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnFikaMode.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.btnFikaMode.ForeColor = System.Drawing.Color.Gray;
-            this.btnFikaMode.Location = new System.Drawing.Point(6, 61);
-            this.btnFikaMode.Name = "btnFikaMode";
-            this.btnFikaMode.Size = new System.Drawing.Size(180, 40);
-            this.btnFikaMode.TabIndex = 34;
-            this.btnFikaMode.Text = "Enabled";
-            this.btnFikaMode.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnFikaMode.UseVisualStyleBackColor = false;
-            this.btnFikaMode.Click += new System.EventHandler(this.btnFikaMode_Click);
-            this.btnFikaMode.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnFikaMode_MouseDown);
-            // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -1884,11 +1884,11 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.lblServers);
             this.Controls.Add(this.panelServers);
+            this.Controls.Add(this.panelSPTAKI);
             this.Controls.Add(this.panelGameOptions);
             this.Controls.Add(this.panelAddInstall);
             this.Controls.Add(this.panelServer);
             this.Controls.Add(this.panelAccount);
-            this.Controls.Add(this.panelSPTAKI);
             this.Font = new System.Drawing.Font("Bahnschrift Light", 10F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

@@ -2843,16 +2843,16 @@ namespace Singleplayerstate
                 if (IPAddress.TryParse(localhostAddress, out localhostIP))
                 {
                     if (akiPort != 0)
-                        _tarkov.Arguments = $"-token={aid} -config={{\"BackendUrl\":\"http://{localhostIP}:{akiPort}\",\"Version\":\"live\"}}";
+                        _tarkov.Arguments = $"-token={aid} -config={{'BackendUrl':'https://{localhostIP}:{akiPort}','Version':'live','MatchingVersion':'live'}}";
                     else
-                        _tarkov.Arguments = $"-token={aid} -config={{\"BackendUrl\":\"http://{localhostIP}:6969\",\"Version\":\"live\"}}";
+                        _tarkov.Arguments = $"-token={aid} -config={{'BackendUrl':'https://{localhostIP}:6969','Version':'live','MatchingVersion':'live'}}";
                 }
                 else
                 {
                     if (akiPort != 0)
-                        _tarkov.Arguments = $"-token={aid} -config={{\"BackendUrl\":\"http://127.0.0.1:{akiPort}\",\"Version\":\"live\"}}";
+                        _tarkov.Arguments = $"-token={aid} -config={{'BackendUrl':'https://127.0.0.1:{akiPort}','Version':'live','MatchingVersion':'live'}}";
                     else
-                        _tarkov.Arguments = $"-token={aid} -config={{\"BackendUrl\":\"http://127.0.0.1:6969\",\"Version\":\"live\"}}";
+                        _tarkov.Arguments = $"-token={aid} -config={{'BackendUrl':'https://127.0.0.1:6969','Version':'live','MatchingVersion':'live'}}";
                 }
 
                 if (chkMinimizeOnGameLaunch.Checked)
