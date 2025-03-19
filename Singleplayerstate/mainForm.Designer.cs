@@ -142,6 +142,7 @@
             this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.btnOpenAutostart = new System.Windows.Forms.Button();
             this.clientModTip = new System.Windows.Forms.ToolTip(this.components);
+            this.fikaToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.panelServers.SuspendLayout();
             this.panelGameInfo.SuspendLayout();
             this.panelGameOptions.SuspendLayout();
@@ -1867,6 +1868,11 @@
             this.clientModTip.UseAnimation = false;
             this.clientModTip.UseFading = false;
             // 
+            // fikaToolTip
+            // 
+            this.fikaToolTip.AutomaticDelay = 300;
+            this.fikaToolTip.ToolTipTitle = "Fika Status";
+            // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -2039,6 +2045,7 @@
         private System.Windows.Forms.Button btnAppCloseNotification;
         private System.Windows.Forms.Label titleFikaMode;
         private System.Windows.Forms.Button btnFikaMode;
+        private System.Windows.Forms.ToolTip fikaToolTip;
     }
 }
 
