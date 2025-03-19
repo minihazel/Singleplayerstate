@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Permissions;
 using System.Text;
@@ -2843,16 +2844,16 @@ namespace Singleplayerstate
                 if (IPAddress.TryParse(localhostAddress, out localhostIP))
                 {
                     if (akiPort != 0)
-                        _tarkov.Arguments = $"-token={aid} -config={{'BackendUrl':'https://{localhostIP}:{akiPort}','Version':'live','MatchingVersion':'live'}}";
+                        _tarkov.Arguments = $"-force-gfx-jobs native -token={aid} -config={{'BackendUrl':'https://{localhostIP}:{akiPort}','Version':'live','MatchingVersion':'live'}}";
                     else
-                        _tarkov.Arguments = $"-token={aid} -config={{'BackendUrl':'https://{localhostIP}:6969','Version':'live','MatchingVersion':'live'}}";
+                        _tarkov.Arguments = $"-force-gfx-jobs native -token={aid} -config={{'BackendUrl':'https://{localhostIP}:6969','Version':'live','MatchingVersion':'live'}}";
                 }
                 else
                 {
                     if (akiPort != 0)
-                        _tarkov.Arguments = $"-token={aid} -config={{'BackendUrl':'https://127.0.0.1:{akiPort}','Version':'live','MatchingVersion':'live'}}";
+                        _tarkov.Arguments = $"-force-gfx-jobs native -token={aid} -config={{'BackendUrl':'https://127.0.0.1:{akiPort}','Version':'live','MatchingVersion':'live'}}";
                     else
-                        _tarkov.Arguments = $"-token={aid} -config={{'BackendUrl':'https://127.0.0.1:6969','Version':'live','MatchingVersion':'live'}}";
+                        _tarkov.Arguments = $"-force-gfx-jobs native -token={aid} -config={{'BackendUrl':'https://127.0.0.1:6969','Version':'live','MatchingVersion':'live'}}";
                 }
 
                 if (chkMinimizeOnGameLaunch.Checked)
@@ -3793,13 +3794,11 @@ namespace Singleplayerstate
             switch (btnFikaMode.Text.ToLower())
             {
                 case "enabled":
-                    Properties.Settings.Default.closeOnExit = true;
                     btnFikaMode.Text = "Disabled";
                     btnPlaySPTAKI.Text = "Play SPT";
                     break;
 
                 case "disabled":
-                    Properties.Settings.Default.closeOnExit = false;
                     btnFikaMode.Text = "Enabled";
                     btnPlaySPTAKI.Text = "Play Fika";
                     break;
