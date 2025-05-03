@@ -2202,7 +2202,7 @@ namespace Singleplayerstate
 
             if (Properties.Settings.Default.isFikaEnabled)
             {
-                if (isTarkovRunning())
+                if (isTarkovRunning() || btnPlaySPTAKI.Text.ToLower() == "quit fika")
                 {
                     btnPlaySPTAKI.Enabled = false;
                     killTarkov();
