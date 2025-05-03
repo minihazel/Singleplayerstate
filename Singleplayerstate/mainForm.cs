@@ -1475,11 +1475,6 @@ namespace Singleplayerstate
             string coreStatus = doesFikaCoreExist ? "Active" : "Parked / Inactive";
             string serverModStatus = doesFikaServerModExist ? "Active" : "Parked / Inactive";
 
-            fikaToolTip.SetToolTip(btnFikaMode,
-                    $"Core plugin: {coreStatus}" + Environment.NewLine +
-                    $"Server mod: {serverModStatus}" + Environment.NewLine +
-                    $"Headless: {headlessStatus}");
-
             // Checking local server status
             bool serverOn = IsAkiServerRunning();
             if (serverOn)
@@ -2277,7 +2272,7 @@ namespace Singleplayerstate
             }
             else
             {
-                bool akiServerIsRunning = IsAkiServerRunning(gamePath);
+                bool akiServerIsRunning = IsAkiServerRunning();
                 if (!akiServerIsRunning)
                 {
                     if (txtAccountAID.Text.ToLower() == "incomplete profile")
@@ -4002,14 +3997,11 @@ namespace Singleplayerstate
             switch (btnFikaMode.Text.ToLower())
             {
                 case "enabled":
-                    Properties.Settings.Default.isFikaEnabled = false;
                     btnAdjustFikaSettings.Visible = false;
                     btnFikaMode.Text = "Disabled";
                     btnPlaySPTAKI.Text = "Play SPT";
                     break;
-
                 case "disabled":
-                    Properties.Settings.Default.isFikaEnabled = true;
                     btnAdjustFikaSettings.Visible = true;
                     btnFikaMode.Text = "Enabled";
                     btnPlaySPTAKI.Text = "Play Fika";
@@ -4030,28 +4022,10 @@ namespace Singleplayerstate
         {
         }
 
-        private void btnFikaMode_MouseDown(object sender, MouseEventArgs e)
+        private void btnAdjustFikaSettings_Click_1(object sender, EventArgs e)
         {
-            switch (btnFikaMode.Text.ToLower())
-            {
-                case "enabled":
-                    Properties.Settings.Default.closeOnExit = true;
-                    btnFikaMode.Text = "Disabled";
-                    btnPlaySPTAKI.Text = "Play SPT";
-                    break;
-                case "disabled":
-                    Properties.Settings.Default.closeOnExit = false;
-                    btnFikaMode.Text = "Enabled";
-                    btnPlaySPTAKI.Text = "Play Fika";
-                    break;
-            }
-
-            Properties.Settings.Default.Save();
-            lblServers.Select();
-        }
-
-        private void btnFikaMode_MouseDown(object sender, MouseEventArgs e)
-        {
+            AdjustFikaSettings fikaForm = new AdjustFikaSettings();
+            fikaForm.ShowDialog();
         }
     }
 }

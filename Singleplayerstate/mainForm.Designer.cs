@@ -143,7 +143,6 @@
             this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.btnOpenAutostart = new System.Windows.Forms.Button();
             this.clientModTip = new System.Windows.Forms.ToolTip(this.components);
-            this.fikaToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.panelServers.SuspendLayout();
             this.panelGameInfo.SuspendLayout();
             this.panelGameOptions.SuspendLayout();
@@ -502,7 +501,7 @@
             this.btnAdjustFikaSettings.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
             this.btnAdjustFikaSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAdjustFikaSettings.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.btnAdjustFikaSettings.ForeColor = System.Drawing.Color.SeaGreen;
+            this.btnAdjustFikaSettings.ForeColor = System.Drawing.Color.DarkGray;
             this.btnAdjustFikaSettings.Location = new System.Drawing.Point(6, 517);
             this.btnAdjustFikaSettings.Name = "btnAdjustFikaSettings";
             this.btnAdjustFikaSettings.Size = new System.Drawing.Size(240, 40);
@@ -510,8 +509,7 @@
             this.btnAdjustFikaSettings.Text = "Adjust Fika Settings";
             this.btnAdjustFikaSettings.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnAdjustFikaSettings.UseVisualStyleBackColor = false;
-            this.btnAdjustFikaSettings.Visible = false;
-            this.btnAdjustFikaSettings.Click += new System.EventHandler(this.btnAdjustFikaSettings_Click);
+            this.btnAdjustFikaSettings.Click += new System.EventHandler(this.btnAdjustFikaSettings_Click_1);
             // 
             // titleFikaMode
             // 
@@ -575,7 +573,6 @@
             this.btnAppCloseNotification.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnAppCloseNotification.UseVisualStyleBackColor = false;
             this.btnAppCloseNotification.Click += new System.EventHandler(this.btnAppCloseNotification_Click);
-            this.btnAppCloseNotification.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnAppCloseNotification_MouseDown);
             // 
             // panelIPAddress
             // 
@@ -1892,11 +1889,6 @@
             this.clientModTip.UseAnimation = false;
             this.clientModTip.UseFading = false;
             // 
-            // fikaToolTip
-            // 
-            this.fikaToolTip.AutomaticDelay = 300;
-            this.fikaToolTip.ToolTipTitle = "Fika Status";
-            // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -2069,6 +2061,7 @@
         private System.Windows.Forms.Button btnAppCloseNotification;
         private System.Windows.Forms.Label titleFikaMode;
         private System.Windows.Forms.Button btnFikaMode;
+        private System.Windows.Forms.Button btnAdjustFikaSettings;
     }
 }
 
