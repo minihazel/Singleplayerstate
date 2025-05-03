@@ -401,7 +401,7 @@ namespace Singleplayerstate
 
                 JObject fullProfile = new JObject
                 {
-                    [profiles] = new JObject(),
+                    ["profiles"] = profiles,
                     ["currentFikaAID"] = "none"
                 };
 
@@ -1503,7 +1503,7 @@ namespace Singleplayerstate
             }
 
             string serverFolder = txtGameInstallFolder.Text;
-            int akiPort;
+            int akiPort = -1;
             string portPath = Path.Combine(serverFolder, "SPT_Data", "Server", "database", "server.json");
             bool portExists = File.Exists(portPath);
             if (portExists)
@@ -1516,6 +1516,13 @@ namespace Singleplayerstate
             else
                 titleCurrentPort.Text = "Port: 6969";
 
+            if (string.IsNullOrEmpty(Properties.Settings.Default.fikaIP))
+            {
+                Properties.Settings.Default.fikaIP = IPAddress.Loopback.ToString();
+                Properties.Settings.Default.fikaPort = 6969;
+                Properties.Settings.Default.Save();
+            }
+
             string fikaFolder = Path.Combine(mainDir, "user", "fika");
             bool fikaFolderExists = Directory.Exists(fikaFolder);
             if (!fikaFolderExists)
@@ -1527,6 +1534,7 @@ namespace Singleplayerstate
                 string[] fikaProfiles = Directory.GetFiles(fikaFolder, "*.json");
                 if (fikaProfiles.Length == 0)
                 {
+                    Properties.Settings.Default.Save();
                     return;
                 }
                 else
@@ -2228,21 +2236,17 @@ namespace Singleplayerstate
             {
                 if (isTarkovRunning())
                 {
-                    if (btnPlaySPTAKI.Text.ToLower() == "quit fika")
+                    string message = "Escape From Tarkov is already running locally on this computer. Would you like to restart it?";
+                    if (MessageBox.Show(message, this.Text, MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
                         killTarkov();
-                    } else
+                        btnPlaySPTAKI.PerformClick();
+                    }
+                    else
                     {
-                        string message = "Escape From Tarkov is already running locally on this computer. Would you like to restart it?";
-                        if (MessageBox.Show(message, this.Text, MessageBoxButtons.YesNo) == DialogResult.Yes)
-                        {
-                            killTarkov();
-                            btnPlaySPTAKI.PerformClick();
-                        }
-                        else
-                        {
-                            return;
-                        }
+                        btnPlaySPTAKI.Enabled = true;
+                        btnPlaySPTAKI.Text = "Play Fika";
+                        return;
                     }
                 }
 
