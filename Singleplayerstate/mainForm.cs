@@ -31,7 +31,7 @@ namespace Singleplayerstate
 {
     public partial class mainForm : Form
     {
-        string currentDirectory = Environment.CurrentDirectory;
+        string currentDirectory = "D:\\Games\\Escape From Tarkov\\SPT 3.11";
         string logsFolder = "";
         public string profiles_dict = null;
         public StringBuilder akiServerOutput;
@@ -40,6 +40,11 @@ namespace Singleplayerstate
         string selectedServer = "";
         public string mainDir = null;
         string temporaryAID = null;
+
+        public string fika_dir = "[FIKA]";
+        public string fika_core_plugin = "Fika.Core.dll";
+        public string fika_headless_plugin = "Fika.Headless.dll";
+        public string fika_server_mod = "fika-server";
 
         // BackgroundWorkers
         public BackgroundWorker CheckServerStatus;
@@ -120,6 +125,19 @@ namespace Singleplayerstate
             foreach (var kvp in folderPaths)
             {
                 updateProfiles(kvp.Value);
+            }
+
+            bool fika_dir_exists = Directory.Exists(Path.Combine(currentDirectory, fika_dir));
+            if (!fika_dir_exists)
+            {
+                try
+                {
+                    Directory.CreateDirectory(fika_dir);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message.ToString());
+                }
             }
 
             listServers();
@@ -1350,11 +1368,15 @@ namespace Singleplayerstate
             string BepInFolder = Path.Combine(path, "BepInEx");
             string pluginsFolder = Path.Combine(BepInFolder, "plugins");
             string SAINClient = Path.Combine(pluginsFolder, "SAIN");
+            string Fika_Core = Path.Combine(pluginsFolder, fika_core_plugin);
+            string Fika_Headless = Path.Combine(pluginsFolder, fika_headless_plugin);
 
             string cacheFolder = Path.Combine(userFolder, "cache");
             string modsFolder = Path.Combine(userFolder, "mods");
             string LOEPath = Path.Combine(modsFolder, "Load Order Editor.exe");
             string SAINServer = Path.Combine(modsFolder, "zSolarint-SAIN-ServerMod");
+            string Fika_Server_Mod = Path.Combine(modsFolder, fika_server_mod);
+            Debug.WriteLine(Fika_Server_Mod);
 
             // SPTAKI Tab
             if (Directory.Exists(cacheFolder))
@@ -1440,6 +1462,23 @@ namespace Singleplayerstate
 
             if (!File.Exists(akiServerFile) && !File.Exists(akiLauncherFile) || !File.Exists(EFTFile))
                 btnPlaySPTAKI.Enabled = false;
+
+            bool doesFikaCoreExist = File.Exists(Fika_Core);
+            bool doesFikaServerModExist = Directory.Exists(Fika_Server_Mod);
+            bool doesFikaHeadlessExist = File.Exists(Fika_Headless);
+
+            bool isFikaCoreParked = File.Exists(Path.Combine(fika_dir, fika_core_plugin));
+            bool isFikaServerModParked = File.Exists(Path.Combine(fika_dir, fika_server_mod));
+            bool isFikaHeadlessParked = File.Exists(Path.Combine(fika_dir, fika_headless_plugin));
+
+            string headlessStatus = doesFikaHeadlessExist ? "Active" : "Parked / Inactive";
+            string coreStatus = doesFikaCoreExist ? "Active" : "Parked / Inactive";
+            string serverModStatus = doesFikaServerModExist ? "Active" : "Parked / Inactive";
+
+            fikaToolTip.SetToolTip(btnFikaMode,
+                    $"Core plugin: {coreStatus}" + Environment.NewLine +
+                    $"Server mod: {serverModStatus}" + Environment.NewLine +
+                    $"Headless: {headlessStatus}");
 
             // Checking local server status
             bool serverOn = IsAkiServerRunning();
@@ -3989,25 +4028,30 @@ namespace Singleplayerstate
 
         private void btnAppCloseNotification_Click(object sender, EventArgs e)
         {
-
         }
 
-        private void btnAppCloseNotification_MouseDown(object sender, MouseEventArgs e)
+        private void btnFikaMode_MouseDown(object sender, MouseEventArgs e)
         {
-            switch (btnAppCloseNotification.Text.ToLower())
+            switch (btnFikaMode.Text.ToLower())
             {
                 case "enabled":
-                    Properties.Settings.Default.closeOnExit = false;
-                    btnAppCloseNotification.Text = "Disabled";
+                    Properties.Settings.Default.closeOnExit = true;
+                    btnFikaMode.Text = "Disabled";
+                    btnPlaySPTAKI.Text = "Play SPT";
                     break;
                 case "disabled":
-                    Properties.Settings.Default.closeOnExit = true;
-                    btnAppCloseNotification.Text = "Enabled";
+                    Properties.Settings.Default.closeOnExit = false;
+                    btnFikaMode.Text = "Enabled";
+                    btnPlaySPTAKI.Text = "Play Fika";
                     break;
             }
 
             Properties.Settings.Default.Save();
             lblServers.Select();
+        }
+
+        private void btnFikaMode_MouseDown(object sender, MouseEventArgs e)
+        {
         }
     }
 }

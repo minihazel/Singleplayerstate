@@ -143,6 +143,7 @@
             this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.btnOpenAutostart = new System.Windows.Forms.Button();
             this.clientModTip = new System.Windows.Forms.ToolTip(this.components);
+            this.fikaToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.panelServers.SuspendLayout();
             this.panelGameInfo.SuspendLayout();
             this.panelGameOptions.SuspendLayout();
@@ -1891,6 +1892,11 @@
             this.clientModTip.UseAnimation = false;
             this.clientModTip.UseFading = false;
             // 
+            // fikaToolTip
+            // 
+            this.fikaToolTip.AutomaticDelay = 300;
+            this.fikaToolTip.ToolTipTitle = "Fika Status";
+            // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 16F);
@@ -1908,11 +1914,11 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.lblServers);
             this.Controls.Add(this.panelServers);
-            this.Controls.Add(this.panelSPTAKI);
             this.Controls.Add(this.panelGameOptions);
             this.Controls.Add(this.panelAddInstall);
             this.Controls.Add(this.panelServer);
             this.Controls.Add(this.panelAccount);
+            this.Controls.Add(this.panelSPTAKI);
             this.Font = new System.Drawing.Font("Bahnschrift Light", 10F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -2063,7 +2069,6 @@
         private System.Windows.Forms.Button btnAppCloseNotification;
         private System.Windows.Forms.Label titleFikaMode;
         private System.Windows.Forms.Button btnFikaMode;
-        private System.Windows.Forms.Button btnAdjustFikaSettings;
     }
 }
 
