@@ -2233,23 +2233,20 @@ namespace Singleplayerstate
                 int hostPort = Properties.Settings.Default.fikaPort;
 
                 IPAddress hostAddress = IPAddress.Parse(hostIP);
-                IPEndPoint hostEndPoint = new IPEndPoint(hostAddress, hostPort);
-
-                Ping send_ping = new Ping();
-                string data = "checker_data";
-                int timeout = 5000;
-                byte[] buffer = Encoding.ASCII.GetBytes(data);
-
-                PingOptions options = new PingOptions(64, true);
-                PingReply reply = send_ping.Send(hostIP, timeout, buffer, options);
-
-                if (reply.Status == IPStatus.Success)
+                if (IPAddress.TryParse(hostIP, out hostAddress))
                 {
-                    launchTarkov(hostPort);
-                    btnPlaySPTAKI.Text = "Quit Fika";
-                    toggleUI(true);
-                    lblServers.Select();
+                    hostIP = hostAddress.ToString();
                 }
+                else
+                {
+                    showMessage("Invalid IP address. Please check your settings.", this.Text);
+                    return;
+                }
+
+                launchTarkov(hostPort);
+                btnPlaySPTAKI.Text = "Quit Fika";
+                toggleUI(true);
+                lblServers.Select();
             }
             else
             {

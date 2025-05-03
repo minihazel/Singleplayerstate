@@ -57,6 +57,7 @@ namespace Singleplayerstate
 
                 string fullAddress = "https://" + Properties.Settings.Default.fikaIP + ":" + portValue.ToString();
                 MessageBox.Show("Configuration change success! We will now connect to " + fullAddress + " on launch. Disable Fika mode if you want to disable this.", Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Close();
             }
             catch (FormatException)
             {
