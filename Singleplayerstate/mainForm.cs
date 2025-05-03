@@ -2205,6 +2205,14 @@ namespace Singleplayerstate
             {
                 if (isTarkovRunning())
                 {
+                    if (btnPlaySPTAKI.Text.ToLower().StartsWith("quit"))
+                    {
+                        btnPlaySPTAKI.Enabled = false;
+                        killTarkov();
+                        btnPlaySPTAKI.Enabled = true;
+                        btnPlaySPTAKI.Text = "Play Fika";
+                    }
+
                     string message = "Escape From Tarkov is already running locally on this computer. Would you like to restart it?";
                     if (MessageBox.Show(message, this.Text, MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
@@ -2245,8 +2253,31 @@ namespace Singleplayerstate
             }
             else
             {
-                bool akiServerIsRunning = IsSPTServerRunning();
-                if (!akiServerIsRunning)
+                if (isTarkovRunning())
+                {
+                    if (btnPlaySPTAKI.Text.ToLower().StartsWith("quit"))
+                    {
+                        btnPlaySPTAKI.Enabled = false;
+                        killTarkov();
+                        btnPlaySPTAKI.Enabled = true;
+                        btnPlaySPTAKI.Text = "Play SPT";
+                    }
+
+                    string message = "Escape From Tarkov is already running locally on this computer. Would you like to restart it?";
+                    if (MessageBox.Show(message, this.Text, MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        killTarkov();
+                        btnPlaySPTAKI.PerformClick();
+                    }
+                    else
+                    {
+                        btnPlaySPTAKI.Enabled = true;
+                        btnPlaySPTAKI.Text = "Play spt";
+                        return;
+                    }
+                }
+
+                if (!IsSPTServerRunning())
                 {
                     if (txtAccountAID.Text.ToLower() == "incomplete profile")
                     {

@@ -1559,7 +1559,7 @@
             this.titleAkiServer.Name = "titleAkiServer";
             this.titleAkiServer.Size = new System.Drawing.Size(582, 20);
             this.titleAkiServer.TabIndex = 10;
-            this.titleAkiServer.Text = "Close Aki.Server:";
+            this.titleAkiServer.Text = "Close SPT Server:";
             this.titleAkiServer.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // panelSPTAKI
@@ -1907,11 +1907,11 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.lblServers);
             this.Controls.Add(this.panelServers);
+            this.Controls.Add(this.panelSPTAKI);
             this.Controls.Add(this.panelGameOptions);
             this.Controls.Add(this.panelAddInstall);
             this.Controls.Add(this.panelServer);
             this.Controls.Add(this.panelAccount);
-            this.Controls.Add(this.panelSPTAKI);
             this.Font = new System.Drawing.Font("Bahnschrift Light", 10F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
