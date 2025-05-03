@@ -31,7 +31,7 @@ namespace Singleplayerstate
 {
     public partial class mainForm : Form
     {
-        string currentDirectory = "D:\\Games\\Escape From Tarkov\\SPT 3.11";
+        string currentDirectory = Environment.CurrentDirectory;
         string logsFolder = "";
         public string profiles_dict = null;
         public StringBuilder akiServerOutput;
@@ -41,16 +41,11 @@ namespace Singleplayerstate
         public string mainDir = null;
         string temporaryAID = null;
 
-        public string fika_dir = "[FIKA]";
-        public string fika_core_plugin = "Fika.Core.dll";
-        public string fika_headless_plugin = "Fika.Headless.dll";
-        public string fika_server_mod = "fika-server";
-
         // BackgroundWorkers
         public BackgroundWorker CheckServerStatus;
         public BackgroundWorker TarkovProcessDetector;
         public BackgroundWorker TarkovEndDetector;
-        public BackgroundWorker AkiServerDetector;
+        public BackgroundWorker SPTServerDetector;
 
         // Booleans
         bool serverHasBeenSelected = false;
@@ -125,19 +120,6 @@ namespace Singleplayerstate
             foreach (var kvp in folderPaths)
             {
                 updateProfiles(kvp.Value);
-            }
-
-            bool fika_dir_exists = Directory.Exists(Path.Combine(currentDirectory, fika_dir));
-            if (!fika_dir_exists)
-            {
-                try
-                {
-                    Directory.CreateDirectory(fika_dir);
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.Message.ToString());
-                }
             }
 
             listServers();
@@ -895,7 +877,7 @@ namespace Singleplayerstate
             string BepInEx = Path.Combine(gamePath, "BepInEx");
             string LogOutput = Path.Combine(BepInEx, "LogOutput.log");
 
-            bool akiServerIsRunning = IsAkiServerRunning();
+            bool akiServerIsRunning = IsSPTServerRunning();
             if (akiServerIsRunning)
                 return -1;
             else
@@ -921,7 +903,7 @@ namespace Singleplayerstate
             return -1;
         }
 
-        public static bool IsAkiServerRunning()
+        public static bool IsSPTServerRunning()
         {
             try
             {
@@ -983,6 +965,7 @@ namespace Singleplayerstate
 
         private async void checkAutoStart()
         {
+            Debug.WriteLine("1");
             int servercount = panelServers.Controls.OfType<Label>().Count();
             if (panelServers.Controls["serverPlaceholder"] != null) servercount -= 1;
 
@@ -990,7 +973,8 @@ namespace Singleplayerstate
             bool autostartExists = File.Exists(autostartFile);
             if (autostartExists)
             {
-                string[] autocontent = File.ReadAllLines(autostartFile, Encoding.UTF8);
+                Debug.WriteLine("2");
+                string[] autocontent = File.ReadAllLines(autostartFile);
                 string boolValue = null;
                 string serverValue = null;
 
@@ -1037,7 +1021,8 @@ namespace Singleplayerstate
                     {
                         clickServer(firstServer, true);
                         string content =
-                            $"autostart=false" + Environment.NewLine;
+                            $"autostart=false" + Environment.NewLine +
+                            firstServer.Text.Replace("✔️ ", "");
                         
                         try
                         {
@@ -1368,15 +1353,11 @@ namespace Singleplayerstate
             string BepInFolder = Path.Combine(path, "BepInEx");
             string pluginsFolder = Path.Combine(BepInFolder, "plugins");
             string SAINClient = Path.Combine(pluginsFolder, "SAIN");
-            string Fika_Core = Path.Combine(pluginsFolder, fika_core_plugin);
-            string Fika_Headless = Path.Combine(pluginsFolder, fika_headless_plugin);
 
             string cacheFolder = Path.Combine(userFolder, "cache");
             string modsFolder = Path.Combine(userFolder, "mods");
             string LOEPath = Path.Combine(modsFolder, "Load Order Editor.exe");
             string SAINServer = Path.Combine(modsFolder, "zSolarint-SAIN-ServerMod");
-            string Fika_Server_Mod = Path.Combine(modsFolder, fika_server_mod);
-            Debug.WriteLine(Fika_Server_Mod);
 
             // SPTAKI Tab
             if (Directory.Exists(cacheFolder))
@@ -1463,20 +1444,8 @@ namespace Singleplayerstate
             if (!File.Exists(akiServerFile) && !File.Exists(akiLauncherFile) || !File.Exists(EFTFile))
                 btnPlaySPTAKI.Enabled = false;
 
-            bool doesFikaCoreExist = File.Exists(Fika_Core);
-            bool doesFikaServerModExist = Directory.Exists(Fika_Server_Mod);
-            bool doesFikaHeadlessExist = File.Exists(Fika_Headless);
-
-            bool isFikaCoreParked = File.Exists(Path.Combine(fika_dir, fika_core_plugin));
-            bool isFikaServerModParked = File.Exists(Path.Combine(fika_dir, fika_server_mod));
-            bool isFikaHeadlessParked = File.Exists(Path.Combine(fika_dir, fika_headless_plugin));
-
-            string headlessStatus = doesFikaHeadlessExist ? "Active" : "Parked / Inactive";
-            string coreStatus = doesFikaCoreExist ? "Active" : "Parked / Inactive";
-            string serverModStatus = doesFikaServerModExist ? "Active" : "Parked / Inactive";
-
             // Checking local server status
-            bool serverOn = IsAkiServerRunning();
+            bool serverOn = IsSPTServerRunning();
             if (serverOn)
             {
                 btnPlaySPTAKI.Text = "Quit SPT";
@@ -1770,7 +1739,7 @@ namespace Singleplayerstate
                     {
                         string gamePath = txtGameInstallFolder.Text;
                         bool accepted = false;
-                        bool akiServerIsRunning = IsAkiServerRunning();
+                        bool akiServerIsRunning = IsSPTServerRunning();
                         if (akiServerIsRunning)
                         {
                             DialogResult result = MessageBox.Show("The AKI server is running, this will close the server and game. Are you sure you want to proceed?" +
@@ -2276,7 +2245,7 @@ namespace Singleplayerstate
             }
             else
             {
-                bool akiServerIsRunning = IsAkiServerRunning();
+                bool akiServerIsRunning = IsSPTServerRunning();
                 if (!akiServerIsRunning)
                 {
                     if (txtAccountAID.Text.ToLower() == "incomplete profile")
@@ -2440,11 +2409,11 @@ namespace Singleplayerstate
                 TarkovEndDetector.Dispose();
                 TarkovEndDetector = null;
             }
-            if (AkiServerDetector != null)
+            if (SPTServerDetector != null)
             {
-                AkiServerDetector.CancelAsync();
-                AkiServerDetector.Dispose();
-                AkiServerDetector = null;
+                SPTServerDetector.CancelAsync();
+                SPTServerDetector.Dispose();
+                SPTServerDetector = null;
             }
 
             TarkovProcessDetector = new BackgroundWorker();
@@ -2510,11 +2479,11 @@ namespace Singleplayerstate
                     }
                 }
 
-                if (AkiServerDetector != null)
+                if (SPTServerDetector != null)
                 {
-                    AkiServerDetector.CancelAsync();
-                    AkiServerDetector.Dispose();
-                    AkiServerDetector = null;
+                    SPTServerDetector.CancelAsync();
+                    SPTServerDetector.Dispose();
+                    SPTServerDetector = null;
                 }
 
                 if (btnCloseAkiServer.InvokeRequired)
@@ -2709,11 +2678,11 @@ namespace Singleplayerstate
                 TarkovEndDetector.Dispose();
                 TarkovEndDetector = null;
             }
-            if (AkiServerDetector != null)
+            if (SPTServerDetector != null)
             {
-                AkiServerDetector.CancelAsync();
-                AkiServerDetector.Dispose();
-                AkiServerDetector = null;
+                SPTServerDetector.CancelAsync();
+                SPTServerDetector.Dispose();
+                SPTServerDetector = null;
             }
 
             toggleUI(true);
@@ -2877,11 +2846,11 @@ namespace Singleplayerstate
                     txtServerIsRunning.ForeColor = Color.SeaGreen;
                 }
 
-                AkiServerDetector = new BackgroundWorker();
-                AkiServerDetector.DoWork += AkiServerDetector_DoWork;
-                AkiServerDetector.RunWorkerCompleted += AkiServerDetector_RunWorkerCompleted;
-                AkiServerDetector.WorkerSupportsCancellation = true;
-                AkiServerDetector.RunWorkerAsync();
+                SPTServerDetector = new BackgroundWorker();
+                SPTServerDetector.DoWork += SPTServerDetector_DoWork;
+                SPTServerDetector.RunWorkerCompleted += SPTServerDetector_RunWorkerCompleted;
+                SPTServerDetector.WorkerSupportsCancellation = true;
+                SPTServerDetector.RunWorkerAsync();
             }
             catch (Exception ex)
             {
@@ -2976,11 +2945,11 @@ namespace Singleplayerstate
                     trayIcon.ShowBalloonTip(2000);
                 }
 
-                AkiServerDetector = new BackgroundWorker();
-                AkiServerDetector.DoWork += AkiServerDetector_DoWork;
-                AkiServerDetector.RunWorkerCompleted += AkiServerDetector_RunWorkerCompleted;
-                AkiServerDetector.WorkerSupportsCancellation = true;
-                AkiServerDetector.RunWorkerAsync();
+                SPTServerDetector = new BackgroundWorker();
+                SPTServerDetector.DoWork += SPTServerDetector_DoWork;
+                SPTServerDetector.RunWorkerCompleted += SPTServerDetector_RunWorkerCompleted;
+                SPTServerDetector.WorkerSupportsCancellation = true;
+                SPTServerDetector.RunWorkerAsync();
             }
             catch (Exception ex)
             {
@@ -3271,15 +3240,15 @@ namespace Singleplayerstate
             }
         }
 
-        public void AkiServerDetector_DoWork(object sender, DoWorkEventArgs e)
+        public void SPTServerDetector_DoWork(object sender, DoWorkEventArgs e)
         {
-            if (AkiServerDetector.CancellationPending)
+            if (SPTServerDetector.CancellationPending)
             {
                 e.Cancel = true;
                 return;
             }
 
-            if (AkiServerDetector != null)
+            if (SPTServerDetector != null)
             {
                 string aki_server = "SPT.Server";
                 bool isServerRunning = Process.GetProcesses().Any(p => p.ProcessName.Equals(aki_server, StringComparison.OrdinalIgnoreCase));
@@ -3311,13 +3280,13 @@ namespace Singleplayerstate
             }
         }
 
-        public void AkiServerDetector_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        public void SPTServerDetector_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            if (AkiServerDetector != null)
+            if (SPTServerDetector != null)
             {
-                AkiServerDetector.CancelAsync();
-                AkiServerDetector.Dispose();
-                AkiServerDetector = null;
+                SPTServerDetector.CancelAsync();
+                SPTServerDetector.Dispose();
+                SPTServerDetector = null;
             }
         }
 
@@ -4001,11 +3970,13 @@ namespace Singleplayerstate
             switch (btnFikaMode.Text.ToLower())
             {
                 case "enabled":
+                    Properties.Settings.Default.isFikaEnabled = false;
                     btnAdjustFikaSettings.Visible = false;
                     btnFikaMode.Text = "Disabled";
                     btnPlaySPTAKI.Text = "Play SPT";
                     break;
                 case "disabled":
+                    Properties.Settings.Default.isFikaEnabled = true;
                     btnAdjustFikaSettings.Visible = true;
                     btnFikaMode.Text = "Enabled";
                     btnPlaySPTAKI.Text = "Play Fika";

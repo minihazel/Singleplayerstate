@@ -780,7 +780,7 @@
             this.titleWhenSPTAKIExits.Name = "titleWhenSPTAKIExits";
             this.titleWhenSPTAKIExits.Size = new System.Drawing.Size(183, 20);
             this.titleWhenSPTAKIExits.TabIndex = 18;
-            this.titleWhenSPTAKIExits.Text = "When SPT-AKI exits:";
+            this.titleWhenSPTAKIExits.Text = "When SPT exits:";
             this.titleWhenSPTAKIExits.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // btnWhenSPTAKIExits
@@ -884,7 +884,7 @@
             this.gameRequirementLauncher.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
             this.gameRequirementLauncher.Size = new System.Drawing.Size(377, 20);
             this.gameRequirementLauncher.TabIndex = 11;
-            this.gameRequirementLauncher.Text = "✔️ Aki.Launcher found";
+            this.gameRequirementLauncher.Text = "✔️ SPT.Launcher found";
             this.gameRequirementLauncher.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // gameRequirementServer
@@ -896,7 +896,7 @@
             this.gameRequirementServer.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
             this.gameRequirementServer.Size = new System.Drawing.Size(377, 20);
             this.gameRequirementServer.TabIndex = 10;
-            this.gameRequirementServer.Text = "✔️ Aki.Server found";
+            this.gameRequirementServer.Text = "✔️ SPT.Server found";
             this.gameRequirementServer.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // txtGameInstallFolder
@@ -934,7 +934,7 @@
             this.titleWhenSPTAKILauncher.Name = "titleWhenSPTAKILauncher";
             this.titleWhenSPTAKILauncher.Size = new System.Drawing.Size(183, 20);
             this.titleWhenSPTAKILauncher.TabIndex = 7;
-            this.titleWhenSPTAKILauncher.Text = "When SPT-AKI launches:";
+            this.titleWhenSPTAKILauncher.Text = "When SPT launches:";
             this.titleWhenSPTAKILauncher.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // titleGameOptions
@@ -1223,7 +1223,7 @@
             this.titleAddInstall.Name = "titleAddInstall";
             this.titleAddInstall.Size = new System.Drawing.Size(582, 20);
             this.titleAddInstall.TabIndex = 6;
-            this.titleAddInstall.Text = "Add new SPT-AKI install";
+            this.titleAddInstall.Text = "Add new SPT install";
             this.titleAddInstall.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // btnCancelProcess
@@ -1545,7 +1545,7 @@
             this.btnCloseAkiServer.Name = "btnCloseAkiServer";
             this.btnCloseAkiServer.Size = new System.Drawing.Size(300, 40);
             this.btnCloseAkiServer.TabIndex = 8;
-            this.btnCloseAkiServer.Text = "❌  Force-quit SPT-AKI";
+            this.btnCloseAkiServer.Text = "❌  Force-quit SPT";
             this.btnCloseAkiServer.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnCloseAkiServer.UseVisualStyleBackColor = false;
             this.btnCloseAkiServer.Click += new System.EventHandler(this.btnCloseAkiServer_Click);
@@ -1907,11 +1907,11 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.lblServers);
             this.Controls.Add(this.panelServers);
-            this.Controls.Add(this.panelSPTAKI);
             this.Controls.Add(this.panelGameOptions);
             this.Controls.Add(this.panelAddInstall);
             this.Controls.Add(this.panelServer);
             this.Controls.Add(this.panelAccount);
+            this.Controls.Add(this.panelSPTAKI);
             this.Font = new System.Drawing.Font("Bahnschrift Light", 10F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
