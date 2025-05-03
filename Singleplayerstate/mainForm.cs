@@ -9,7 +9,9 @@ using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Net.Sockets;
+using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Permissions;
 using System.Text;
@@ -176,12 +178,24 @@ namespace Singleplayerstate
                 string fetchedAddress = Properties.Settings.Default.localhostIP;
                 IPAddress existingIP = IPAddress.Parse(fetchedAddress);
                 string existingIP_string = existingIP.ToString();
-
                 titleCurrentIP.Text = $"IP: {existingIP_string}";
             }
             else
             {
                 titleCurrentIP.Text = $"IP: 127.0.0.1";
+            }
+
+            if (Properties.Settings.Default.isFikaEnabled)
+            {
+                btnFikaMode.Text = "Enabled";
+                btnPlaySPTAKI.Text = "Play Fika";
+                btnAdjustFikaSettings.Visible = true;
+            }
+            else
+            {
+                btnFikaMode.Text = "Disabled";
+                btnPlaySPTAKI.Text = "Play SPT";
+                btnAdjustFikaSettings.Visible = false;
             }
 
             checkAutoStart();
@@ -367,7 +381,13 @@ namespace Singleplayerstate
                     profiles[kvp.Value] = insertFirstProfile(kvp.Value);
                 }
 
-                string content = profiles.ToString();
+                JObject fullProfile = new JObject
+                {
+                    [profiles] = new JObject(),
+                    ["currentFikaAID"] = "none"
+                };
+
+                string content = fullProfile.ToString();
                 File.WriteAllText(profiles_dict, content);
             }
         }
@@ -857,7 +877,7 @@ namespace Singleplayerstate
             string BepInEx = Path.Combine(gamePath, "BepInEx");
             string LogOutput = Path.Combine(BepInEx, "LogOutput.log");
 
-            bool akiServerIsRunning = IsAkiServerRunning(gamePath);
+            bool akiServerIsRunning = IsAkiServerRunning();
             if (akiServerIsRunning)
                 return -1;
             else
@@ -883,7 +903,7 @@ namespace Singleplayerstate
             return -1;
         }
 
-        public static bool IsAkiServerRunning(string expectedFilePath)
+        public static bool IsAkiServerRunning()
         {
             try
             {
@@ -895,7 +915,7 @@ namespace Singleplayerstate
             }
         }
 
-        public static bool isTarkovRunning(string expectedFilePath)
+        public static bool isTarkovRunning()
         {
             try
             {
@@ -1422,7 +1442,7 @@ namespace Singleplayerstate
                 btnPlaySPTAKI.Enabled = false;
 
             // Checking local server status
-            bool serverOn = IsAkiServerRunning(akiServerFile);
+            bool serverOn = IsAkiServerRunning();
             if (serverOn)
             {
                 btnPlaySPTAKI.Text = "Quit SPT";
@@ -1461,6 +1481,30 @@ namespace Singleplayerstate
             }
             else
                 titleCurrentPort.Text = "Port: 6969";
+
+            string fikaFolder = Path.Combine(mainDir, "user", "fika");
+            bool fikaFolderExists = Directory.Exists(fikaFolder);
+            if (!fikaFolderExists)
+            {
+                return;
+            }
+            else
+            {
+                string[] fikaProfiles = Directory.GetFiles(fikaFolder, "*.json");
+                if (fikaProfiles.Length == 0)
+                {
+                    return;
+                }
+                else
+                {
+                    string currentFile = Path.GetFileNameWithoutExtension(fikaProfiles[0]);
+                    if (string.IsNullOrEmpty(currentFile))
+                    {
+                        Properties.Settings.Default.currentFikaProfile = currentFile;
+                        Properties.Settings.Default.Save();
+                    }
+                }
+            }
         }
 
         private void displayClientMods()
@@ -1678,50 +1722,22 @@ namespace Singleplayerstate
         {
             if (e.CloseReason == CloseReason.UserClosing)
             {
-                if (Properties.Settings.Default.closeOnExit)
+                if (!Properties.Settings.Default.isFikaEnabled)
                 {
-                    string gamePath = txtGameInstallFolder.Text;
-                    bool accepted = false;
-                    bool akiServerIsRunning = IsAkiServerRunning(gamePath);
-                    if (akiServerIsRunning)
+                    if (Properties.Settings.Default.closeOnExit)
                     {
-                        DialogResult result = MessageBox.Show("The AKI server is running, this will close the server and game. Are you sure you want to proceed?" +
-                            Environment.NewLine +
-                            Environment.NewLine +
-                            "Click NO to cancel." + Environment.NewLine +
-                            "Click YES to proceed." + Environment.NewLine +
-                            "Click CANCEL to minimize.",
-                            "Confirmation", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
-
-                        if (result == DialogResult.No)
-                            e.Cancel = true;
-                        else if (result == DialogResult.Yes)
-                            accepted = true;
-                        else
+                        string gamePath = txtGameInstallFolder.Text;
+                        bool accepted = false;
+                        bool akiServerIsRunning = IsAkiServerRunning();
+                        if (akiServerIsRunning)
                         {
-                            e.Cancel = true;
-                            if (trayIcon != null)
-                            {
-                                Hide();
-                                trayIcon.Visible = true;
-                                trayIcon.ShowBalloonTip(2000);
-                            }
-                        }
-
-                        if (accepted)
-                            performClosing();
-                    }
-                    else
-                    {
-                        if (!Properties.Settings.Default.whenLauncherCloses)
-                        {
-                            DialogResult result = MessageBox.Show("Are you sure you want to quit?" +
-                            Environment.NewLine +
-                            Environment.NewLine +
-                            "Click NO to cancel." + Environment.NewLine +
-                            "Click YES to quit." + Environment.NewLine +
-                            "Click CANCEL to minimize.",
-                            "Confirmation", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+                            DialogResult result = MessageBox.Show("The AKI server is running, this will close the server and game. Are you sure you want to proceed?" +
+                                Environment.NewLine +
+                                Environment.NewLine +
+                                "Click NO to cancel." + Environment.NewLine +
+                                "Click YES to proceed." + Environment.NewLine +
+                                "Click CANCEL to minimize.",
+                                "Confirmation", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
 
                             if (result == DialogResult.No)
                                 e.Cancel = true;
@@ -1742,7 +1758,38 @@ namespace Singleplayerstate
                                 performClosing();
                         }
                         else
-                            performClosing();
+                        {
+                            if (!Properties.Settings.Default.whenLauncherCloses)
+                            {
+                                DialogResult result = MessageBox.Show("Are you sure you want to quit?" +
+                                Environment.NewLine +
+                                Environment.NewLine +
+                                "Click NO to cancel." + Environment.NewLine +
+                                "Click YES to quit." + Environment.NewLine +
+                                "Click CANCEL to minimize.",
+                                "Confirmation", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+
+                                if (result == DialogResult.No)
+                                    e.Cancel = true;
+                                else if (result == DialogResult.Yes)
+                                    accepted = true;
+                                else
+                                {
+                                    e.Cancel = true;
+                                    if (trayIcon != null)
+                                    {
+                                        Hide();
+                                        trayIcon.Visible = true;
+                                        trayIcon.ShowBalloonTip(2000);
+                                    }
+                                }
+
+                                if (accepted)
+                                    performClosing();
+                            }
+                            else
+                                performClosing();
+                        }
                     }
                 }
             }
@@ -2142,34 +2189,58 @@ namespace Singleplayerstate
         private void btnPlaySPTAKI_Click(object sender, EventArgs e)
         {
             string gamePath = txtGameInstallFolder.Text;
-            bool akiServerIsRunning = IsAkiServerRunning(gamePath);
 
-            if (!akiServerIsRunning)
+            if (Properties.Settings.Default.isFikaEnabled)
             {
-                if (txtAccountAID.Text.ToLower() == "incomplete profile")
+                if (isTarkovRunning())
                 {
-                    showMessage("You\'re trying to launch SPT with an incomplete profile." + Environment.NewLine +
-                        "" + Environment.NewLine +
-                        "You can fix this by doing the following:" + Environment.NewLine + Environment.NewLine +
-                        "a) Running your incomplete profile via the AKI launcher." + Environment.NewLine +
-                        "b) Selecting a working profile.", this.Text);
-                    btnAccount.PerformClick();
+                    if (btnPlaySPTAKI.Text.ToLower() == "quit fika")
+                    {
+                        killTarkov();
+                    } else
+                    {
+                        string message = "Escape From Tarkov is already running locally on this computer. Would you like to restart it?";
+                        if (MessageBox.Show(message, this.Text, MessageBoxButtons.YesNo) == DialogResult.Yes)
+                        {
+                            killTarkov();
+                            btnPlaySPTAKI.PerformClick();
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    }
                 }
-                else
+
+                btnPlaySPTAKI.Text = "Waiting...";
+                toggleUI(false);
+                string hostIP = Properties.Settings.Default.fikaIP;
+                int hostPort = Properties.Settings.Default.fikaPort;
+
+                IPAddress hostAddress = IPAddress.Parse(hostIP);
+                IPEndPoint hostEndPoint = new IPEndPoint(hostAddress, hostPort);
+
+                Ping send_ping = new Ping();
+                string data = "checker_data";
+                int timeout = 5000;
+                byte[] buffer = Encoding.ASCII.GetBytes(data);
+
+                PingOptions options = new PingOptions(64, true);
+                PingReply reply = send_ping.Send(hostIP, timeout, buffer, options);
+
+                if (reply.Status == IPStatus.Success)
                 {
-                    killProcesses();
-                    beginLaunching();
+                    launchTarkov(hostPort);
+                    btnPlaySPTAKI.Text = "Quit Fika";
+                    toggleUI(true);
+                    lblServers.Select();
                 }
             }
             else
             {
-                string content = $"It looks like the AKI server is running. We don't support manual launching, so we'll restart the game for you:" + Environment.NewLine + Environment.NewLine +
-                                 $"Click YES to restart." + Environment.NewLine +
-                                 $"Click NO to cancel.";
-                if (MessageBox.Show(content, this.Text, MessageBoxButtons.YesNo) == DialogResult.Yes)
+                bool akiServerIsRunning = IsAkiServerRunning(gamePath);
+                if (!akiServerIsRunning)
                 {
-                    killProcesses();
-
                     if (txtAccountAID.Text.ToLower() == "incomplete profile")
                     {
                         showMessage("You\'re trying to launch SPT with an incomplete profile." + Environment.NewLine +
@@ -2181,11 +2252,36 @@ namespace Singleplayerstate
                     }
                     else
                     {
+                        killProcesses();
                         beginLaunching();
                     }
                 }
+                else
+                {
+                    string content = $"It looks like the AKI server is running. We don't support manual launching, so we'll restart the game for you:" + Environment.NewLine + Environment.NewLine +
+                                     $"Click YES to restart." + Environment.NewLine +
+                                     $"Click NO to cancel.";
+                    if (MessageBox.Show(content, this.Text, MessageBoxButtons.YesNo) == DialogResult.Yes)
+                    {
+                        killProcesses();
+
+                        if (txtAccountAID.Text.ToLower() == "incomplete profile")
+                        {
+                            showMessage("You\'re trying to launch SPT with an incomplete profile." + Environment.NewLine +
+                                "" + Environment.NewLine +
+                                "You can fix this by doing the following:" + Environment.NewLine + Environment.NewLine +
+                                "a) Running your incomplete profile via the AKI launcher." + Environment.NewLine +
+                                "b) Selecting a working profile.", this.Text);
+                            btnAccount.PerformClick();
+                        }
+                        else
+                        {
+                            beginLaunching();
+                        }
+                    }
+                }
+                lblServers.Select();
             }
-            lblServers.Select();
         }
 
         public void toggleUI(bool enable)
@@ -2608,6 +2704,40 @@ namespace Singleplayerstate
             tmr.Start();
         }
 
+        private void killTarkov()
+        {
+            string tarkovProcess = "EscapeFromTarkov";
+            Process[] procs = Process.GetProcessesByName(tarkovProcess);
+            if (procs != null && procs.Length > 0)
+            {
+                foreach (Process aki in procs)
+                {
+                    if (!aki.HasExited)
+                    {
+                        if (!aki.CloseMainWindow())
+                        {
+                            try
+                            {
+                                aki.Kill();
+                            }
+                            catch (Exception ex)
+                            {
+                                if (ex is System.ComponentModel.Win32Exception win32Exception && win32Exception.Message == "Access is denied")
+                                {
+                                    Debug.WriteLine("Controlled exception access is denied occurred. If administrator account, ignore");
+                                }
+                            }
+                            aki.WaitForExit();
+                        }
+                        else
+                        {
+                            aki.WaitForExit();
+                        }
+                    }
+                }
+            }
+        }
+
         private void runServerOnly()
         {
             Task.Delay(300);
@@ -2824,35 +2954,36 @@ namespace Singleplayerstate
             Directory.SetCurrentDirectory(currentDirectory);
         }
 
-        private void launchTarkov(int akiPort)
+        private void launchTarkov(int currentPort)
         {
-            ProcessStartInfo _tarkov = new ProcessStartInfo();
-            string serverFolder = txtGameInstallFolder.Text;
-            string localhostAddress = Properties.Settings.Default.localhostIP;
-            IPAddress localhostIP;
-
-            string content = File.ReadAllText(profiles_dict);
-            JObject objectContent = JObject.Parse(content);
-            string profile = (string)objectContent[serverFolder];
-            
-            if (profile != null && !string.IsNullOrEmpty(profile))
+            if (Properties.Settings.Default.isFikaEnabled)
             {
-                string aid = profile;
+                string hostIP = Properties.Settings.Default.fikaIP;
+                int hostPort = currentPort;
+                string fikaProfile = Properties.Settings.Default.currentFikaProfile;
+
+                if (string.IsNullOrEmpty(fikaProfile)) return;
+
+                ProcessStartInfo _tarkov = new ProcessStartInfo();
+                string serverFolder = txtGameInstallFolder.Text;
+                string localhostAddress = hostIP;
+                IPAddress fetchedHostIP;
+
+                string fikaFolder = Path.Combine(serverFolder, "user", "fika");
                 _tarkov.FileName = Path.Combine(serverFolder, "EscapeFromTarkov.exe");
 
-                if (IPAddress.TryParse(localhostAddress, out localhostIP))
+                if (IPAddress.TryParse(localhostAddress, out fetchedHostIP))
                 {
-                    if (akiPort != 0)
-                        _tarkov.Arguments = $"-token={aid} -config={{'BackendUrl':'https://{localhostIP}:{akiPort}','Version':'live','MatchingVersion':'live'}}";
+                    if (hostPort != 0)
+                        _tarkov.Arguments = $"-token={fikaProfile} -config={{'BackendUrl':'https://{fetchedHostIP}:{hostPort}','Version':'live','MatchingVersion':'live'}}";
                     else
-                        _tarkov.Arguments = $"-token={aid} -config={{'BackendUrl':'https://{localhostIP}:6969','Version':'live','MatchingVersion':'live'}}";
+                        _tarkov.Arguments = $"-token={fikaProfile} -config={{'BackendUrl':'https://{fetchedHostIP}:6969','Version':'live','MatchingVersion':'live'}}";
                 }
                 else
                 {
-                    if (akiPort != 0)
-                        _tarkov.Arguments = $"-token={aid} -config={{'BackendUrl':'https://127.0.0.1:{akiPort}','Version':'live','MatchingVersion':'live'}}";
-                    else
-                        _tarkov.Arguments = $"-token={aid} -config={{'BackendUrl':'https://127.0.0.1:6969','Version':'live','MatchingVersion':'live'}}";
+                    showMessage("The IP address " + localhostAddress + " could not be parsed. Please adjust your Fika connection settings and try again." + Environment.NewLine + Environment.NewLine +
+                                "Expected output: https://123.456.789.0123:1234", Text);
+                    return;
                 }
 
                 if (chkMinimizeOnGameLaunch.Checked)
@@ -2873,8 +3004,65 @@ namespace Singleplayerstate
                 }
 
                 Process tarkovGame = new Process();
+
+                Environment.CurrentDirectory = serverFolder;
+                tarkovGame.StartInfo.WorkingDirectory = serverFolder;
                 tarkovGame.StartInfo = _tarkov;
                 tarkovGame.Start();
+                Environment.CurrentDirectory = currentDirectory;
+            }
+            else
+            {
+                ProcessStartInfo _tarkov = new ProcessStartInfo();
+                string serverFolder = txtGameInstallFolder.Text;
+                string localhostAddress = Properties.Settings.Default.localhostIP;
+                IPAddress localhostIP;
+
+                string content = File.ReadAllText(profiles_dict);
+                JObject objectContent = JObject.Parse(content);
+                string profile = (string)objectContent[serverFolder];
+
+                if (profile != null && !string.IsNullOrEmpty(profile))
+                {
+                    string aid = profile;
+                    _tarkov.FileName = Path.Combine(serverFolder, "EscapeFromTarkov.exe");
+
+                    if (IPAddress.TryParse(localhostAddress, out localhostIP))
+                    {
+                        if (currentPort != 0)
+                            _tarkov.Arguments = $"-token={aid} -config={{'BackendUrl':'https://{localhostIP}:{currentPort}','Version':'live','MatchingVersion':'live'}}";
+                        else
+                            _tarkov.Arguments = $"-token={aid} -config={{'BackendUrl':'https://{localhostIP}:6969','Version':'live','MatchingVersion':'live'}}";
+                    }
+                    else
+                    {
+                        if (currentPort != 0)
+                            _tarkov.Arguments = $"-token={aid} -config={{'BackendUrl':'https://127.0.0.1:{currentPort}','Version':'live','MatchingVersion':'live'}}";
+                        else
+                            _tarkov.Arguments = $"-token={aid} -config={{'BackendUrl':'https://127.0.0.1:6969','Version':'live','MatchingVersion':'live'}}";
+                    }
+
+                    if (chkMinimizeOnGameLaunch.Checked)
+                    {
+                        if (WindowState != FormWindowState.Normal &&
+                            WindowState != FormWindowState.Minimized &&
+                            WindowState != FormWindowState.Maximized &&
+                            !this.Visible &&
+                            !trayIcon.Visible)
+                        {
+                            if (trayIcon != null)
+                            {
+                                Hide();
+                                trayIcon.Visible = true;
+                                trayIcon.ShowBalloonTip(2000);
+                            }
+                        }
+                    }
+
+                    Process tarkovGame = new Process();
+                    tarkovGame.StartInfo = _tarkov;
+                    tarkovGame.Start();
+                }
             }
         }
 
@@ -3766,24 +3954,6 @@ namespace Singleplayerstate
         {
         }
 
-        private void btnAppCloseNotification_MouseDown(object sender, MouseEventArgs e)
-        {
-            switch (btnAppCloseNotification.Text.ToLower())
-            {
-                case "enabled":
-                    Properties.Settings.Default.closeOnExit = true;
-                    btnAppCloseNotification.Text = "Disabled";
-                    break;
-                case "disabled":
-                    Properties.Settings.Default.closeOnExit = false;
-                    btnAppCloseNotification.Text = "Enabled";
-                    break;
-            }
-
-            Properties.Settings.Default.Save();
-            lblServers.Select();
-        }
-
         private void btnFikaMode_Click(object sender, EventArgs e)
         {
         }
@@ -3793,15 +3963,46 @@ namespace Singleplayerstate
             switch (btnFikaMode.Text.ToLower())
             {
                 case "enabled":
-                    Properties.Settings.Default.closeOnExit = true;
+                    Properties.Settings.Default.isFikaEnabled = false;
+                    btnAdjustFikaSettings.Visible = false;
                     btnFikaMode.Text = "Disabled";
                     btnPlaySPTAKI.Text = "Play SPT";
                     break;
 
                 case "disabled":
-                    Properties.Settings.Default.closeOnExit = false;
+                    Properties.Settings.Default.isFikaEnabled = true;
+                    btnAdjustFikaSettings.Visible = true;
                     btnFikaMode.Text = "Enabled";
                     btnPlaySPTAKI.Text = "Play Fika";
+                    break;
+            }
+
+            Properties.Settings.Default.Save();
+            lblServers.Select();
+        }
+
+        private void btnAdjustFikaSettings_Click(object sender, EventArgs e)
+        {
+            AdjustFikaSettings fikaForm = new AdjustFikaSettings();
+            fikaForm.ShowDialog();
+        }
+
+        private void btnAppCloseNotification_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnAppCloseNotification_MouseDown(object sender, MouseEventArgs e)
+        {
+            switch (btnAppCloseNotification.Text.ToLower())
+            {
+                case "enabled":
+                    Properties.Settings.Default.closeOnExit = false;
+                    btnAppCloseNotification.Text = "Disabled";
+                    break;
+                case "disabled":
+                    Properties.Settings.Default.closeOnExit = true;
+                    btnAppCloseNotification.Text = "Enabled";
                     break;
             }
 

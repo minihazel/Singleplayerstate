@@ -134,6 +134,12 @@
     <Compile Include="AddonCreate.Designer.cs">
       <DependentUpon>AddonCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="AdjustFikaSettings.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AdjustFikaSettings.Designer.cs">
+      <DependentUpon>AdjustFikaSettings.cs</DependentUpon>
+    </Compile>
     <Compile Include="DevTools.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -168,6 +174,9 @@
     </Compile>
     <EmbeddedResource Include="AddonCreate.resx">
       <DependentUpon>AddonCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AdjustFikaSettings.resx">
+      <DependentUpon>AdjustFikaSettings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DevTools.resx">
       <DependentUpon>DevTools.cs</DependentUpon>

@@ -36,34 +36,36 @@ namespace Singleplayerstate
                 e.SuppressKeyPress = true;
                 e.Handled = true;
 
-                if (txtIPString.Text == "")
+                switch (txtIPString.Text.ToLower())
                 {
-                    Close();
-                }
-                else if (txtIPString.Text.ToLower() == "reset")
-                {
-                    Properties.Settings.Default.localhostIP = "127.0.0.1";
-                    Properties.Settings.Default.Save();
+                    case "":
+                        MessageBox.Show("No input detected, please provide a valid address. Alternatively, hit Escape to close this window.", Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        break;
 
-                    _labelToUpdate.Text = $"Edit local IP address" + Environment.NewLine +
-                                          $"(current: 127.0.0.1:6969)";
-                }
-                else
-                {
-                    string value = txtIPString.Text;
-                    try
-                    {
-                        IPAddress existingIP = IPAddress.Parse(value);
-                        Properties.Settings.Default.localhostIP = existingIP.ToString();
+                    case "reset":
+                        Properties.Settings.Default.localhostIP = "127.0.0.1";
+                        Properties.Settings.Default.Save();
 
                         _labelToUpdate.Text = $"Edit local IP address" + Environment.NewLine +
-                                                  $"(current: {existingIP.ToString()}:{value})";
-                    }
-                    catch (FormatException)
-                    {
-                        MessageBox.Show("Invalid IP address, please provide a valid address.", Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        Close();
-                    }
+                                              $"(current: https://127.0.0.1:6969)";
+                        break;
+
+                    default:
+                        string value = txtIPString.Text;
+                        try
+                        {
+                            IPAddress existingIP = IPAddress.Parse(value);
+                            Properties.Settings.Default.localhostIP = $"https:\\{existingIP.ToString()}";
+                            Properties.Settings.Default.Save();
+
+                            _labelToUpdate.Text = $"Edit local IP address" + Environment.NewLine +
+                                                      $"(current: https://{existingIP.ToString()}:6969)";
+                        }
+                        catch (FormatException)
+                        {
+                            MessageBox.Show("Invalid IP address, please provide a valid address.", Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                        break;
                 }
 
                 Close();

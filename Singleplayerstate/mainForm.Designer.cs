@@ -52,6 +52,7 @@
             this.infoGameEditionTitle = new System.Windows.Forms.Label();
             this.infoGameVersionTitle = new System.Windows.Forms.Label();
             this.panelGameOptions = new System.Windows.Forms.Panel();
+            this.btnAdjustFikaSettings = new System.Windows.Forms.Button();
             this.titleFikaMode = new System.Windows.Forms.Label();
             this.btnFikaMode = new System.Windows.Forms.Button();
             this.titleAppCloseNotification = new System.Windows.Forms.Label();
@@ -216,7 +217,7 @@
             this.btnPlaySPTAKI.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
             this.btnPlaySPTAKI.Size = new System.Drawing.Size(250, 66);
             this.btnPlaySPTAKI.TabIndex = 3;
-            this.btnPlaySPTAKI.Text = "Play SPT-AKI";
+            this.btnPlaySPTAKI.Text = "Play SPT";
             this.btnPlaySPTAKI.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnPlaySPTAKI.UseVisualStyleBackColor = false;
             this.btnPlaySPTAKI.Click += new System.EventHandler(this.btnPlaySPTAKI_Click);
@@ -267,7 +268,7 @@
             this.btnClientMods.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
             this.btnClientMods.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClientMods.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.btnClientMods.ForeColor = System.Drawing.Color.Gray;
+            this.btnClientMods.ForeColor = System.Drawing.Color.DarkGray;
             this.btnClientMods.Location = new System.Drawing.Point(6, 244);
             this.btnClientMods.Name = "btnClientMods";
             this.btnClientMods.Size = new System.Drawing.Size(200, 40);
@@ -310,7 +311,7 @@
             this.btnServerMods.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
             this.btnServerMods.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnServerMods.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.btnServerMods.ForeColor = System.Drawing.Color.Gray;
+            this.btnServerMods.ForeColor = System.Drawing.Color.DarkGray;
             this.btnServerMods.Location = new System.Drawing.Point(6, 299);
             this.btnServerMods.Name = "btnServerMods";
             this.btnServerMods.Size = new System.Drawing.Size(200, 40);
@@ -330,7 +331,7 @@
             this.btnLOE.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
             this.btnLOE.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLOE.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.btnLOE.ForeColor = System.Drawing.Color.Gray;
+            this.btnLOE.ForeColor = System.Drawing.Color.DarkGray;
             this.btnLOE.Location = new System.Drawing.Point(6, 87);
             this.btnLOE.Name = "btnLOE";
             this.btnLOE.Size = new System.Drawing.Size(200, 40);
@@ -350,7 +351,7 @@
             this.btnClearLocalCache.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
             this.btnClearLocalCache.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnClearLocalCache.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.btnClearLocalCache.ForeColor = System.Drawing.Color.Gray;
+            this.btnClearLocalCache.ForeColor = System.Drawing.Color.DarkGray;
             this.btnClearLocalCache.Location = new System.Drawing.Point(6, 32);
             this.btnClearLocalCache.Name = "btnClearLocalCache";
             this.btnClearLocalCache.Size = new System.Drawing.Size(200, 40);
@@ -457,6 +458,7 @@
             // panelGameOptions
             // 
             this.panelGameOptions.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(27)))), ((int)(((byte)(29)))), ((int)(((byte)(31)))));
+            this.panelGameOptions.Controls.Add(this.btnAdjustFikaSettings);
             this.panelGameOptions.Controls.Add(this.titleFikaMode);
             this.panelGameOptions.Controls.Add(this.btnFikaMode);
             this.panelGameOptions.Controls.Add(this.titleAppCloseNotification);
@@ -489,6 +491,27 @@
             this.panelGameOptions.Size = new System.Drawing.Size(608, 583);
             this.panelGameOptions.TabIndex = 1;
             // 
+            // btnAdjustFikaSettings
+            // 
+            this.btnAdjustFikaSettings.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
+            this.btnAdjustFikaSettings.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.btnAdjustFikaSettings.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(182)))), ((int)(((byte)(178)))), ((int)(((byte)(158)))));
+            this.btnAdjustFikaSettings.FlatAppearance.BorderSize = 2;
+            this.btnAdjustFikaSettings.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnAdjustFikaSettings.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.btnAdjustFikaSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAdjustFikaSettings.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
+            this.btnAdjustFikaSettings.ForeColor = System.Drawing.Color.SeaGreen;
+            this.btnAdjustFikaSettings.Location = new System.Drawing.Point(6, 517);
+            this.btnAdjustFikaSettings.Name = "btnAdjustFikaSettings";
+            this.btnAdjustFikaSettings.Size = new System.Drawing.Size(240, 40);
+            this.btnAdjustFikaSettings.TabIndex = 36;
+            this.btnAdjustFikaSettings.Text = "Adjust Fika Settings";
+            this.btnAdjustFikaSettings.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnAdjustFikaSettings.UseVisualStyleBackColor = false;
+            this.btnAdjustFikaSettings.Visible = false;
+            this.btnAdjustFikaSettings.Click += new System.EventHandler(this.btnAdjustFikaSettings_Click);
+            // 
             // titleFikaMode
             // 
             this.titleFikaMode.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
@@ -510,7 +533,7 @@
             this.btnFikaMode.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
             this.btnFikaMode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnFikaMode.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.btnFikaMode.ForeColor = System.Drawing.Color.Gray;
+            this.btnFikaMode.ForeColor = System.Drawing.Color.DarkGray;
             this.btnFikaMode.Location = new System.Drawing.Point(6, 61);
             this.btnFikaMode.Name = "btnFikaMode";
             this.btnFikaMode.Size = new System.Drawing.Size(180, 40);
@@ -542,7 +565,7 @@
             this.btnAppCloseNotification.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
             this.btnAppCloseNotification.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAppCloseNotification.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.btnAppCloseNotification.ForeColor = System.Drawing.Color.Gray;
+            this.btnAppCloseNotification.ForeColor = System.Drawing.Color.DarkGray;
             this.btnAppCloseNotification.Location = new System.Drawing.Point(200, 61);
             this.btnAppCloseNotification.Name = "btnAppCloseNotification";
             this.btnAppCloseNotification.Size = new System.Drawing.Size(180, 40);
@@ -550,6 +573,7 @@
             this.btnAppCloseNotification.Text = "Enabled";
             this.btnAppCloseNotification.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnAppCloseNotification.UseVisualStyleBackColor = false;
+            this.btnAppCloseNotification.Click += new System.EventHandler(this.btnAppCloseNotification_Click);
             this.btnAppCloseNotification.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnAppCloseNotification_MouseDown);
             // 
             // panelIPAddress
@@ -604,7 +628,7 @@
             this.btnSetNewIP.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
             this.btnSetNewIP.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSetNewIP.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.btnSetNewIP.ForeColor = System.Drawing.Color.Gray;
+            this.btnSetNewIP.ForeColor = System.Drawing.Color.DarkGray;
             this.btnSetNewIP.Location = new System.Drawing.Point(142, 72);
             this.btnSetNewIP.Name = "btnSetNewIP";
             this.btnSetNewIP.Size = new System.Drawing.Size(180, 40);
@@ -636,7 +660,7 @@
             this.btnDevMode.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
             this.btnDevMode.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDevMode.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.btnDevMode.ForeColor = System.Drawing.Color.Gray;
+            this.btnDevMode.ForeColor = System.Drawing.Color.DarkGray;
             this.btnDevMode.Location = new System.Drawing.Point(394, 379);
             this.btnDevMode.Name = "btnDevMode";
             this.btnDevMode.Size = new System.Drawing.Size(180, 40);
@@ -667,7 +691,7 @@
             this.btnWhenLauncherExits.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
             this.btnWhenLauncherExits.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnWhenLauncherExits.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.btnWhenLauncherExits.ForeColor = System.Drawing.Color.Gray;
+            this.btnWhenLauncherExits.ForeColor = System.Drawing.Color.DarkGray;
             this.btnWhenLauncherExits.Location = new System.Drawing.Point(394, 301);
             this.btnWhenLauncherExits.Name = "btnWhenLauncherExits";
             this.btnWhenLauncherExits.Size = new System.Drawing.Size(180, 40);
@@ -739,7 +763,7 @@
             this.btnOnServerDoubleClick.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
             this.btnOnServerDoubleClick.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnOnServerDoubleClick.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.btnOnServerDoubleClick.ForeColor = System.Drawing.Color.Gray;
+            this.btnOnServerDoubleClick.ForeColor = System.Drawing.Color.DarkGray;
             this.btnOnServerDoubleClick.Location = new System.Drawing.Point(394, 221);
             this.btnOnServerDoubleClick.Name = "btnOnServerDoubleClick";
             this.btnOnServerDoubleClick.Size = new System.Drawing.Size(180, 40);
@@ -770,7 +794,7 @@
             this.btnWhenSPTAKIExits.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
             this.btnWhenSPTAKIExits.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnWhenSPTAKIExits.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.btnWhenSPTAKIExits.ForeColor = System.Drawing.Color.Gray;
+            this.btnWhenSPTAKIExits.ForeColor = System.Drawing.Color.DarkGray;
             this.btnWhenSPTAKIExits.Location = new System.Drawing.Point(394, 141);
             this.btnWhenSPTAKIExits.Name = "btnWhenSPTAKIExits";
             this.btnWhenSPTAKIExits.Size = new System.Drawing.Size(180, 40);
@@ -935,7 +959,7 @@
             this.btnWhenSPTAKILauncher.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
             this.btnWhenSPTAKILauncher.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnWhenSPTAKILauncher.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.btnWhenSPTAKILauncher.ForeColor = System.Drawing.Color.Gray;
+            this.btnWhenSPTAKILauncher.ForeColor = System.Drawing.Color.DarkGray;
             this.btnWhenSPTAKILauncher.Location = new System.Drawing.Point(394, 61);
             this.btnWhenSPTAKILauncher.Name = "btnWhenSPTAKILauncher";
             this.btnWhenSPTAKILauncher.Size = new System.Drawing.Size(180, 40);
@@ -1041,7 +1065,7 @@
             this.txtAccountAID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtAccountAID.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.txtAccountAID.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.txtAccountAID.ForeColor = System.Drawing.Color.Gray;
+            this.txtAccountAID.ForeColor = System.Drawing.Color.DarkGray;
             this.txtAccountAID.Location = new System.Drawing.Point(2, 2);
             this.txtAccountAID.Multiline = true;
             this.txtAccountAID.Name = "txtAccountAID";
@@ -1096,7 +1120,7 @@
             this.txtUsername.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
             this.txtUsername.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtUsername.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.txtUsername.ForeColor = System.Drawing.Color.Gray;
+            this.txtUsername.ForeColor = System.Drawing.Color.DarkGray;
             this.txtUsername.Location = new System.Drawing.Point(2, 2);
             this.txtUsername.Multiline = true;
             this.txtUsername.Name = "txtUsername";
@@ -1145,7 +1169,7 @@
             this.btnSelectAccount.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
             this.btnSelectAccount.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSelectAccount.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.btnSelectAccount.ForeColor = System.Drawing.Color.Gray;
+            this.btnSelectAccount.ForeColor = System.Drawing.Color.DarkGray;
             this.btnSelectAccount.Location = new System.Drawing.Point(6, 61);
             this.btnSelectAccount.Name = "btnSelectAccount";
             this.btnSelectAccount.Size = new System.Drawing.Size(300, 40);
@@ -1283,7 +1307,7 @@
             this.txtSetDisplayName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(26)))), ((int)(((byte)(26)))));
             this.txtSetDisplayName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtSetDisplayName.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.txtSetDisplayName.ForeColor = System.Drawing.Color.Gray;
+            this.txtSetDisplayName.ForeColor = System.Drawing.Color.DarkGray;
             this.txtSetDisplayName.Location = new System.Drawing.Point(2, 2);
             this.txtSetDisplayName.Multiline = true;
             this.txtSetDisplayName.Name = "txtSetDisplayName";
@@ -1303,7 +1327,7 @@
             this.btnBrowseForFolder.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
             this.btnBrowseForFolder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnBrowseForFolder.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.btnBrowseForFolder.ForeColor = System.Drawing.Color.Gray;
+            this.btnBrowseForFolder.ForeColor = System.Drawing.Color.DarkGray;
             this.btnBrowseForFolder.Location = new System.Drawing.Point(6, 61);
             this.btnBrowseForFolder.Name = "btnBrowseForFolder";
             this.btnBrowseForFolder.Size = new System.Drawing.Size(300, 40);
@@ -1517,7 +1541,7 @@
             this.btnCloseAkiServer.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
             this.btnCloseAkiServer.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCloseAkiServer.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.btnCloseAkiServer.ForeColor = System.Drawing.Color.Gray;
+            this.btnCloseAkiServer.ForeColor = System.Drawing.Color.DarkGray;
             this.btnCloseAkiServer.Location = new System.Drawing.Point(6, 61);
             this.btnCloseAkiServer.Name = "btnCloseAkiServer";
             this.btnCloseAkiServer.Size = new System.Drawing.Size(300, 40);
@@ -1575,7 +1599,7 @@
             this.btnWorkshop.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
             this.btnWorkshop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnWorkshop.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.btnWorkshop.ForeColor = System.Drawing.Color.Gray;
+            this.btnWorkshop.ForeColor = System.Drawing.Color.DarkGray;
             this.btnWorkshop.Location = new System.Drawing.Point(6, 411);
             this.btnWorkshop.Name = "btnWorkshop";
             this.btnWorkshop.Size = new System.Drawing.Size(200, 40);
@@ -1650,7 +1674,7 @@
             this.btnAddons.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
             this.btnAddons.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAddons.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.btnAddons.ForeColor = System.Drawing.Color.Gray;
+            this.btnAddons.ForeColor = System.Drawing.Color.DarkGray;
             this.btnAddons.Location = new System.Drawing.Point(6, 356);
             this.btnAddons.Name = "btnAddons";
             this.btnAddons.Size = new System.Drawing.Size(200, 40);
@@ -1682,7 +1706,7 @@
             this.btnServerFolder.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
             this.btnServerFolder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnServerFolder.Font = new System.Drawing.Font("Bender", 11F, System.Drawing.FontStyle.Bold);
-            this.btnServerFolder.ForeColor = System.Drawing.Color.Gray;
+            this.btnServerFolder.ForeColor = System.Drawing.Color.DarkGray;
             this.btnServerFolder.Location = new System.Drawing.Point(6, 189);
             this.btnServerFolder.Name = "btnServerFolder";
             this.btnServerFolder.Size = new System.Drawing.Size(200, 40);
@@ -2039,6 +2063,7 @@
         private System.Windows.Forms.Button btnAppCloseNotification;
         private System.Windows.Forms.Label titleFikaMode;
         private System.Windows.Forms.Button btnFikaMode;
+        private System.Windows.Forms.Button btnAdjustFikaSettings;
     }
 }
 
