@@ -573,6 +573,7 @@
             this.btnAppCloseNotification.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnAppCloseNotification.UseVisualStyleBackColor = false;
             this.btnAppCloseNotification.Click += new System.EventHandler(this.btnAppCloseNotification_Click);
+            this.btnAppCloseNotification.MouseDown += new System.Windows.Forms.MouseEventHandler(this.btnAppCloseNotification_MouseDown);
             // 
             // panelIPAddress
             // 
