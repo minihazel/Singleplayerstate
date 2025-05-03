@@ -1503,13 +1503,12 @@ namespace Singleplayerstate
                 string[] fikaProfiles = Directory.GetFiles(fikaFolder, "*.json");
                 if (fikaProfiles.Length == 0)
                 {
-                    Properties.Settings.Default.Save();
                     return;
                 }
                 else
                 {
                     string currentFile = Path.GetFileNameWithoutExtension(fikaProfiles[0]);
-                    if (string.IsNullOrEmpty(currentFile))
+                    if (!string.IsNullOrEmpty(currentFile))
                     {
                         Properties.Settings.Default.currentFikaProfile = currentFile;
                         Properties.Settings.Default.Save();
@@ -2205,26 +2204,10 @@ namespace Singleplayerstate
             {
                 if (isTarkovRunning())
                 {
-                    if (btnPlaySPTAKI.Text.ToLower().StartsWith("quit"))
-                    {
-                        btnPlaySPTAKI.Enabled = false;
-                        killTarkov();
-                        btnPlaySPTAKI.Enabled = true;
-                        btnPlaySPTAKI.Text = "Play Fika";
-                    }
-
-                    string message = "Escape From Tarkov is already running locally on this computer. Would you like to restart it?";
-                    if (MessageBox.Show(message, this.Text, MessageBoxButtons.YesNo) == DialogResult.Yes)
-                    {
-                        killTarkov();
-                        btnPlaySPTAKI.PerformClick();
-                    }
-                    else
-                    {
-                        btnPlaySPTAKI.Enabled = true;
-                        btnPlaySPTAKI.Text = "Play Fika";
-                        return;
-                    }
+                    btnPlaySPTAKI.Enabled = false;
+                    killTarkov();
+                    btnPlaySPTAKI.Enabled = true;
+                    btnPlaySPTAKI.Text = "Play Fika";
                 }
 
                 btnPlaySPTAKI.Text = "Waiting...";
@@ -2996,7 +2979,6 @@ namespace Singleplayerstate
                 string hostIP = Properties.Settings.Default.fikaIP;
                 int hostPort = currentPort;
                 string fikaProfile = Properties.Settings.Default.currentFikaProfile;
-
                 if (string.IsNullOrEmpty(fikaProfile)) return;
 
                 ProcessStartInfo _tarkov = new ProcessStartInfo();
@@ -3043,6 +3025,22 @@ namespace Singleplayerstate
                 Environment.CurrentDirectory = serverFolder;
                 tarkovGame.StartInfo.WorkingDirectory = serverFolder;
                 tarkovGame.StartInfo = _tarkov;
+
+                tarkovGame.EnableRaisingEvents = true;
+                tarkovGame.Exited += (sender, e) =>
+                {
+                    if (tarkovGame != null)
+                    {
+                        tarkovGame.Dispose();
+                        tarkovGame = null;
+                    }
+
+                    if (btnPlaySPTAKI.InvokeRequired)
+                        BeginInvoke((MethodInvoker)delegate { btnPlaySPTAKI.Text = "Play Fika"; });
+                    else
+                        btnPlaySPTAKI.Text = "Play Fika";
+                };
+
                 tarkovGame.Start();
                 Environment.CurrentDirectory = currentDirectory;
             }
