@@ -1574,6 +1574,7 @@ namespace Singleplayerstate
 
                             displayInfo(serverPath);
                             displayClientMods();
+                            btnSPTAKI.PerformClick();
                         }
                         else
                         {
