@@ -3246,6 +3246,64 @@ namespace Singleplayerstate
             }
         }
 
+        public void runAutostartConfig()
+        {
+            string autostartFile = Path.Combine(currentDirectory, "autostart.txt");
+            bool autostartExists = File.Exists(autostartFile);
+            if (autostartExists)
+            {
+                ProcessStartInfo newApp = new ProcessStartInfo();
+                newApp.WorkingDirectory = Path.GetDirectoryName(autostartFile);
+                newApp.FileName = Path.GetFileName(autostartFile);
+                newApp.UseShellExecute = true;
+                newApp.Verb = "open";
+
+                Process.Start(newApp);
+            }
+            else
+            {
+                string lastServer = null;
+
+                if (Properties.Settings.Default.lastServer != null)
+                {
+                    foreach (Control c in panelServers.Controls)
+                    {
+                        if (c is Label lbl)
+                        {
+                            string cleanLbl = fetchName(lbl.Text);
+
+                            if (Properties.Settings.Default.lastServer == cleanLbl)
+                            {
+                                lastServer = cleanLbl;
+                            }
+                        }
+                    }
+                }
+
+                string content = "autostart=false" + Environment.NewLine + lastServer;
+
+                try
+                {
+                    File.WriteAllText(autostartFile, content);
+
+                    ProcessStartInfo newApp = new ProcessStartInfo();
+                    newApp.WorkingDirectory = Path.GetDirectoryName(autostartFile);
+                    newApp.FileName = Path.GetFileName(autostartFile);
+                    newApp.UseShellExecute = true;
+                    newApp.Verb = "open";
+
+                    Process.Start(newApp);
+                }
+                catch (Exception ex)
+                {
+                    showMessage("We appear to have run into a problem. If you\'re unsure what this is about, please contact the developer." +
+                                Environment.NewLine +
+                                Environment.NewLine +
+                                ex.ToString(), this.Text);
+                }
+            }
+        }
+
         public void TarkovProcessDetector_DoWork(object sender, DoWorkEventArgs e)
         {
             string processName = "EscapeFromTarkov";
