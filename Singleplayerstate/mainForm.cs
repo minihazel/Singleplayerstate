@@ -1003,7 +1003,6 @@ namespace Singleplayerstate
 
         private async void checkAutoStart()
         {
-            Debug.WriteLine("1");
             int servercount = panelServers.Controls.OfType<Label>().Count();
             if (panelServers.Controls["serverPlaceholder"] != null) servercount -= 1;
 
@@ -1011,7 +1010,6 @@ namespace Singleplayerstate
             bool autostartExists = File.Exists(autostartFile);
             if (autostartExists)
             {
-                Debug.WriteLine("2");
                 string[] autocontent = File.ReadAllLines(autostartFile);
                 string boolValue = null;
                 string serverValue = null;
@@ -1060,7 +1058,7 @@ namespace Singleplayerstate
                         clickServer(firstServer, true);
                         string content =
                             $"autostart=false" + Environment.NewLine +
-                            firstServer.Text.Replace("✔️ ", "");
+                            fetchName(firstServer.Text);
                         
                         try
                         {
