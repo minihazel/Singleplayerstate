@@ -117,6 +117,15 @@ namespace Singleplayerstate
 
         private void initiateLauncher()
         {
+            string autostartFile = Path.Combine(currentDirectory, "autostart.txt");
+            bool autostartFileExists = File.Exists(autostartFile);
+            if (!autostartFileExists)
+            {
+                string content = "autostart=false" + Environment.NewLine + "null";
+                File.WriteAllText(autostartFile, content);
+                btnAddInstall.PerformClick();
+            }
+
             logsFolder = Path.Combine(currentDirectory, "logs");
             bool logsFolderExists = Directory.Exists(logsFolder);
             if (!logsFolderExists)
@@ -163,7 +172,6 @@ namespace Singleplayerstate
             listServers();
 
             txtSetDisplayName.Clear();
-            btnAddInstall.PerformClick();
             chkAutoScroll.Checked = Properties.Settings.Default.autoScrollOption;
             chkLogOnExit.Checked = Properties.Settings.Default.logOnExit;
             chkMinimizeOnGameLaunch.Checked = Properties.Settings.Default.minimizeOnGameLaunch;
@@ -241,30 +249,9 @@ namespace Singleplayerstate
 
         private void performClosing()
         {
-            int serverCount = panelServers.Controls.Count - 1;
-            if (serverCount > -1)
-            {
-                string findServer = fetchCurrentServer();
-                if (findServer != null)
-                {
-                    Properties.Settings.Default.lastServer = findServer;
-                }
-
-                Properties.Settings.Default.addonPanelVisible = panelAddons.Visible;
-                Properties.Settings.Default.Save();
-
-                saveAutostart(findServer);
-                killProcesses();
-            }
-            else
-            {
-                Properties.Settings.Default.lastServer = null;
-                saveAutostart(null);
-                Properties.Settings.Default.addonPanelVisible = panelAddons.Visible;
-                Properties.Settings.Default.Save();
-                killProcesses();
-            }
-
+            Properties.Settings.Default.addonPanelVisible = panelAddons.Visible;
+            Properties.Settings.Default.Save();
+            killProcesses();
             Application.Exit();
         }
 
@@ -358,7 +345,7 @@ namespace Singleplayerstate
                                 {
                                     if (lbl.Text.Contains(displayName))
                                     {
-                                        selectServer(lbl.Text, lbl, false);
+                                        selectServer(lbl.Text, lbl);
                                     }
                                 }
                             }
@@ -386,7 +373,7 @@ namespace Singleplayerstate
 
                         if (Properties.Settings.Default.lastServer == cleanLbl)
                         {
-                            clickServer(lbl, true);
+                            clickServer(lbl);
                         }
                     }
                 }
@@ -1032,14 +1019,14 @@ namespace Singleplayerstate
                                 {
                                     if (boolValue.ToLower() == "autostart=true")
                                     {
-                                        clickServer(lbl, true);
+                                        clickServer(lbl);
                                         await Task.Delay(500);
                                         ranViaHotkey = true;
                                         btnPlaySPTAKI.PerformClick();
                                     }
                                     else if (boolValue.ToLower() == "autostart=false")
                                     {
-                                        clickServer(lbl, true);
+                                        clickServer(lbl);
                                     }
                                     break;
                                 }
@@ -1055,52 +1042,9 @@ namespace Singleplayerstate
                     Control firstServer = panelServers.Controls["listedServer0"];
                     if (firstServer != null)
                     {
-                        clickServer(firstServer, true);
-                        string content =
-                            $"autostart=false" + Environment.NewLine +
-                            fetchName(firstServer.Text);
-                        
-                        try
-                        {
-                            File.WriteAllText(autostartFile, content);
-                        }
-                        catch (Exception ex)
-                        {
-                            showMessage("We appear to have run into a problem. If you\'re unsure what this is about, please contact the developer." +
-                                        Environment.NewLine +
-                                        Environment.NewLine +
-                                        ex.ToString(), this.Text);
-                        }
+                        clickServer(firstServer);
+                        updateAutostart(autostartFile, Properties.Settings.Default.lastServer);
                     }
-                }
-            }
-        }
-
-        private void saveAutostart(string serverName)
-        {
-            string autostart = null;
-
-            string autostartFile = Path.Combine(currentDirectory, "autostart.txt");
-            bool autostartExists = File.Exists(autostartFile);
-            if (autostartExists)
-            {
-                string[] lines = File.ReadAllLines(autostartFile);
-                if (lines.Length > -1 && lines[0] != null)
-                {
-                    autostart = lines[0].TrimEnd();
-                }
-
-                try
-                {
-                    string[] updatedLines = { autostart, serverName };
-                    File.WriteAllLines(autostartFile, updatedLines);
-                }
-                catch (Exception ex)
-                {
-                    showMessage("We appear to have run into a problem. If you\'re unsure what this is about, please contact the developer." +
-                                Environment.NewLine +
-                                Environment.NewLine +
-                                ex.ToString(), this.Text);
                 }
             }
         }
@@ -1209,7 +1153,7 @@ namespace Singleplayerstate
                 Control lbl = panelServers.Controls.Find("listedServer0", false).FirstOrDefault();
                 if (lbl != null)
                 {
-                    clickServer(lbl, true);
+                    clickServer(lbl);
                 }
             }
         }
@@ -1551,6 +1495,7 @@ namespace Singleplayerstate
                     }
                 }
             }
+
         }
 
         private void displayClientMods()
@@ -1578,7 +1523,7 @@ namespace Singleplayerstate
             }
         }
 
-        private void clickServer(Control label, bool autoClick)
+        private void clickServer(Control label)
         {
             foreach (Control c in panelServers.Controls)
             {
@@ -1594,11 +1539,11 @@ namespace Singleplayerstate
             label.Padding = new Padding(10, 0, 0, 0);
 
             selectedServer = label.Name;
-            selectServer(label.Text, label, autoClick);
+            selectServer(label.Text, label);
             toggleAddonView(Properties.Settings.Default.addonPanelVisible);
         }
 
-        private void selectServer(string displayName, Control c, bool autoClick)
+        private void selectServer(string displayName, Control c)
         {
             deselectAllServers();
             string cleanOutput = fetchName(c.Text);
@@ -1629,9 +1574,6 @@ namespace Singleplayerstate
 
                             displayInfo(serverPath);
                             displayClientMods();
-
-                            if (autoClick)
-                                btnSPTAKI.PerformClick();
                         }
                         else
                         {
@@ -1657,10 +1599,7 @@ namespace Singleplayerstate
             System.Windows.Forms.Label label = (System.Windows.Forms.Label)sender;
             if (label.Text != "")
             {
-                if (!serverHasBeenSelected)
-                    clickServer(label, true);
-                else
-                    clickServer(label, false);
+                clickServer(label);
             }
         }
 
@@ -1768,6 +1707,17 @@ namespace Singleplayerstate
         {
             if (e.CloseReason == CloseReason.UserClosing)
             {
+                try
+                {
+                    string autostartFile = Path.Combine(currentDirectory, "autostart.txt");
+                    bool autostartFileExists = File.Exists(autostartFile);
+                    if (autostartFileExists) updateAutostart(autostartFile, Properties.Settings.Default.lastServer);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("FAILED TO SAVE AUTOSTART ON CLOSE: " + ex.Message.ToString());
+                }
+
                 if (!Properties.Settings.Default.isFikaEnabled)
                 {
                     if (Properties.Settings.Default.closeOnExit)
@@ -2016,7 +1966,7 @@ namespace Singleplayerstate
                                 if (c is Label lbl)
                                 {
                                     string cleanLbl = fetchName(findServer);
-                                    clickServer(lbl, true);
+                                    clickServer(lbl);
                                 }
                             }
                         }
@@ -3278,27 +3228,34 @@ namespace Singleplayerstate
                     }
                 }
 
-                string content = "autostart=false" + Environment.NewLine + lastServer;
+                updateAutostart(autostartFile, lastServer);
 
-                try
-                {
-                    File.WriteAllText(autostartFile, content);
+                ProcessStartInfo newApp = new ProcessStartInfo();
+                newApp.WorkingDirectory = Path.GetDirectoryName(autostartFile);
+                newApp.FileName = Path.GetFileName(autostartFile);
+                newApp.UseShellExecute = true;
+                newApp.Verb = "open";
 
-                    ProcessStartInfo newApp = new ProcessStartInfo();
-                    newApp.WorkingDirectory = Path.GetDirectoryName(autostartFile);
-                    newApp.FileName = Path.GetFileName(autostartFile);
-                    newApp.UseShellExecute = true;
-                    newApp.Verb = "open";
+                Process.Start(newApp);
+            }
+        }
 
-                    Process.Start(newApp);
-                }
-                catch (Exception ex)
-                {
-                    showMessage("We appear to have run into a problem. If you\'re unsure what this is about, please contact the developer." +
-                                Environment.NewLine +
-                                Environment.NewLine +
-                                ex.ToString(), this.Text);
-                }
+        public void updateAutostart(string autostartFile, string lastServer)
+        {
+            try
+            {
+                string[] fetchcontent = File.ReadAllLines(autostartFile);
+                string autostart = fetchcontent[0];
+                string content = fetchcontent[0] + Environment.NewLine + lastServer;
+
+                File.WriteAllText(autostartFile, content);
+            }
+            catch (Exception ex)
+            {
+                showMessage("We appear to have run into a problem. If you\'re unsure what this is about, please contact the developer." +
+                            Environment.NewLine +
+                            Environment.NewLine +
+                            ex.ToString(), this.Text);
             }
         }
 
@@ -3850,43 +3807,7 @@ namespace Singleplayerstate
 
         private void btnOpenAutostart_Click(object sender, EventArgs e)
         {
-            string autostartFile = Path.Combine(currentDirectory, "autostart.txt");
-            bool autostartExists = File.Exists(autostartFile);
-            if (autostartExists)
-            {
-                ProcessStartInfo newApp = new ProcessStartInfo();
-                newApp.WorkingDirectory = Path.GetDirectoryName(autostartFile);
-                newApp.FileName = Path.GetFileName(autostartFile);
-                newApp.UseShellExecute = true;
-                newApp.Verb = "open";
-
-                Process.Start(newApp);
-            }
-            else
-            {
-                string content =
-                            $"autostart=false" + Environment.NewLine;
-
-                try
-                {
-                    File.WriteAllText(autostartFile, content);
-
-                    ProcessStartInfo newApp = new ProcessStartInfo();
-                    newApp.WorkingDirectory = Path.GetDirectoryName(autostartFile);
-                    newApp.FileName = Path.GetFileName(autostartFile);
-                    newApp.UseShellExecute = true;
-                    newApp.Verb = "open";
-
-                    Process.Start(newApp);
-                }
-                catch (Exception ex)
-                {
-                    showMessage("We appear to have run into a problem. If you\'re unsure what this is about, please contact the developer." +
-                                Environment.NewLine +
-                                Environment.NewLine +
-                                ex.ToString(), this.Text);
-                }
-            }
+            runAutostartConfig();
         }
 
         private void btnOnServerDoubleClick_MouseDown(object sender, MouseEventArgs e)
@@ -3934,7 +3855,7 @@ namespace Singleplayerstate
         {
             // DevTools frm = new DevTools();
             // frm.ShowDialog();
-            showMessage("This feature is currently a work-in-progress, we apologize for the inconvenience!", this.Text);
+            runAutostartConfig();
         }
 
         private void chkLogOnExit_CheckedChanged(object sender, EventArgs e)
