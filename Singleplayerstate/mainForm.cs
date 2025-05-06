@@ -11,6 +11,7 @@ using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Security.Permissions;
@@ -66,6 +67,14 @@ namespace Singleplayerstate
 
         private msgBoard messageWindow;
 
+        [DllImport("user32.dll")]
+        private static extern bool SetForegroundWindow(IntPtr hWnd);
+
+        [DllImport("user32.dll")]
+        private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+        private const int SW_MAXIMIZE = 3;
+        private const int SW_RESTORE = 9;
+
         public mainForm()
         {
             InitializeComponent();
@@ -75,6 +84,35 @@ namespace Singleplayerstate
         private void mainForm_Load(object sender, EventArgs e)
         {
             initiateLauncher();
+        }
+
+        private void RestoreFullscreenWindow(string processName)
+        {
+            try
+            {
+                Process[] processes = Process.GetProcessesByName(processName);
+                if (processes.Length == 0)
+                {
+                    Debug.WriteLine($"{processName} isn\'t running");
+                    return;
+                }
+
+                Process targetProcess = processes[0];
+                IntPtr windowHandle = targetProcess.MainWindowHandle;
+
+                if (windowHandle == IntPtr.Zero)
+                {
+                    Debug.WriteLine($"{processName} has no main window");
+                    return;
+                }
+
+                ShowWindow(windowHandle, SW_RESTORE);
+                SetForegroundWindow(windowHandle);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}");
+            }
         }
 
         private void initiateLauncher()
@@ -1448,7 +1486,7 @@ namespace Singleplayerstate
             bool serverOn = IsSPTServerRunning();
             if (serverOn)
             {
-                btnPlaySPTAKI.Text = "Quit SPT";
+                btnPlaySPTAKI.Text = "Restore SPT";
             }
 
             // Account Tab
@@ -1741,7 +1779,7 @@ namespace Singleplayerstate
                         bool akiServerIsRunning = IsSPTServerRunning();
                         if (akiServerIsRunning)
                         {
-                            DialogResult result = MessageBox.Show("The AKI server is running, this will close the server and game. Are you sure you want to proceed?" +
+                            DialogResult result = MessageBox.Show("The SPT server is running, this will close the server and game. Are you sure you want to proceed?" +
                                 Environment.NewLine +
                                 Environment.NewLine +
                                 "Click NO to cancel." + Environment.NewLine +
@@ -2202,15 +2240,12 @@ namespace Singleplayerstate
 
             if (Properties.Settings.Default.isFikaEnabled)
             {
-                if (isTarkovRunning() || btnPlaySPTAKI.Text.ToLower() == "quit fika")
+                if (isTarkovRunning() || btnPlaySPTAKI.Text.ToLower() == "restore fika")
                 {
-                    btnPlaySPTAKI.Enabled = false;
-                    killTarkov();
-                    btnPlaySPTAKI.Enabled = true;
-                    btnPlaySPTAKI.Text = "Play Fika";
+                    RestoreFullscreenWindow("EscapeFromTarkov");
+                    return;
                 }
 
-                btnPlaySPTAKI.Text = "Waiting...";
                 toggleUI(false);
                 string hostIP = Properties.Settings.Default.fikaIP;
                 int hostPort = Properties.Settings.Default.fikaPort;
@@ -2227,15 +2262,38 @@ namespace Singleplayerstate
                 }
 
                 launchTarkov(hostPort);
-                btnPlaySPTAKI.Text = "Quit Fika";
                 toggleUI(true);
                 lblServers.Select();
             }
             else
             {
-                if (isTarkovRunning())
+                if (isTarkovRunning() || btnPlaySPTAKI.Text.ToLower() == "restore spt")
                 {
-                    if (btnPlaySPTAKI.Text.ToLower().StartsWith("quit"))
+                    if (IsSPTServerRunning())
+                    {
+                        if (txtAccountAID.Text.ToLower() == "incomplete profile")
+                        {
+                            showMessage("You\'re trying to launch SPT with an incomplete profile." + Environment.NewLine +
+                                "" + Environment.NewLine +
+                                "You can fix this by doing the following:" + Environment.NewLine + Environment.NewLine +
+                                "a) Running your incomplete profile via the SPT launcher." + Environment.NewLine +
+                                "b) Selecting a working profile.", this.Text);
+                            btnAccount.PerformClick();
+                        }
+                        else
+                        {
+                            RestoreFullscreenWindow("EscapeFromTarkov");
+                        }
+                    }
+                    else
+                    {
+                        runServerOnly();
+                        RestoreFullscreenWindow("EscapeFromTarkov");
+                    }
+                    return;
+
+                    /*
+                    if (btnPlaySPTAKI.Text.ToLower().StartsWith("show"))
                     {
                         btnPlaySPTAKI.Enabled = false;
                         killTarkov();
@@ -2252,52 +2310,43 @@ namespace Singleplayerstate
                     else
                     {
                         btnPlaySPTAKI.Enabled = true;
-                        btnPlaySPTAKI.Text = "Play spt";
+                        btnPlaySPTAKI.Text = "Play SPT";
                         return;
                     }
+                    */
                 }
-
-                if (!IsSPTServerRunning())
+                if (IsSPTServerRunning())
                 {
                     if (txtAccountAID.Text.ToLower() == "incomplete profile")
                     {
                         showMessage("You\'re trying to launch SPT with an incomplete profile." + Environment.NewLine +
                             "" + Environment.NewLine +
                             "You can fix this by doing the following:" + Environment.NewLine + Environment.NewLine +
-                            "a) Running your incomplete profile via the AKI launcher." + Environment.NewLine +
+                            "a) Running your incomplete profile via the SPT launcher." + Environment.NewLine +
                             "b) Selecting a working profile.", this.Text);
                         btnAccount.PerformClick();
                     }
                     else
                     {
-                        killProcesses();
-                        beginLaunching();
+                        launchTarkov(6969);
                     }
+                    return;
+                }
+
+                if (txtAccountAID.Text.ToLower() == "incomplete profile")
+                {
+                    showMessage("You\'re trying to launch SPT with an incomplete profile." + Environment.NewLine +
+                        "" + Environment.NewLine +
+                        "You can fix this by doing the following:" + Environment.NewLine + Environment.NewLine +
+                        "a) Running your incomplete profile via the SPT launcher." + Environment.NewLine +
+                        "b) Selecting a working profile.", this.Text);
+                    btnAccount.PerformClick();
                 }
                 else
                 {
-                    string content = $"It looks like the AKI server is running. We don't support manual launching, so we'll restart the game for you:" + Environment.NewLine + Environment.NewLine +
-                                     $"Click YES to restart." + Environment.NewLine +
-                                     $"Click NO to cancel.";
-                    if (MessageBox.Show(content, this.Text, MessageBoxButtons.YesNo) == DialogResult.Yes)
-                    {
-                        killProcesses();
-
-                        if (txtAccountAID.Text.ToLower() == "incomplete profile")
-                        {
-                            showMessage("You\'re trying to launch SPT with an incomplete profile." + Environment.NewLine +
-                                "" + Environment.NewLine +
-                                "You can fix this by doing the following:" + Environment.NewLine + Environment.NewLine +
-                                "a) Running your incomplete profile via the AKI launcher." + Environment.NewLine +
-                                "b) Selecting a working profile.", this.Text);
-                            btnAccount.PerformClick();
-                        }
-                        else
-                        {
-                            beginLaunching();
-                        }
-                    }
+                    beginLaunching();
                 }
+
                 lblServers.Select();
             }
         }
@@ -2514,7 +2563,7 @@ namespace Singleplayerstate
             }
             catch (Exception err)
             {
-                Debug.WriteLine($"TERMINATION FAILURE OF AKI SERVER (IGNORE): {err.ToString()}");
+                Debug.WriteLine($"TERMINATION FAILURE OF SPT server (IGNORE): {err.ToString()}");
             }
 
             Task.Delay(200);
@@ -2559,7 +2608,7 @@ namespace Singleplayerstate
             }
             catch (Exception err)
             {
-                Debug.WriteLine($"TERMINATION FAILURE OF AKI SERVER (IGNORE): {err.ToString()}");
+                Debug.WriteLine($"TERMINATION FAILURE OF SPT server (IGNORE): {err.ToString()}");
             }
 
             Task.Delay(200);
@@ -2598,7 +2647,7 @@ namespace Singleplayerstate
             }
             catch (Exception err)
             {
-                Debug.WriteLine($"TERMINATION FAILURE OF AKI LAUNCHER (IGNORE): {err.ToString()}");
+                Debug.WriteLine($"TERMINATION FAILURE OF SPT launcher (IGNORE): {err.ToString()}");
             }
 
             if (panelServers.InvokeRequired)
@@ -3042,6 +3091,13 @@ namespace Singleplayerstate
                 };
 
                 tarkovGame.Start();
+
+                if (btnPlaySPTAKI.InvokeRequired)
+                    BeginInvoke((MethodInvoker)delegate { btnPlaySPTAKI.Text = "Restore Fika"; });
+                else
+                    btnPlaySPTAKI.Text = "Restore Fika";
+
+                attachTarkovMonitor();
                 Environment.CurrentDirectory = currentDirectory;
             }
             else
@@ -3092,9 +3148,16 @@ namespace Singleplayerstate
                         }
                     }
 
+                    Environment.CurrentDirectory = serverFolder;
                     Process tarkovGame = new Process();
-                    tarkovGame.StartInfo = _tarkov;
                     tarkovGame.Start();
+                    Environment.CurrentDirectory = currentDirectory;
+
+                    if (btnPlaySPTAKI.InvokeRequired)
+                        BeginInvoke((MethodInvoker)delegate { btnPlaySPTAKI.Text = "Restore SPT"; });
+                    else
+                        btnPlaySPTAKI.Text = "Restore SPT";
+
                 }
             }
         }
@@ -3167,6 +3230,22 @@ namespace Singleplayerstate
             }
         }
 
+        public void attachTarkovMonitor()
+        {
+            TarkovEndDetector = new BackgroundWorker();
+            TarkovEndDetector.DoWork += TarkovEndDetector_DoWork;
+            TarkovEndDetector.RunWorkerCompleted += TarkovEndDetector_RunWorkerCompleted;
+            TarkovEndDetector.WorkerSupportsCancellation = true;
+            TarkovEndDetector.RunWorkerAsync();
+
+            if (TarkovProcessDetector != null)
+            {
+                TarkovProcessDetector.CancelAsync();
+                TarkovProcessDetector.Dispose();
+                TarkovProcessDetector = null;
+            }
+        }
+
         public void TarkovProcessDetector_DoWork(object sender, DoWorkEventArgs e)
         {
             string processName = "EscapeFromTarkov";
@@ -3213,7 +3292,9 @@ namespace Singleplayerstate
                 Process[] processes = Process.GetProcessesByName(processName);
                 if (processes.Length == 0)
                 {
-                    killProcesses();
+                    if (!Properties.Settings.Default.isFikaEnabled)
+                        killProcesses();
+
                     trayIcon.Visible = false;
 
                     if (Properties.Settings.Default.exitParameter == "displaylauncher" || ranViaHotkey)
@@ -3350,7 +3431,7 @@ namespace Singleplayerstate
                         CheckServerStatus = null;
                     }
 
-                    showMessage("We could not detect a heartbeat from the Aki Server after 10 minutes.\n" +
+                    showMessage("We could not detect a heartbeat from the SPT server after 10 minutes.\n" +
                                 "\n" +
                                 "Max duration reached, falling back. Please diagnose your server and try again.", this.Text);
 
